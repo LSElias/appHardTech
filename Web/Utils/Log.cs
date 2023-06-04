@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 
+
 namespace Web.Utils
 {
     public class Log
