@@ -21,7 +21,7 @@ namespace Infraestructure.Models
         public Nullable<int> IVA { get; set; }
         public Nullable<double> Total { get; set; }
         public Nullable<int> IdOrden { get; set; }
-    
+     
         public virtual CuentaPago CuentaPago { get; set; }
         public virtual Orden Orden { get; set; }
         public virtual Usuario Usuario { get; set; }
