@@ -7,9 +7,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Web;
+using System.Threading.Tasks;
 
-namespace Web.Utils
+namespace Infraestructure.Utils
 {
     public class Log
     {
@@ -260,3 +260,4 @@ namespace Web.Utils
         }
     }
 }
+
