@@ -133,6 +133,7 @@
     <Compile Include="Repository\IRepositoryRespuesta.cs" />
     <Compile Include="Repository\IRepositoryTipoPago.cs" />
     <Compile Include="Repository\IRepositoryTipoUsuario.cs" />
+    <Compile Include="Repository\IRepositoryUsuario.cs" />
     <Compile Include="Repository\RepositoryCategoria.cs" />
     <Compile Include="Repository\RepositoryCuentaPago.cs" />
     <Compile Include="Repository\RepositoryDireccion.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Repository\RepositoryRespuesta.cs" />
     <Compile Include="Repository\RepositoryTipoPago.cs" />
     <Compile Include="Repository\RepositoryTipoUsuario.cs" />
+    <Compile Include="Repository\RepositoryUsuario.cs" />
     <Compile Include="Utils\Log.cs" />
   </ItemGroup>
   <ItemGroup />
