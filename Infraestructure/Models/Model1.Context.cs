@@ -13,10 +13,10 @@ namespace Infraestructure.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DBHardTechEntities : DbContext
+    public partial class DBHardTechEntities1 : DbContext
     {
-        public DBHardTechEntities()
-            : base("name=DBHardTechEntities")
+        public DBHardTechEntities1()
+            : base("name=DBHardTechEntities1")
         {
         }
     

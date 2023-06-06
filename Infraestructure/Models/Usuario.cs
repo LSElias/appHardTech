@@ -25,6 +25,7 @@ namespace Infraestructure.Models
             this.Mensaje = new HashSet<Mensaje>();
             this.Producto = new HashSet<Producto>();
             this.Respuesta = new HashSet<Respuesta>();
+            this.TipoUsuario = new HashSet<TipoUsuario>();
         }
     
         public int Id { get; set; }
@@ -35,7 +36,6 @@ namespace Infraestructure.Models
         public string Telefono { get; set; }
         public string Correo { get; set; }
         public string Clave { get; set; }
-        public Nullable<int> IdTipoUsuario { get; set; }
         public Nullable<int> Estado { get; set; }
         public byte[] Foto { get; set; }
         public string Genero { get; set; }
@@ -57,6 +57,7 @@ namespace Infraestructure.Models
         public virtual ICollection<Producto> Producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Respuesta> Respuesta { get; set; }
-        public virtual TipoUsuario TipoUsuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
     }
 }

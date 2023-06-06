@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DBHardTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DBHardTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categoria">
           <Key>
             <PropertyRef Name="Id" />
@@ -159,10 +159,17 @@
           <Property Name="Telefono" Type="nvarchar" MaxLength="8" />
           <Property Name="Correo" Type="varchar" MaxLength="250" />
           <Property Name="Clave" Type="varchar" MaxLength="250" />
-          <Property Name="IdTipoUsuario" Type="int" />
           <Property Name="Estado" Type="int" />
           <Property Name="Foto" Type="varbinary(max)" />
           <Property Name="Genero" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="Usuario_Tipo">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdTipoUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="int" Nullable="false" />
+          <Property Name="IdTipoUsuario" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_CuentaPago_TipoPago">
           <End Role="TipoPago" Type="Self.TipoPago" Multiplicity="0..1" />
@@ -428,15 +435,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_TipoUsuario">
-          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+        <Association Name="FK_Usuario_Tipo_TipoUsuario">
+          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="1" />
+          <End Role="Usuario_Tipo" Type="Self.Usuario_Tipo" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TipoUsuario">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Usuario">
+            <Dependent Role="Usuario_Tipo">
               <PropertyRef Name="IdTipoUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuario_Tipo_Usuario">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Usuario_Tipo" Type="Self.Usuario_Tipo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario_Tipo">
+              <PropertyRef Name="IdUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -457,6 +476,7 @@
           <EntitySet Name="TipoPago" EntityType="Self.TipoPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario_Tipo" EntityType="Self.Usuario_Tipo" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CuentaPago_TipoPago" Association="Self.FK_CuentaPago_TipoPago">
             <End Role="TipoPago" EntitySet="TipoPago" />
             <End Role="CuentaPago" EntitySet="CuentaPago" />
@@ -545,12 +565,17 @@
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_TipoUsuario" Association="Self.FK_Usuario_TipoUsuario">
+          <AssociationSet Name="FK_Usuario_Tipo_TipoUsuario" Association="Self.FK_Usuario_Tipo_TipoUsuario">
             <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+            <End Role="Usuario_Tipo" EntitySet="Usuario_Tipo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Tipo_Usuario" Association="Self.FK_Usuario_Tipo_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Usuario_Tipo" EntitySet="Usuario_Tipo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBHardTechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -730,7 +755,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="TipoUsuario" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="Self.Usuario_Tipo" FromRole="TipoUsuario" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
@@ -744,7 +769,6 @@
           <Property Name="Telefono" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="Correo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="IdTipoUsuario" Type="Int32" />
           <Property Name="Estado" Type="Int32" />
           <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
@@ -757,7 +781,7 @@
           <NavigationProperty Name="Mensaje" Relationship="Self.FK_Mensaje_Usuario" FromRole="Usuario" ToRole="Mensaje" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Usuario" FromRole="Usuario" ToRole="Producto" />
           <NavigationProperty Name="Respuesta" Relationship="Self.FK_Respuesta_Usuario" FromRole="Usuario" ToRole="Respuesta" />
-          <NavigationProperty Name="TipoUsuario" Relationship="Self.FK_Usuario_TipoUsuario" FromRole="Usuario" ToRole="TipoUsuario" />
+          <NavigationProperty Name="TipoUsuario" Relationship="Self.Usuario_Tipo" FromRole="Usuario" ToRole="TipoUsuario" />
         </EntityType>
         <Association Name="FK_Producto_Categoria">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="0..1" />
@@ -1023,19 +1047,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Usuario_TipoUsuario">
-          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
+        <Association Name="Usuario_Tipo">
+          <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="*" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TipoUsuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Usuario">
-              <PropertyRef Name="IdTipoUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DBHardTechEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DBHardTechEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="CuentaPago" EntityType="Self.CuentaPago" />
           <EntitySet Name="Direccion" EntityType="Self.Direccion" />
@@ -1140,7 +1156,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Respuesta" EntitySet="Respuesta" />
           </AssociationSet>
-          <AssociationSet Name="FK_Usuario_TipoUsuario" Association="Self.FK_Usuario_TipoUsuario">
+          <AssociationSet Name="Usuario_Tipo" Association="Self.Usuario_Tipo">
             <End Role="TipoUsuario" EntitySet="TipoUsuario" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
@@ -1150,7 +1166,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DBHardTechModelStoreContainer" CdmEntityContainer="DBHardTechEntities">
+        <EntityContainerMapping StorageEntityContainer="DBHardTechModelStoreContainer" CdmEntityContainer="DBHardTechEntities1">
           <EntitySetMapping Name="Categoria">
             <EntityTypeMapping TypeName="DBHardTechModel.Categoria">
               <MappingFragment StoreEntitySet="Categoria">
@@ -1317,13 +1333,20 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="IdTipoUsuario" ColumnName="IdTipoUsuario" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="Genero" ColumnName="Genero" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="Usuario_Tipo" TypeName="DBHardTechModel.Usuario_Tipo" StoreEntitySet="Usuario_Tipo">
+            <EndProperty Name="TipoUsuario">
+              <ScalarProperty Name="Id" ColumnName="IdTipoUsuario" />
+            </EndProperty>
+            <EndProperty Name="Usuario">
+              <ScalarProperty Name="Id" ColumnName="IdUsuario" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
