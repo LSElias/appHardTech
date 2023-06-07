@@ -16,7 +16,7 @@ namespace ApplicationCore.Services
             return oRep.GetUsuario();
         }
 
-        public Usuario GetUsuarioByEstado(int Estado)
+        public IEnumerable<Usuario> GetUsuarioByEstado(int Estado)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByEstado(Estado);
@@ -28,10 +28,16 @@ namespace ApplicationCore.Services
             return oRep.GetUsuarioByID(Id);
         }
 
-        public Usuario GetUsuarioByIDTipoUsuario(int IdTipoUsuario)
+        public IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByIDTipoUsuario(IdTipoUsuario);
+        }
+
+        public Usuario LogIn(string email, string clave)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            return oRep.LogIn(email, clave);
         }
     }
 }
