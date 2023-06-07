@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,10 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oEvaluacion = ctx.Evaluacion.Find(Id);
+                    oEvaluacion = ctx.Evaluacion
+                        .Include("Usuario")
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefault();
                 }
                 return oEvaluacion;
             }
@@ -51,15 +55,18 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Evaluacion GetEvaluacionByIdEvaluado(int IdEvaluado)
+        public IEnumerable<Evaluacion> GetEvaluacionByIdEvaluado(int IdEvaluado)
         {
             try
             {
-                Evaluacion oEvaluacion = null;
+                IEnumerable<Evaluacion> oEvaluacion = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oEvaluacion = ctx.Evaluacion.Find(IdEvaluado);
+                    oEvaluacion = ctx.Evaluacion.
+                        Where(x => x.IdEvaluado == IdEvaluado)
+                        .Include("Usuario")
+                        .ToList();
                 }
                 return oEvaluacion;
             }
@@ -71,15 +78,18 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Evaluacion GetEvaluacionByIdEvaluador(int IdEvaluador)
+        public IEnumerable<Evaluacion> GetEvaluacionByIdEvaluador(int IdEvaluador)
         {
             try
             {
-                Evaluacion oEvaluacion = null;
+                IEnumerable<Evaluacion> oEvaluacion = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oEvaluacion = ctx.Evaluacion.Find(IdEvaluador);
+                    oEvaluacion = ctx.Evaluacion.
+                        Where(x => x.IdEvaluador == IdEvaluador)
+                        .Include("Usuario")
+                        .ToList();
                 }
                 return oEvaluacion;
             }
@@ -89,6 +99,24 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
+        }
+
+        /*
+         Saca el promedio de evaluaciones dadas a una persona. 
+         Hay que probarlo ya que puede ser que el código de momento este erroneo,
+         si este es el caso, se cambiara en el futuro.
+         */
+        public double GetPromedioEvaluacion(int IdEvaluado)
+        {
+            IEnumerable<Evaluacion> lista = this.GetEvaluacionByIdEvaluado(IdEvaluado);
+            double suma= 0;
+            foreach(Evaluacion e in lista)
+            {
+                suma+= (int) e.Escala.Valor;
+            }
+            double promedio = suma / lista.Count();
+
+            return promedio;
         }
     }
 }

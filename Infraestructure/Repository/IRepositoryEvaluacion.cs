@@ -11,8 +11,8 @@ namespace Infraestructure.Repository
     {
         IEnumerable<Evaluacion> GetEvaluacion();
         Evaluacion GetEvaluacionById(int Id);
-        Evaluacion GetEvaluacionByIdEvaluador(int IdEvaluador);
-        Evaluacion GetEvaluacionByIdEvaluado(int IdEvaluado);
-        Evaluacion GetPromedioEvaluacion(int IdEvaluado);
+        IEnumerable<Evaluacion> GetEvaluacionByIdEvaluador(int IdEvaluador);
+        IEnumerable<Evaluacion> GetEvaluacionByIdEvaluado(int IdEvaluado);
+        double GetPromedioEvaluacion(int IdEvaluado);
     }
 }

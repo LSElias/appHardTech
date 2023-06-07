@@ -22,16 +22,22 @@ namespace ApplicationCore.Services
             return oRep.GetEvaluacionById(Id);
         }
 
-        public Evaluacion GetEvaluacionByIdEvaluado(int IdEvaluado)
+        public IEnumerable<Evaluacion> GetEvaluacionByIdEvaluado(int IdEvaluado)
         {
             IRepositoryEvaluacion oRep = new RepositoryEvaluacion();
             return oRep.GetEvaluacionByIdEvaluado(IdEvaluado);
         }
 
-        public Evaluacion GetEvaluacionByIdEvaluador(int IdEvaluador)
+        public IEnumerable<Evaluacion> GetEvaluacionByIdEvaluador(int IdEvaluador)
         {
             IRepositoryEvaluacion oRep = new RepositoryEvaluacion();
             return oRep.GetEvaluacionByIdEvaluador(IdEvaluador);
+        }
+
+        public double GetPromedioEvaluacion(int IdEvaluado)
+        {
+            IRepositoryEvaluacion oRep = new RepositoryEvaluacion();
+            return oRep.GetPromedioEvaluacion(IdEvaluado);
         }
     }
 }
