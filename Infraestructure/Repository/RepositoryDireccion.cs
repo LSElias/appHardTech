@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,10 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oDireccion = ctx.Direccion.Find(Id);
+                    oDireccion = ctx.Direccion
+                        .Include("Usuario")
+                        .Where(x=>x.Id == Id)
+                        .FirstOrDefault();
                 }
                 return oDireccion;
             }
@@ -38,7 +42,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oDireccion = ctx.Direccion.Find(IdUsuario);
+                    oDireccion = ctx.Direccion
+                        .Where(x => x.IdUsuario == IdUsuario)
+                        .Include("Usuario")
+                        .FirstOrDefault();
+
                 }
                 return oDireccion;
             }

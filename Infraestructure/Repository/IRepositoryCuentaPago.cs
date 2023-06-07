@@ -11,5 +11,6 @@ namespace Infraestructure.Repository
     {
         IEnumerable<CuentaPago> GetCuentaPagos();
         CuentaPago GetCuentaPagoByID(int Id);
+        IEnumerable<CuentaPago> GetByTipoPago(int IdTipoPago);
     }
 }

@@ -10,6 +10,12 @@ namespace ApplicationCore.Services
 {
     public class ServiceCuentaPago : IServiceCuentaPago
     {
+        public IEnumerable<CuentaPago> GetByTipoPago(int IdTipoPago)
+        {
+            IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
+            return oRep.GetByTipoPago(IdTipoPago);
+        }
+
         public CuentaPago GetCuentaPagoByID(int Id)
         {
             IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
