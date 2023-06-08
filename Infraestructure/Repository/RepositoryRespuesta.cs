@@ -39,7 +39,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oRespuesta = ctx.Respuesta.Find(Id);
+                    oRespuesta = ctx.Respuesta.
+                        Include("Mensaje")
+                        .Include("Usuario")
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefault(); 
                 }
                 return oRespuesta;
             }
@@ -59,7 +63,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oRespuesta = ctx.Respuesta.Find(IdMensaje);
+                    oRespuesta = ctx.Respuesta
+                        .Include("Mensaje")
+                        .Include("Usuario")
+                        .Where(x => x.IdMensaje == IdMensaje)
+                        .FirstOrDefault();
                 }
                 return oRespuesta;
             }
@@ -71,15 +79,19 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Respuesta GetRespuestaByIdUsuario(int IdUsuario)
+        public IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario)
         {
             try
             {
-                Respuesta oRespuesta = null;
+                IEnumerable<Respuesta> oRespuesta = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oRespuesta = ctx.Respuesta.Find(IdUsuario);
+                    oRespuesta = ctx.Respuesta
+                        .Include("Mensaje")
+                        .Include("Usuario")
+                        .Where(x => x.IdUsuario == IdUsuario)
+                        .ToList();
                 }
                 return oRespuesta;
             }

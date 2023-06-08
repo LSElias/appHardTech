@@ -10,13 +10,13 @@ namespace ApplicationCore.Services
 {
     public class ServiceProducto : IServiceProducto
     {
-        public Producto GetByIdCategoria(int IdCategoria)
+        public IEnumerable<Producto> GetByIdCategoria(int IdCategoria)
         {
             IRepositoryProducto oRep = new RepositoryProducto();
             return oRep.GetByIdCategoria(IdCategoria);
         }
 
-        public Producto GetByIdProveedor(int IdProveedor)
+        public IEnumerable<Producto> GetByIdProveedor(int IdProveedor)
         {
             IRepositoryProducto oRep = new RepositoryProducto();
             return oRep.GetByIdProveedor(IdProveedor);

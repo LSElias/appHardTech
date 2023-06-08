@@ -39,7 +39,9 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oTipo = ctx.TipoPago.Find(Id);
+                    oTipo = ctx.TipoPago
+                        .Where(x=>x.Id==Id)
+                        .FirstOrDefault();
                 }
                 return oTipo;
             }

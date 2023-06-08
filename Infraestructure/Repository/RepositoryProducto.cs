@@ -10,15 +10,19 @@ namespace Infraestructure.Repository
 {
     public class RepositoryProducto : IRepositoryProducto
     {
-        public Producto GetByIdCategoria(int IdCategoria)
+        public IEnumerable<Producto> GetByIdCategoria(int IdCategoria)
         {
             try
             {
-                Producto oProducto = null;
+                IEnumerable<Producto> oProducto = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oProducto = ctx.Producto.Find(IdCategoria);
+                    oProducto = ctx.Producto
+                        .Include("Categoria")
+                        .Include("Usuario")
+                        .Where(x=>x.IdCategoria == IdCategoria)
+                        .ToList();
                 }
                 return oProducto;
             }
@@ -30,15 +34,19 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Producto GetByIdProveedor(int IdProveedor)
+        public IEnumerable<Producto> GetByIdProveedor(int IdProveedor)
         {
             try
             {
-                Producto oProducto = null;
+                IEnumerable<Producto> oProducto = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oProducto = ctx.Producto.Find(IdProveedor);
+                    oProducto = ctx.Producto
+                        .Include("Categoria")
+                        .Include("Usuario")
+                        .Where(x => x.IdProveedor  == IdProveedor)
+                        .ToList();
                 }
                 return oProducto;
             }

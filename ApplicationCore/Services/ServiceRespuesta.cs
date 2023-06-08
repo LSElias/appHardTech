@@ -28,7 +28,7 @@ namespace ApplicationCore.Services
             return oRep.GetRespuestaByIdMensaje(IdMensaje);
         }
 
-        public Respuesta GetRespuestaByIdUsuario(int IdUsuario)
+        public IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario)
         {
             IRepositoryRespuesta oRep = new RepositoryRespuesta();
             return oRep.GetRespuestaByIdUsuario(IdUsuario);

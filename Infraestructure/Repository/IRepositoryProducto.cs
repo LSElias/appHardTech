@@ -11,8 +11,8 @@ namespace Infraestructure.Repository
     {
         IEnumerable<Producto> GetProductos();
         Producto GetProductoById(int Id);
-        Producto GetByIdProveedor(int IdProveedor);
-        Producto GetByIdCategoria(int IdCategoria);
+        IEnumerable<Producto> GetByIdProveedor(int IdProveedor);
+        IEnumerable<Producto> GetByIdCategoria(int IdCategoria);
 
     }
 }

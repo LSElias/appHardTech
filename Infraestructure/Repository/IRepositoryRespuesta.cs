@@ -12,7 +12,7 @@ namespace Infraestructure.Repository
         IEnumerable<Respuesta> GetRespuesta();
         Respuesta GetRespuestaById(int Id);
         Respuesta GetRespuestaByIdMensaje(int IdMensaje);
-        Respuesta GetRespuestaByIdUsuario(int IdUsuario);
+        IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario);
     }
 }
   

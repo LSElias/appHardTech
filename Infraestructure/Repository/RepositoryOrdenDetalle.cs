@@ -39,7 +39,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oDetalle = ctx.OrdenDetalle.Find(IdOrden);
+                    oDetalle = ctx.OrdenDetalle
+                        .Include("Orden")
+                        .Include("Producto")
+                        .Where(x => x.IdOrden == IdOrden)
+                        .FirstOrDefault();
                 }
                 return oDetalle;
             }
@@ -59,7 +63,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oDetalle = ctx.OrdenDetalle.Find(idProducto);
+                    oDetalle = ctx.OrdenDetalle
+                        .Include("Orden")
+                        .Include("Producto")
+                        .Where(x => x.idProducto == idProducto)
+                        .FirstOrDefault();
                 }
                 return oDetalle;
             }
