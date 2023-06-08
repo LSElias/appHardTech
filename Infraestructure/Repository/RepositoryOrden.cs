@@ -40,7 +40,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    pOrden = ctx.Orden.Find(Id);
+                    pOrden = ctx.Orden.
+                        Include("OrdenDetalle")
+                        .Include("Factura")
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefault();
                 }
                 return pOrden;
             }

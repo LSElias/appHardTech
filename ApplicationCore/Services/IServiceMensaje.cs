@@ -11,8 +11,8 @@ namespace ApplicationCore.Services
     {
         IEnumerable<Mensaje> GetMensaje();
         Mensaje GetMensajeById(int Id);
-        Mensaje GetMensajeByIdProducto(int idProducto);
-        Mensaje GetMensajeByIdUsuario(int IdUsuario);
+        IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto);
+        IEnumerable<Mensaje> GetMensajeByIdUsuario(int IdUsuario);
 
     }
 }

@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace Infraestructure.Repository
@@ -37,7 +38,10 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oFoto = ctx.Foto.Find(Id);
+                    oFoto = ctx.Foto
+                        .Include("Producto")
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefault();
                 }
                 return oFoto;
             }
@@ -49,17 +53,21 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Foto GetFotoByIdProducto(int IdProducto)
+        public IEnumerable<Foto> GetFotoByIdProducto(int IdProducto)
         {
             try
             {
-                Foto oFoto = null;
+                IEnumerable<Foto> list = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oFoto = ctx.Foto.Find(IdProducto);
+                    list = ctx.Foto
+                        .Where(x => x.IdProducto == IdProducto)
+                        .Include("Producto")
+                        .ToList();
+
                 }
-                return oFoto;
+                return list;
             }
             catch (Exception ex)
             {

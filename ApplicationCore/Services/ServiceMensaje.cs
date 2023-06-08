@@ -22,13 +22,13 @@ namespace ApplicationCore.Services
             return oRep.GetMensajeById(Id);
         }
 
-        public Mensaje GetMensajeByIdProducto(int idProducto)
+        public IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto)
         {
             IRepositoryMensaje oRep = new RepositoryMensaje();
             return oRep.GetMensajeByIdProducto(idProducto);
         }
 
-        public Mensaje GetMensajeByIdUsuario(int IdUsuario)
+        public IEnumerable<Mensaje> GetMensajeByIdUsuario(int IdUsuario)
         {
             IRepositoryMensaje oRep = new RepositoryMensaje();
             return oRep.GetMensajeByIdUsuario(IdUsuario);

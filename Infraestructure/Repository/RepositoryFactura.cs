@@ -39,7 +39,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oFactura = ctx.Factura.Find(IdFactura);
+                    oFactura = ctx.Factura
+                        .Include("Usuario")
+                        .Include("Orden")
+                        .Where(x => x.IdFactura== IdFactura)
+                        .FirstOrDefault();
                 }
                 return oFactura;
             }
@@ -59,7 +63,11 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oFactura = ctx.Factura.Find(IdOrden);
+                    oFactura = ctx.Factura
+                        .Include("Usuario")
+                        .Include("Orden")
+                        .Where(x=> x.IdOrden == IdOrden)
+                        .FirstOrDefault();
                 }
                 return oFactura;
             }
@@ -71,15 +79,19 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Factura GetFacturaByIdUsuario(int IdUsuario)
+        public IEnumerable<Factura> GetFacturaByIdUsuario(int IdUsuario)
         {
             try
             {
-                Factura oFactura = null;
+                IEnumerable <Factura> oFactura = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oFactura = ctx.Factura.Find(IdUsuario);
+                    oFactura = ctx.Factura
+                        .Include("Usuario")
+                        .Include("Orden")
+                        .Where(x => x.IdUsuario == IdUsuario)
+                        .ToList();
                 }
                 return oFactura;
             }

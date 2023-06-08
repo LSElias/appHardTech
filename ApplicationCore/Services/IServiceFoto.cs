@@ -11,6 +11,6 @@ namespace ApplicationCore.Services
     {
         IEnumerable<Foto> GetFoto();
         Foto GetFotoById(int Id);
-        Foto GetFotoByIdProducto(int IdProducto);
+        IEnumerable<Foto> GetFotoByIdProducto(int IdProducto);
     }
 }

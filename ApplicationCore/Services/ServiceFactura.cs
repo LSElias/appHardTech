@@ -28,7 +28,7 @@ namespace ApplicationCore.Services
             return oRep.GetFacturaByIdOrden(IdOrden);
         }
 
-        public Factura GetFacturaByIdUsuario(int IdUsuario)
+        public IEnumerable<Factura> GetFacturaByIdUsuario(int IdUsuario)
         {
             IRepositoryFactura oRep = new RepositoryFactura();
             return oRep.GetFacturaByIdUsuario(IdUsuario);

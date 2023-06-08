@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +41,10 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oMensaje = ctx.Mensaje.Find(Id);
+                    oMensaje = ctx.Mensaje
+                        .Include("Producto")
+                        .Where(x => x.Id == Id)
+                        .FirstOrDefault();
                 }
                 return oMensaje;
             }
@@ -52,17 +56,21 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Mensaje GetMensajeByIdProducto(int idProducto)
+        public IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto)
         {
             try
             {
-                Mensaje oMensaje = null;
+                IEnumerable<Mensaje> oMensaje = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oMensaje = ctx.Mensaje.Find(idProducto);
+                    oMensaje = ctx.Mensaje
+                        .Where(x => x.idProducto == idProducto)
+                        .Include("Producto")
+                        .ToList();
+
+                    return oMensaje;
                 }
-                return oMensaje;
             }
             catch (Exception ex)
             {
@@ -72,15 +80,19 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Mensaje GetMensajeByIdUsuario(int IdUsuario)
+        public IEnumerable<Mensaje> GetMensajeByIdUsuario(int IdUsuario)
         {
             try
             {
-                Mensaje oMensaje = null;
+                IEnumerable<Mensaje> oMensaje = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oMensaje = ctx.Mensaje.Find(IdUsuario);
+                    oMensaje = ctx.Mensaje
+                        .Where(x => x.IdUsuario == IdUsuario)
+                        .Include("Producto")
+                        .Include("Usuario")
+                        .ToList();
                 }
                 return oMensaje;
             }

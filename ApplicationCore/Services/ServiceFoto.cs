@@ -22,7 +22,7 @@ namespace ApplicationCore.Services
             return oRep.GetFotoById(Id);
         }
 
-        public Foto GetFotoByIdProducto(int IdProducto)
+        public IEnumerable<Foto> GetFotoByIdProducto(int IdProducto)
         {
             IRepositoryFoto oRep = new RepositoryFoto();
             return oRep.GetFotoByIdProducto(IdProducto);
