@@ -222,7 +222,9 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        [Display(Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
+        [Display(Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
         public string Cedula { get; set; }
         public string Telefono { get; set; }
