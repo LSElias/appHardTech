@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace Infraestructure.Models
 
     }
 
-    internal partial class CuentaPago
+    internal partial class CuentaPagoMetadata
     {
         public int Id { get; set; }
         public Nullable<int> IdTipoPago { get; set; }
@@ -221,7 +222,9 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+        [Display(Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
+        [Display(Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
         public string Cedula { get; set; }
         public string Telefono { get; set; }
