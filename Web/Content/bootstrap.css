@@ -3809,7 +3809,7 @@ textarea.form-control-lg {
   --bs-nav-link-padding-x: 1rem;
   --bs-nav-link-padding-y: 0.5rem;
   --bs-nav-link-font-weight: ;
-  --bs-nav-link-color: var(--bs-link-color);
+  --bs-nav-link-color: #000;
   --bs-nav-link-hover-color: var(--bs-link-hover-color);
   --bs-nav-link-disabled-color: var(--bs-secondary-color);
   display: flex;
@@ -3821,7 +3821,7 @@ textarea.form-control-lg {
 
 .nav-link {
   display: block;
-  padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+  padding: var(--bs-nav-link-padding-y) 0.3rem;
   font-size: var(--bs-nav-link-font-size);
   font-weight: var(--bs-nav-link-font-weight);
   color: var(--bs-nav-link-color);
@@ -3836,7 +3836,9 @@ textarea.form-control-lg {
   }
 }
 .nav-link:hover, .nav-link:focus {
-  color: var(--bs-nav-link-hover-color);
+    color: var(--bs-nav-link-hover-color);
+    background: #6f42c1;
+    padding: var(--bs-nav-link-padding-y) 0.7rem;
 }
 .nav-link:focus-visible {
   outline: 0;
@@ -3953,7 +3955,7 @@ textarea.form-control-lg {
 .navbar {
   --bs-navbar-padding-x: 0;
   --bs-navbar-padding-y: 0.5rem;
-  --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 0.65);
+  --bs-navbar-color: #fff;
   --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
   --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.3);
   --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
@@ -3999,9 +4001,10 @@ textarea.form-control-lg {
   text-decoration: none;
   white-space: nowrap;
 }
-.navbar-brand:hover, .navbar-brand:focus {
-  color: var(--bs-navbar-brand-hover-color);
-}
+    .navbar-brand:hover, .navbar-brand:focus {
+        color: #bf9cff;
+
+    }
 
 .navbar-nav {
   --bs-nav-link-padding-x: 0;
@@ -4041,7 +4044,6 @@ textarea.form-control-lg {
 }
 
 .navbar-toggler {
-  padding: var(--bs-navbar-toggler-padding-y) var(--bs-navbar-toggler-padding-x);
   font-size: var(--bs-navbar-toggler-font-size);
   line-height: 1;
   color: var(--bs-navbar-color);
@@ -4061,7 +4063,6 @@ textarea.form-control-lg {
 .navbar-toggler:focus {
   text-decoration: none;
   outline: 0;
-  box-shadow: 0 0 0 var(--bs-navbar-toggler-focus-width);
 }
 
 .navbar-toggler-icon {
