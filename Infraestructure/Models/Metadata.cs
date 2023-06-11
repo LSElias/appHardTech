@@ -35,7 +35,10 @@ namespace Infraestructure.Models
 
         [Display(Name = "Fecha de vencimiento")]
         public string FechaExp { get; set; }
+
+        [Display(Name = "Código de seguridad")]
         public string CodSeguridad { get; set; }
+
         public Nullable<int> IdUsuario { get; set; }
 
         [Display(Name = "Tipo de pago")]
@@ -51,6 +54,7 @@ namespace Infraestructure.Models
     internal partial class DireccionMetadata
     {
         public int Id { get; set; }
+
         public Nullable<int> IdUsuario { get; set; }
 
         [Display(Name = "Provincia")]
@@ -79,7 +83,7 @@ namespace Infraestructure.Models
         [Display(Name = "Orden")]
         public virtual ICollection<Orden> Orden { get; set; }
 
-        [Display(Name = "Orden Detalle")]
+        [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
 
         [Display(Name = "Producto")]
@@ -115,7 +119,7 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public int IdProducto { get; set; }
 
-        [Display(Name = "Foto")]
+        [Display(Name = "Fotografía")]
         public byte[] Media { get; set; }
 
         [Display(Name = "Producto")]
@@ -170,12 +174,17 @@ namespace Infraestructure.Models
         public int Id { get; set; }
 
         public string Nombre { get; set; }
+
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
+
         public Nullable<double> Precio { get; set; }
         public Nullable<int> Cantidad { get; set; }
         public Nullable<int> IdCategoria { get; set; }
         public Nullable<int> IdProveedor { get; set; }
         public Nullable<int> Estado { get; set; }
+
+        [Display(Name = "Ventas realizadas")]
         public Nullable<int> VentasR { get; set; }
 
         [Display(Name = "Categoría")]
@@ -184,14 +193,13 @@ namespace Infraestructure.Models
         [Display(Name = "Estado")]
         public virtual Estado Estado1 { get; set; }
 
-
-        [Display(Name = "Foto")]
+        [Display(Name = "Fotografía")]
         public virtual ICollection<Foto> Foto { get; set; }
 
         [Display(Name = "Mensaje")]
         public virtual ICollection<Mensaje> Mensaje { get; set; }
 
-        [Display(Name = "Orden Detalle")]
+        [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
 
         [Display(Name = "Proveedor")]
@@ -222,22 +230,37 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
-        [Display(Name = "Primer Apellido")]
+
+        [Display(Name = "Primer apellido")]
         public string Apellido1 { get; set; }
-        [Display(Name = "Segundo Apellido")]
+
+        [Display(Name = "Segundo apellido")]
         public string Apellido2 { get; set; }
+
+        [Display(Name = "Cédula")]
         public string Cedula { get; set; }
+
+        [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
+
+        [Display(Name = "E-mail")]
         public string Correo { get; set; }
+
+        [Display(Name = "Contraseña")]
         public string Clave { get; set; }
+
         public Nullable<int> Estado { get; set; }
+
+        [Display(Name = "Fotografía")]
         public byte[] Foto { get; set; }
+
+        [Display(Name = "Género")]
         public string Genero { get; set; }
 
         [Display(Name = "Cuenta de pago")]
         public virtual ICollection<CuentaPago> CuentaPago { get; set; }
 
-        [Display(Name = "Direccion")]
+        [Display(Name = "Dirección")]
         public virtual ICollection<Direccion> Direccion { get; set; }
 
         [Display(Name = "Estado")]
