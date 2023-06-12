@@ -7049,41 +7049,29 @@ textarea.form-control-lg {
   transition: 0.2s ease-in-out transform;
 }
 
-.cardTitle{
-    color: #b4b4b4;
-}
-
-.market-btn {
-    border-width: 1px;
-    border-style: solid;
-    border-image: linear-gradient(180deg, rgba(105,32,170,1) 0%, rgba(208,110,29,1) 100%) 1;
-    overflow: hidden
-}
-
-    .market-btn:hover {
-        border-radius: 0px;
-        color: #fff;
-        animation: ease;
-        background-image: linear-gradient(180deg, rgba(105,32,170,1) 0%, rgba(208,110,29,1) 100%);
-    }
-
 .market-card {
     background-color: black;
-    padding: 1em;
     border-width: 1px;
     border-style: solid;
     border-image: linear-gradient(180deg, rgba(0,0,0,1) 7%, rgba(213,0,255,1) 33%, rgba(255,156,0,1) 93%) 1;
-    overflow:hidden
+    height: 40vh;
+    margin: 0px auto;
 }
 
+    .market-card:hover {
+        background-image: linear-gradient(180deg, rgba(0,0,0,1) 7%, rgba(213,0,255,1) 33%, rgba(255,156,0,1) 93%);
+    }
 
 .bottom-card-1 {
-    width: 14vh;
+    margin-top: 2em;
+    height: 30vh;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
 }
 
-.laptop{
-    padding-top: 15px;
-}
+
 
 @media (prefers-reduced-motion: reduce) {
     .icon-link > .bi {
