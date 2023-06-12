@@ -188,7 +188,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="src\img\Comp.png" />
     <Content Include="src\img\HT-1.png" />
+    <Content Include="src\img\laptop.png" />
     <Content Include="src\img\Logo_B.png" />
     <Content Include="src\img\Logo_T.png" />
     <Content Include="src\img\Logo_Z%28hover%29.png" />

@@ -212,6 +212,7 @@ body {
 }
 
 .logo:hover {
+    animation: 1s ease;
     background: url('../../src/img/Logo_Z(hover).png') no-repeat center right;
     height: 2.5em;
     width: 2.5em;
@@ -3432,47 +3433,51 @@ textarea.form-control-lg {
 }
 
 .dropdown-menu {
-  --bs-dropdown-zindex: 1000;
-  --bs-dropdown-min-width: 10rem;
-  --bs-dropdown-padding-x: 0;
-  --bs-dropdown-padding-y: 0.5rem;
-  --bs-dropdown-spacer: 0.125rem;
-  --bs-dropdown-font-size: 1rem;
-  --bs-dropdown-color: var(--bs-body-color);
-  --bs-dropdown-bg: var(--bs-body-bg);
-  --bs-dropdown-border-color: var(--bs-border-color-translucent);
-  --bs-dropdown-border-radius: var(--bs-border-radius);
-  --bs-dropdown-border-width: var(--bs-border-width);
-  --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
-  --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
-  --bs-dropdown-divider-margin-y: 0.5rem;
-  --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  --bs-dropdown-link-color: var(--bs-body-color);
-  --bs-dropdown-link-hover-color: var(--bs-body-color);
-  --bs-dropdown-link-hover-bg: var(--bs-tertiary-bg);
-  --bs-dropdown-link-active-color: #fff;
-  --bs-dropdown-link-active-bg: #0d6efd;
-  --bs-dropdown-link-disabled-color: var(--bs-tertiary-color);
-  --bs-dropdown-item-padding-x: 1rem;
-  --bs-dropdown-item-padding-y: 0.25rem;
-  --bs-dropdown-header-color: #6c757d;
-  --bs-dropdown-header-padding-x: 1rem;
-  --bs-dropdown-header-padding-y: 0.5rem;
-  position: absolute;
-  z-index: var(--bs-dropdown-zindex);
-  display: none;
-  min-width: var(--bs-dropdown-min-width);
-  padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
-  margin: 0;
-  font-size: var(--bs-dropdown-font-size);
-  color: var(--bs-dropdown-color);
-  text-align: left;
-  list-style: none;
-  background-color: var(--bs-dropdown-bg);
-  background-clip: padding-box;
-  border: var(--bs-dropdown-border-width) solid var(--bs-dropdown-border-color);
-  border-radius: var(--bs-dropdown-border-radius);
+    --bs-dropdown-zindex: 1000;
+    --bs-dropdown-min-width: 10rem;
+    --bs-dropdown-padding-x: 0;
+    --bs-dropdown-padding-y: 0.5rem;
+    --bs-dropdown-spacer: 0.125rem;
+    --bs-dropdown-font-size: 1rem;
+    --bs-dropdown-color: var(--bs-body-color);
+    --bs-dropdown-bg: var(--bs-body-bg);
+    --bs-dropdown-border-color: var(--bs-border-color-translucent);
+    --bs-dropdown-border-radius: var(--bs-border-radius);
+    --bs-dropdown-border-width: var(--bs-border-width);
+    --bs-dropdown-inner-border-radius: calc(var(--bs-border-radius) - var(--bs-border-width));
+    --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
+    --bs-dropdown-divider-margin-y: 0.5rem;
+    --bs-dropdown-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    --bs-dropdown-link-color: var(--bs-body-color);
+    --bs-dropdown-link-hover-color: var(--bs-body-color);
+    --bs-dropdown-link-hover-bg: var(--bs-tertiary-bg);
+    --bs-dropdown-link-active-color: #fff;
+    --bs-dropdown-link-active-bg: #0d6efd;
+    --bs-dropdown-link-disabled-color: var(--bs-tertiary-color);
+    --bs-dropdown-item-padding-x: 1rem;
+    --bs-dropdown-item-padding-y: 0.25rem;
+    --bs-dropdown-header-color: #6c757d;
+    --bs-dropdown-header-padding-x: 1rem;
+    --bs-dropdown-header-padding-y: 0.5rem;
+    position: absolute;
+    z-index: var(--bs-dropdown-zindex);
+    display: none;
+    min-width: var(--bs-dropdown-min-width);
+    padding: var(--bs-dropdown-padding-y) var(--bs-dropdown-padding-x);
+    margin: 0;
+    font-size: var(--bs-dropdown-font-size);
+    color: var(--bs-dropdown-color);
+    text-align: left;
+    list-style: none;
+    background-color: var(--bs-dropdown-bg);
+    background-clip: padding-box;
+    border-width: 1px;
+    border-radius: var(--bs-dropdown-border-radius);
+    border-style: solid;
+    border-image: linear-gradient(to right, #eea50e, #9733e5) 0 1 1 1;
+
 }
+
 .dropdown-menu[data-bs-popper] {
   top: 100%;
   left: 0;
@@ -3660,27 +3665,29 @@ textarea.form-control-lg {
 }
 
 .dropdown-item {
-  display: block;
-  width: 100%;
-  padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
-  clear: both;
-  font-weight: 400;
-  color: var(--bs-dropdown-link-color);
-  text-align: inherit;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border: 0;
-  border-radius: var(--bs-dropdown-item-border-radius, 0);
+    display: block;
+    width: 100%;
+    padding: var(--bs-dropdown-item-padding-y) var(--bs-dropdown-item-padding-x);
+    clear: both;
+    font-weight: 400;
+    color: var(--bs-nav-link-color);
+    text-align: inherit;
+    text-decoration: none;
+    white-space: nowrap;
+    background-color: transparent;
 }
-.dropdown-item:hover, .dropdown-item:focus {
-  color: var(--bs-dropdown-link-hover-color);
-  background-color: var(--bs-dropdown-link-hover-bg);
-}
+    .dropdown-item:hover, .dropdown-item:focus {
+        font-weight: bold;
+        background: rgb(255,215,66);
+        background: linear-gradient(90deg, rgba(255,170,32,1) 0%, rgba(164,37,255,1) 88%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: 1s linear infinite progress-bar-stripes;
+    }
+
 .dropdown-item.active, .dropdown-item:active {
   color: var(--bs-dropdown-link-active-color);
   text-decoration: none;
-  background-color: var(--bs-dropdown-link-active-bg);
 }
 .dropdown-item.disabled, .dropdown-item:disabled {
   color: var(--bs-dropdown-link-disabled-color);
@@ -7041,8 +7048,45 @@ textarea.form-control-lg {
   fill: currentcolor;
   transition: 0.2s ease-in-out transform;
 }
+
+.cardTitle{
+    color: #b4b4b4;
+}
+
+.market-btn {
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(180deg, rgba(105,32,170,1) 0%, rgba(208,110,29,1) 100%) 1;
+    overflow: hidden
+}
+
+    .market-btn:hover {
+        border-radius: 0px;
+        color: #fff;
+        animation: ease;
+        background-image: linear-gradient(180deg, rgba(105,32,170,1) 0%, rgba(208,110,29,1) 100%);
+    }
+
+.market-card {
+    background-color: black;
+    padding: 1em;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(180deg, rgba(0,0,0,1) 7%, rgba(213,0,255,1) 33%, rgba(255,156,0,1) 93%) 1;
+    overflow:hidden
+}
+
+
+.bottom-card-1 {
+    width: 14vh;
+}
+
+.laptop{
+    padding-top: 15px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .icon-link > .bi {
+    .icon-link > .bi {
     transition: none;
   }
 }
