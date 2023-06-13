@@ -15,11 +15,42 @@
     @Html.Partial("_Menu")
     <div class="container-xl">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
-        </footer>
     </div>
+    <hr />
+        <div class="container-fluid">
+            <div class="container-lg">
+                <footer>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img class="logo2" src="~/src/img/Logo_Z.png">
+                        </div>
+                        <div class="col-md-4" >
+                            <h4 class="nav-link2"> Productos </h4>
+                            <ul>
+                                <li style="list-style:none">
+                                    @Html.ActionLink("Usuarios", "Index", "Autor", null, new { @class = "nav-link2" })
+                                </li>
+                                <li>
+
+                                    @Html.ActionLink("Productos", "IndexAdmin", "Libro", null, new { @class = "nav-link2" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Factura", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Orden", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/"><h4> Contacto </h4></a>
+                            <a href="/"><h4> Terminos de Servicio </h4></a>
+                        </div>
+                    </div>
+                    <p> Copyright ©Hardtech - @DateTime.Now.Year</p>
+                </footer>
+            </div>
+        </div>
 
     @Scripts.Render("~/bundles/jquery")
     @*Scripts.Render("~/bundles/bootstrap")*@

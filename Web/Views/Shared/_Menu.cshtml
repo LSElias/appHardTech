@@ -1,33 +1,22 @@
-﻿    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+﻿    <nav class="sticky-top navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
         <div class="container">
             @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new
        {
            @class = "navbar-brand logo",
-           
+
        })
-            
+
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Productos</a>
-
-                        <ul class="dropdown-menu">
-                            <li>
-                                @Html.ActionLink("Computadoras", "Index", "Autor", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Componentes", "IndexAdmin", "Libro", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Periféricos", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Accesorios", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Otros", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
-
-                            </li>
-                            <li>
-
-                            </li>
-                        </ul>
+                    <li class="nav-item">
+                        @Html.ActionLink("Productos", "Index", "Libro", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Mis Ordenes", "Index", "Libro", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
@@ -39,12 +28,30 @@
                                 @Html.ActionLink("Factura", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Orden", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
                             </li>
-                            <li>
-
-                            </li>
                         </ul>
                     </li>
                 </ul>
+
+                <ul class="navbar-nav flex-grow-2">
+
+                    <li>
+                        <a href="@Url.Action("Index","Login")" class="nav-link"> Carrito &nbsp <i class="fa-solid fa-cart-shopping"></i></a>
+                    </li>
+                    <li class="nav-item dropdown" style="align-items: end">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Mi Cuenta &nbsp  <i class="fa-regular fa-user"></i> </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
+                                <a href="@Url.Action("Logout","Login")" class="nav-link"><i class="fa-solid fa-user-minus"></i> &nbspCerrar Sesión </a>
+                            </li>
+                        </ul>
+                    </li>
+                 </ul>
             </div>
         </div>
     </nav>
