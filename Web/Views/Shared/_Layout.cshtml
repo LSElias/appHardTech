@@ -16,41 +16,41 @@
     <div class="container-xl">
         @RenderBody()
     </div>
-    <hr />
-        <div class="container-fluid">
-            <div class="container-lg">
-                <footer>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img class="logo2" src="~/src/img/Logo_Z.png">
-                        </div>
-                        <div class="col-md-4" >
-                            <h4 class="nav-link2"> Productos </h4>
-                            <ul>
-                                <li style="list-style:none">
-                                    @Html.ActionLink("Usuarios", "Index", "Autor", null, new { @class = "nav-link2" })
-                                </li>
-                                <li>
-
-                                    @Html.ActionLink("Productos", "IndexAdmin", "Libro", null, new { @class = "nav-link2" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Factura", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
-                                </li>
-                                <li>
-                                    @Html.ActionLink("Orden", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-4">
-                            <a href="/"><h4> Contacto </h4></a>
-                            <a href="/"><h4> Terminos de Servicio </h4></a>
-                        </div>
+    <div class="container-fluid footerColor mt-5">
+        <hr />
+        <div class="container-lg py-4">
+            <footer>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <img class="logo2" src="~/src/img/Logo_Z.png">
                     </div>
-                    <p> Copyright ©Hardtech - @DateTime.Now.Year</p>
-                </footer>
-            </div>
+                    <div class="col-md-4">
+                        <h4 class="foot-Title"> PRODUCTOS </h4>
+                        <ul>
+                            <li style="list-style:none">
+                                @Html.ActionLink("Computadoras", "Index", "Autor", null, new { @class = "nav-link2" })
+                            </li>
+                            <li style="list-style:none">
+
+                                @Html.ActionLink("Componentes", "IndexAdmin", "Libro", null, new { @class = "nav-link2" })
+                            </li>
+                            <li style="list-style:none">
+                                @Html.ActionLink("Periféricos", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
+                            </li>
+                            <li style="list-style:none">
+                                @Html.ActionLink("Accesorios", "IndexAdmin", "Orden", null, new { @class = "nav-link2" })
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <a class="foot-Title" href="/"><h4> Contacto </h4></a>
+                        <a class="foot-Title" href="/"><h4> Terminos de Servicio </h4></a>
+                    </div>
+                </div>
+                <p style=" color: #ffffffc4; "> Copyright ©Hardtech - @DateTime.Now.Year</p>
+            </footer>
         </div>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @*Scripts.Render("~/bundles/bootstrap")*@

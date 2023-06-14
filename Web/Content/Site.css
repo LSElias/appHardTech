@@ -1,9 +1,40 @@
-﻿.nav-link2 {
+﻿*{
+    font-family: code_boldregular;
+    letter-spacing: 0.3vh;
+}
+
+.logo2 {
+    height: 6em;
+    object-fit: cover;
+}
+
+.footerColor {
+    background: rgb(255,255,255);
+    background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 1%);
+}
+.foot-Title {
+    color: #ffffffc4;
+    font-family: code_boldregular;
+    letter-spacing: 2px;
+    display: block;
+    padding: var(--bs-nav-link-padding-y) 0.3rem;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+    .foot-Title:hover {
+        cursor: pointer;
+        color: #a847ea;
+    }
+
+.nav-link2 {
     display: block;
     padding: var(--bs-nav-link-padding-y) 0.3rem;
     font-size: var(--bs-nav-link-font-size);
     font-weight: var(--bs-nav-link-font-weight);
-    color: #fff;
+    color: #ffffffc4;
     text-decoration: none;
     background: none;
     border: 0;
@@ -15,3 +46,17 @@
     padding: var(--bs-nav-link-padding-y) 0.7rem;
 }
 
+
+@font-face {
+    font-family: 'code_boldregular';
+    src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'code_lightregular';
+    src: url('../src/fonts/code_light-webfont.woff2') format('woff2'), url('../src/fonts/code_light-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

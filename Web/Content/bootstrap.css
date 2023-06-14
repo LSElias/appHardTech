@@ -212,9 +212,7 @@ body {
 }
 
 .logo2 {
-    height: 300px;
-    width: 300px;
-    object-fit: cover;
+
 }
 
 .logo:hover {
@@ -224,8 +222,6 @@ body {
     width: 2.5em;
     background-size: contain;
 }
-
-
 
 hr {
   margin: 1rem 0;
@@ -296,8 +292,7 @@ abbr[title] {
   -webkit-text-decoration: underline dotted;
   text-decoration: underline dotted;
   cursor: help;
-  -webkit-text-decoration-skip-ink: none;
-  text-decoration-skip-ink: none;
+
 }
 
 address {
@@ -446,7 +441,6 @@ caption {
 
 th {
   text-align: inherit;
-  text-align: -webkit-match-parent;
 }
 
 thead,
@@ -549,15 +543,7 @@ legend + * {
   clear: left;
 }
 
-::-webkit-datetime-edit-fields-wrapper,
-::-webkit-datetime-edit-text,
-::-webkit-datetime-edit-minute,
-::-webkit-datetime-edit-hour-field,
-::-webkit-datetime-edit-day-field,
-::-webkit-datetime-edit-month-field,
-::-webkit-datetime-edit-year-field {
-  padding: 0;
-}
+
 
 ::-webkit-inner-spin-button {
   height: auto;
@@ -2167,15 +2153,7 @@ progress {
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
-.form-control::-webkit-date-and-time-value {
-  min-width: 85px;
-  height: 1.5em;
-  margin: 0;
-}
-.form-control::-webkit-datetime-edit {
-  display: block;
-  padding: 0;
-}
+
 .form-control::-moz-placeholder {
   color: var(--bs-secondary-color);
   opacity: 1;
@@ -2191,7 +2169,6 @@ progress {
 .form-control::-webkit-file-upload-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
   margin-inline-end: 0.75rem;
   color: var(--bs-body-color);
   background-color: var(--bs-tertiary-bg);
@@ -2207,7 +2184,6 @@ progress {
 .form-control::file-selector-button {
   padding: 0.375rem 0.75rem;
   margin: -0.375rem -0.75rem;
-  -webkit-margin-end: 0.75rem;
   margin-inline-end: 0.75rem;
   color: var(--bs-body-color);
   background-color: var(--bs-tertiary-bg);
@@ -2263,13 +2239,11 @@ progress {
 .form-control-sm::-webkit-file-upload-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
   margin-inline-end: 0.5rem;
 }
 .form-control-sm::file-selector-button {
   padding: 0.25rem 0.5rem;
   margin: -0.25rem -0.5rem;
-  -webkit-margin-end: 0.5rem;
   margin-inline-end: 0.5rem;
 }
 
@@ -2282,13 +2256,11 @@ progress {
 .form-control-lg::-webkit-file-upload-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
   margin-inline-end: 1rem;
 }
 .form-control-lg::file-selector-button {
   padding: 0.5rem 1rem;
   margin: -0.5rem -1rem;
-  -webkit-margin-end: 1rem;
   margin-inline-end: 1rem;
 }
 
@@ -2310,10 +2282,7 @@ textarea.form-control-lg {
 .form-control-color:not(:disabled):not([readonly]) {
   cursor: pointer;
 }
-.form-control-color::-moz-color-swatch {
-  border: 0 !important;
-  border-radius: var(--bs-border-radius);
-}
+
 .form-control-color::-webkit-color-swatch {
   border: 0 !important;
   border-radius: var(--bs-border-radius);
@@ -2426,7 +2395,6 @@ textarea.form-control-lg {
   -moz-appearance: none;
   appearance: none;
   -webkit-print-color-adjust: exact;
-  color-adjust: exact;
   print-color-adjust: exact;
 }
 .form-check-input[type=checkbox] {
@@ -2536,9 +2504,7 @@ textarea.form-control-lg {
 .form-range:focus::-webkit-slider-thumb {
   box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
-.form-range:focus::-moz-range-thumb {
-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
+
 .form-range::-moz-focus-outer {
   border: 0;
 }
@@ -2572,44 +2538,16 @@ textarea.form-control-lg {
   border-color: transparent;
   border-radius: 1rem;
 }
-.form-range::-moz-range-thumb {
-  width: 1rem;
-  height: 1rem;
-  background-color: #0d6efd;
-  border: 0;
-  border-radius: 1rem;
-  -moz-transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  -moz-appearance: none;
-  appearance: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  .form-range::-moz-range-thumb {
-    -moz-transition: none;
-    transition: none;
-  }
-}
-.form-range::-moz-range-thumb:active {
-  background-color: #b6d4fe;
-}
-.form-range::-moz-range-track {
-  width: 100%;
-  height: 0.5rem;
-  color: transparent;
-  cursor: pointer;
-  background-color: var(--bs-tertiary-bg);
-  border-color: transparent;
-  border-radius: 1rem;
-}
+
+
+
 .form-range:disabled {
   pointer-events: none;
 }
 .form-range:disabled::-webkit-slider-thumb {
   background-color: var(--bs-secondary-color);
 }
-.form-range:disabled::-moz-range-thumb {
-  background-color: var(--bs-secondary-color);
-}
+
 
 .form-floating {
   position: relative;
@@ -2653,10 +2591,7 @@ textarea.form-control-lg {
 .form-floating > .form-control-plaintext::placeholder {
   color: transparent;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown), .form-floating > .form-control-plaintext:not(:-moz-placeholder-shown) {
-  padding-top: 1.625rem;
-  padding-bottom: 0.625rem;
-}
+
 .form-floating > .form-control:focus, .form-floating > .form-control:not(:placeholder-shown),
 .form-floating > .form-control-plaintext:focus,
 .form-floating > .form-control-plaintext:not(:placeholder-shown) {
@@ -2672,10 +2607,7 @@ textarea.form-control-lg {
   padding-top: 1.625rem;
   padding-bottom: 0.625rem;
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
-  color: rgba(var(--bs-body-color-rgb), 0.65);
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-}
+
 .form-floating > .form-control:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-control-plaintext ~ label,
@@ -2683,15 +2615,7 @@ textarea.form-control-lg {
   color: rgba(var(--bs-body-color-rgb), 0.65);
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label::after {
-  position: absolute;
-  inset: 1rem 0.375rem;
-  z-index: -1;
-  height: 1.5em;
-  content: "";
-  background-color: var(--bs-body-bg);
-  border-radius: var(--bs-border-radius);
-}
+
 .form-floating > .form-control:focus ~ label::after,
 .form-floating > .form-control:not(:placeholder-shown) ~ label::after,
 .form-floating > .form-control-plaintext ~ label::after,
@@ -4622,7 +4546,6 @@ textarea.form-control-lg {
   background-color: var(--bs-accordion-btn-bg);
   border: 0;
   border-radius: 0;
-  overflow-anchor: none;
   transition: var(--bs-accordion-transition);
 }
 @media (prefers-reduced-motion: reduce) {
@@ -5458,8 +5381,6 @@ textarea.form-control-lg {
   --bs-toast-zindex: 1090;
   position: absolute;
   z-index: var(--bs-toast-zindex);
-  width: -webkit-max-content;
-  width: -moz-max-content;
   width: max-content;
   max-width: 100%;
   pointer-events: none;
@@ -6867,7 +6788,6 @@ textarea.form-control-lg {
 
 @keyframes placeholder-wave {
   100% {
-    -webkit-mask-position: -200% 0%;
     mask-position: -200% 0%;
   }
 }
@@ -6919,18 +6839,15 @@ textarea.form-control-lg {
 
 .link-primary {
   color: RGBA(var(--bs-primary-rgb), var(--bs-link-opacity, 1)) !important;
-  -webkit-text-decoration-color: RGBA(var(--bs-primary-rgb), var(--bs-link-underline-opacity, 1)) !important;
   text-decoration-color: RGBA(var(--bs-primary-rgb), var(--bs-link-underline-opacity, 1)) !important;
 }
 .link-primary:hover, .link-primary:focus {
   color: RGBA(10, 88, 202, var(--bs-link-opacity, 1)) !important;
-  -webkit-text-decoration-color: RGBA(10, 88, 202, var(--bs-link-underline-opacity, 1)) !important;
   text-decoration-color: RGBA(10, 88, 202, var(--bs-link-underline-opacity, 1)) !important;
 }
 
 .link-secondary {
   color: RGBA(var(--bs-secondary-rgb), var(--bs-link-opacity, 1)) !important;
-  -webkit-text-decoration-color: RGBA(var(--bs-secondary-rgb), var(--bs-link-underline-opacity, 1)) !important;
   text-decoration-color: RGBA(var(--bs-secondary-rgb), var(--bs-link-underline-opacity, 1)) !important;
 }
 .link-secondary:hover, .link-secondary:focus {

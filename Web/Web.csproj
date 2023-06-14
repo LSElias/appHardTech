@@ -213,6 +213,10 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Menu.cshtml" />
+    <Content Include="src\fonts\code_bold-webfont.woff" />
+    <Content Include="src\fonts\code_bold-webfont.woff2" />
+    <Content Include="src\fonts\code_light-webfont.woff" />
+    <Content Include="src\fonts\code_light-webfont.woff2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
