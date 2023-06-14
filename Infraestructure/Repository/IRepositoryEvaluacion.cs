@@ -10,9 +10,12 @@ namespace Infraestructure.Repository
     public interface IRepositoryEvaluacion
     {
         IEnumerable<Evaluacion> GetEvaluacion();
-        Evaluacion GetEvaluacionById(int Id);
         IEnumerable<Evaluacion> GetEvaluacionByIdEvaluador(int IdEvaluador);
         IEnumerable<Evaluacion> GetEvaluacionByIdEvaluado(int IdEvaluado);
+        Evaluacion GetEvaluacionById(int Id);
+
         double GetPromedioEvaluacion(int IdEvaluado);
+
+        Evaluacion Save(Evaluacion evaluacion);
     }
 }

@@ -76,5 +76,35 @@ namespace Infraestructure.Repository
                 throw;
             }
         }
+
+        public Foto Save(Foto foto)
+        {
+            int retorno = 0;
+            Foto pFoto = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pFoto = GetFotoById((int)foto.Id);
+
+                if (pFoto == null)
+                {
+                    //Insertar
+                    ctx.Foto.Add(foto);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Foto.Add(foto);
+                    ctx.Entry(foto).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pFoto = GetFotoById((int)foto.Id);
+
+            return pFoto;
+        }
     }
 }
