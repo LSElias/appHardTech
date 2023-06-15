@@ -11,5 +11,7 @@ namespace ApplicationCore.Services
     {
         IEnumerable<Orden> GetOrden();
         Orden GetOrdenById(int Id);
+        Orden Save(Orden orden);
+
     }
 }

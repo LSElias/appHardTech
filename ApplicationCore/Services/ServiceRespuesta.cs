@@ -33,5 +33,11 @@ namespace ApplicationCore.Services
             IRepositoryRespuesta oRep = new RepositoryRespuesta();
             return oRep.GetRespuestaByIdUsuario(IdUsuario);
         }
+
+        public Respuesta Save(Respuesta respuesta)
+        {
+            IRepositoryRespuesta oRep = new RepositoryRespuesta();
+            return oRep.Save(respuesta);
+        }
     }
 }

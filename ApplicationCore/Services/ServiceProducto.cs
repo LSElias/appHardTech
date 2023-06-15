@@ -33,5 +33,11 @@ namespace ApplicationCore.Services
             IRepositoryProducto oRep = new RepositoryProducto();
             return oRep.GetProductos();
         }
+
+        public Producto Save(Producto producto)
+        {
+            IRepositoryProducto oRep = new RepositoryProducto();
+            return oRep.Save(producto);
+        }
     }
 }

@@ -39,5 +39,11 @@ namespace ApplicationCore.Services
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.LogIn(email, clave);
         }
+
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            return oRep.Save(usuario, selectedTipoUsuario);
+        }
     }
 }

@@ -21,5 +21,11 @@ namespace ApplicationCore.Services
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.GetOrdenById(Id);
         }
+
+        public Orden Save(Orden orden)
+        {
+            IRepositoryOrden oRep = new RepositoryOrden();
+            return oRep.Save(orden);
+        }
     }
 }
