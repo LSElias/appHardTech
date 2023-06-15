@@ -74,6 +74,34 @@ namespace Infraestructure.Repository
             }
         }
 
+        public IEnumerable<Producto> GetByNombre(string Nombre)
+        {
+            try
+            {
+                IEnumerable<Producto> oProducto = null;
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oProducto = ctx.Producto.ToList().
+                          FindAll(x => x.Nombre.ToLower().Contains(Nombre.ToLower()));
+                        
+                }
+                return oProducto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
+
         public Producto GetProductoById(int Id)
         {
             Producto oProducto = null;

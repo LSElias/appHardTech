@@ -22,6 +22,12 @@ namespace ApplicationCore.Services
             return oRep.GetByIdProveedor(IdProveedor);
         }
 
+        public IEnumerable<Producto> GetByNombre(string Nombre)
+        {
+            IRepositoryProducto oRep = new RepositoryProducto();
+            return oRep.GetByNombre(Nombre);
+        }
+
         public Producto GetProductoById(int Id)
         {
             IRepositoryProducto oRep = new RepositoryProducto();

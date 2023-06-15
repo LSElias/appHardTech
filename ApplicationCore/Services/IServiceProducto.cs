@@ -13,6 +13,8 @@ namespace ApplicationCore.Services
         Producto GetProductoById(int Id);
         IEnumerable<Producto> GetByIdProveedor(int IdProveedor);
         IEnumerable<Producto> GetByIdCategoria(int IdCategoria);
+        IEnumerable<Producto> GetByNombre(String Nombre);
+
         Producto Save(Producto producto);
 
     }
