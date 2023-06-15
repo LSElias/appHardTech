@@ -139,5 +139,59 @@ namespace Infraestructure.Repository
                 throw;
             }
         }
+
+        public Usuario Save(Usuario usuario, string[] seletedTipoUsuario)
+        {
+            int retorno = 0;
+            Usuario oUsuario = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                oUsuario = GetUsuarioByID((int)usuario.Id);
+                IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
+
+                if (oUsuario == null)
+                {
+                    if (seletedTipoUsuario != null)
+                    {
+                        usuario.TipoUsuario = new List<TipoUsuario>();
+                        foreach (var tipoUser in seletedTipoUsuario)
+                        {
+                            var tipoUserAdd = _RepositoryTipoUsuario.GetTipoUsuarioByID(int.Parse(tipoUser));
+                            ctx.TipoUsuario.Add(tipoUserAdd);
+                            usuario.TipoUsuario.Add(tipoUserAdd);
+                        }
+                    }
+
+                    //Insertar
+                    ctx.Usuario.Add(usuario);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Usuario.Add(usuario);
+                    ctx.Entry(usuario).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+
+                    var selectedTipoUserID = new HashSet<string>(seletedTipoUsuario);
+                    if(seletedTipoUsuario != null)
+                    {
+                        ctx.Entry(usuario).Collection(x => x.TipoUsuario).Load();
+                        var newTipoUsForUser = ctx.TipoUsuario
+                            .Where(x => selectedTipoUserID.Contains(x.Id.ToString())).ToList();
+                        usuario.TipoUsuario = newTipoUsForUser;
+
+                        ctx.Entry(usuario).State = EntityState.Modified;
+                        retorno = ctx.SaveChanges();
+                    }
+                }
+            }
+            if (retorno >= 0)
+                oUsuario = GetUsuarioByID((int)usuario.Id);
+
+            return oUsuario;
+        }
     }
 }

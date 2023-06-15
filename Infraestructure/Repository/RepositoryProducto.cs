@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -98,6 +99,36 @@ namespace Infraestructure.Repository
                 throw;
             }
 
+        }
+
+        public Producto Save(Producto producto)
+        {
+            int retorno = 0;
+            Producto oProducto = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                oProducto = GetProductoById((int)producto.Id);
+
+                if (oProducto == null)
+                {
+                    //Insertar
+                    ctx.Producto.Add(producto);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Producto.Add(producto);
+                    ctx.Entry(producto).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                oProducto = GetProductoById((int)producto.Id);
+
+            return oProducto;
         }
     }
 }

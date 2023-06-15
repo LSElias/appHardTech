@@ -10,9 +10,11 @@ namespace Infraestructure.Repository
     public interface IRepositoryRespuesta
     {
         IEnumerable<Respuesta> GetRespuesta();
+        IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario);
+
         Respuesta GetRespuestaById(int Id);
         Respuesta GetRespuestaByIdMensaje(int IdMensaje);
-        IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario);
+        Respuesta Save(Respuesta respuesta);
     }
 }
   

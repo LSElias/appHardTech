@@ -15,5 +15,7 @@ namespace Infraestructure.Repository
         IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario);
         IEnumerable<Usuario> GetUsuarioByEstado(int Estado);
         Usuario LogIn(string email, string clave);
+
+        Usuario Save(Usuario usuario, string[] seletedTipoUsuario);
     }
 }
