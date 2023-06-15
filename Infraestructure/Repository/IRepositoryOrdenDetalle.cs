@@ -12,6 +12,7 @@ namespace Infraestructure.Repository
         IEnumerable<OrdenDetalle> GetOrdenDetalle();
         OrdenDetalle GetOrdenDetByIdOrden(int IdOrden);
         OrdenDetalle GetOrdenDetByIdProducto(int idProducto);
+        OrdenDetalle Save(OrdenDetalle ODetalle);
 
     }
 }

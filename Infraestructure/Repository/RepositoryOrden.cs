@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,6 +55,36 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
+        }
+
+        public Orden Save(Orden orden)
+        {
+            int retorno = 0;
+            Orden pOrden = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pOrden = GetOrdenById((int)orden.Id);
+
+                if (pOrden == null)
+                {
+                    //Insertar
+                    ctx.Orden.Add(orden);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Orden.Add(orden);
+                    ctx.Entry(orden).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pOrden = GetOrdenById((int)orden.Id);
+
+            return pOrden;
         }
     }
 }

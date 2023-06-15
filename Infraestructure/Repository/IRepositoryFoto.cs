@@ -10,7 +10,9 @@ namespace Infraestructure.Repository
     public interface IRepositoryFoto
     {
         IEnumerable<Foto> GetFoto();
-        Foto GetFotoById(int Id);
         IEnumerable<Foto> GetFotoByIdProducto(int IdProducto);
+        Foto GetFotoById(int Id);
+        Foto Save(Foto foto);
+
     }
 }

@@ -13,9 +13,10 @@ namespace Infraestructure.Repository
     {
         public Categoria GetCategoriaByID(int Id)
         {
+            Categoria oCategoria = null;
+
             try
             {
-                Categoria oCategoria = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;

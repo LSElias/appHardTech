@@ -10,8 +10,9 @@ namespace Infraestructure.Repository
     public interface IRepositoryFactura
     {
         IEnumerable<Factura> GetFactura();
-        Factura GetFacturaById(int IdFactura);
         IEnumerable<Factura> GetFacturaByIdUsuario(int IdUsuario);
+        Factura GetFacturaById(int IdFactura);
         Factura GetFacturaByIdOrden(int IdOrden);
+        Factura Save(Factura factura);
     }
 }

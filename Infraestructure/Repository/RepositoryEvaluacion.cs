@@ -34,9 +34,9 @@ namespace Infraestructure.Repository
 
         public Evaluacion GetEvaluacionById(int Id)
         {
+            Evaluacion oEvaluacion = null;
             try
             {
-                Evaluacion oEvaluacion = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
@@ -117,6 +117,36 @@ namespace Infraestructure.Repository
             double promedio = suma / lista.Count();
 
             return promedio;
+        }
+
+        public Evaluacion Save(Evaluacion evaluacion)
+        {
+            int retorno = 0;
+            Evaluacion pEvaluacion = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
+
+                if (pEvaluacion == null)
+                {
+                    //Insertar
+                    ctx.Evaluacion.Add(evaluacion);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Evaluacion.Add(evaluacion);
+                    ctx.Entry(evaluacion).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
+
+            return pEvaluacion;
         }
     }
 }

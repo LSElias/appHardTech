@@ -38,9 +38,10 @@ namespace Infraestructure.Repository
 
         public CuentaPago GetCuentaPagoByID(int Id)
         {
+            CuentaPago oCuenta = null;
+
             try
             {
-                CuentaPago oCuenta = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
@@ -78,6 +79,36 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
+        }
+
+        public CuentaPago Save(CuentaPago cuenta)
+        {
+            int retorno = 0;
+            CuentaPago pCuenta = null; 
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pCuenta = GetCuentaPagoByID((int)cuenta.Id); 
+
+                if(pCuenta == null)
+                {
+                    //Insertar
+                    ctx.CuentaPago.Add(cuenta);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.CuentaPago.Add(cuenta);
+                    ctx.Entry(cuenta).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pCuenta = GetCuentaPagoByID((int)cuenta.Id);
+            
+            return pCuenta;
         }
     }
 }

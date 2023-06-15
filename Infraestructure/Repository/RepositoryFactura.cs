@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,9 +34,10 @@ namespace Infraestructure.Repository
 
         public Factura GetFacturaById(int IdFactura)
         {
+            Factura oFactura = null;
+
             try
             {
-                Factura oFactura = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
@@ -101,6 +103,36 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
+        }
+
+        public Factura Save(Factura factura)
+        {
+            int retorno = 0;
+            Factura pFactura = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pFactura = GetFacturaById((int)factura.IdFactura);
+
+                if (pFactura == null)
+                {
+                    //Insertar
+                    ctx.Factura.Add(factura);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Factura.Add(factura);
+                    ctx.Entry(factura).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pFactura = GetFacturaById((int)factura.IdFactura);
+
+            return pFactura;
         }
     }
 }

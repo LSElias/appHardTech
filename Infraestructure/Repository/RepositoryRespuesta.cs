@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,6 +102,37 @@ namespace Infraestructure.Repository
                 Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
                 throw;
             }
+        }
+
+        public Respuesta Save(Respuesta respuesta)
+        {
+            int retorno = 0;
+            Respuesta oRespuesta = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                oRespuesta = GetRespuestaById((int)respuesta.Id);
+
+                if (oRespuesta == null)
+                {
+                    //Insertar
+                    ctx.Respuesta.Add(respuesta);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Respuesta.Add(respuesta);
+                    ctx.Entry(respuesta).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                oRespuesta = GetRespuestaById((int)respuesta.Id);
+
+            return oRespuesta;
+
         }
     }
 }

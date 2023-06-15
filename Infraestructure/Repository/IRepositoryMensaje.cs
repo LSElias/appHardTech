@@ -10,9 +10,9 @@ namespace Infraestructure.Repository
     public interface IRepositoryMensaje
     {
         IEnumerable<Mensaje> GetMensaje();
-        Mensaje GetMensajeById(int Id);
         IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto);
         IEnumerable<Mensaje> GetMensajeByIdUsuario(int IdUsuario);
-
+        Mensaje GetMensajeById(int Id);
+        Mensaje Save(Mensaje mensaje);
     }
 }

@@ -103,5 +103,35 @@ namespace Infraestructure.Repository
                 throw;
             }
         }
+
+        public Mensaje Save(Mensaje mensaje)
+        {
+            int retorno = 0;
+            Mensaje pMensaje = null;
+
+            using (MyContext ctx = new MyContext())
+            {
+                ctx.Configuration.LazyLoadingEnabled = false;
+                pMensaje = GetMensajeById((int)mensaje.Id);
+
+                if (pMensaje == null)
+                {
+                    //Insertar
+                    ctx.Mensaje.Add(mensaje);
+                    retorno = ctx.SaveChanges();
+                }
+                else
+                {
+                    //Actualizar
+                    ctx.Mensaje.Add(mensaje);
+                    ctx.Entry(mensaje).State = EntityState.Modified;
+                    retorno = ctx.SaveChanges();
+                }
+            }
+            if (retorno >= 0)
+                pMensaje = GetMensajeById((int)mensaje.Id);
+
+            return pMensaje;
+        }
     }
 }

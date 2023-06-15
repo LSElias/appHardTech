@@ -11,5 +11,6 @@ namespace Infraestructure.Repository
     {
         IEnumerable<Orden> GetOrden();
         Orden GetOrdenById(int Id);
+        Orden Save(Orden orden);
     }
 }
