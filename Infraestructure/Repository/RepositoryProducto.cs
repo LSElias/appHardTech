@@ -3,6 +3,7 @@ using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,17 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
+                        .Include("Estado1")                        
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
                 }
                 return oProducto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -46,10 +54,17 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
+                        .Include("Estado1")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
                 }
                 return oProducto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -61,15 +76,26 @@ namespace Infraestructure.Repository
 
         public Producto GetProductoById(int Id)
         {
+            Producto oProducto = null;
             try
             {
-                Producto oProducto = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oProducto = ctx.Producto.Find(Id);
+                    oProducto = ctx.Producto.
+                        Where(n => n.Id == Id)
+                        .Include("Categoria")
+                        .Include("Usuario")
+                        .Include("Estado1")
+                        .FirstOrDefault();
                 }
                 return oProducto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -87,10 +113,20 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Producto.ToList<Producto>();
+                    list = ctx.Producto
+                    .Include("Categoria")
+                    .Include("Usuario")
+                    .Include("Estado1")
+                    .ToList<Producto>();
                 }
                 return list;
 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -106,29 +142,45 @@ namespace Infraestructure.Repository
             int retorno = 0;
             Producto oProducto = null;
 
-            using (MyContext ctx = new MyContext())
+            try
             {
-                ctx.Configuration.LazyLoadingEnabled = false;
-                oProducto = GetProductoById((int)producto.Id);
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oProducto = GetProductoById((int)producto.Id);
 
-                if (oProducto == null)
-                {
-                    //Insertar
-                    ctx.Producto.Add(producto);
-                    retorno = ctx.SaveChanges();
+                    if (oProducto == null)
+                    {
+                        //Insertar
+                        ctx.Producto.Add(producto);
+                        retorno = ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        //Actualizar
+                        ctx.Producto.Add(producto);
+                        ctx.Entry(producto).State = EntityState.Modified;
+                        retorno = ctx.SaveChanges();
+                    }
                 }
-                else
-                {
-                    //Actualizar
-                    ctx.Producto.Add(producto);
-                    ctx.Entry(producto).State = EntityState.Modified;
-                    retorno = ctx.SaveChanges();
-                }
+                if (retorno >= 0)
+                    oProducto = GetProductoById((int)producto.Id);
+
+                return oProducto;
+
             }
-            if (retorno >= 0)
-                oProducto = GetProductoById((int)producto.Id);
-
-            return oProducto;
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
         }
     }
 }

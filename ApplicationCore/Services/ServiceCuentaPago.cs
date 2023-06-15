@@ -27,5 +27,11 @@ namespace ApplicationCore.Services
             IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
             return oRep.GetCuentaPagos();
         }
+
+        public CuentaPago Save(CuentaPago cuenta)
+        {
+            IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
+            return oRep.Save(cuenta);
+        }
     }
 }

@@ -10,7 +10,10 @@ namespace ApplicationCore.Services
     public interface IServiceCuentaPago
     {
         IEnumerable<CuentaPago> GetCuentaPagos();
-        CuentaPago GetCuentaPagoByID(int Id);
         IEnumerable<CuentaPago> GetByTipoPago(int IdTipoPago);
+
+        CuentaPago GetCuentaPagoByID(int Id);
+        CuentaPago Save(CuentaPago cuenta);
+
     }
 }

@@ -3,6 +3,7 @@ using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,18 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Orden.ToList<Orden>();
+                    list = ctx.Orden.
+                            Include("Estado1").
+                            ToList<Orden>();
                 }
                 return list;
 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -35,19 +44,28 @@ namespace Infraestructure.Repository
 
         public Orden GetOrdenById(int Id)
         {
+            Orden pOrden = null;
+
             try
             {
-                Orden pOrden = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     pOrden = ctx.Orden.
-                        Include("OrdenDetalle")
-                        .Include("Factura")
+                        Include("Estado1").
+                        Include("Factura").
+                        Include("OrdenDetalle").
+                        Include("OrdenDetalle.Producto")
                         .Where(x => x.Id == Id)
-                        .FirstOrDefault();
+                        .FirstOrDefault<Orden>();
                 }
                 return pOrden;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -62,29 +80,38 @@ namespace Infraestructure.Repository
             int retorno = 0;
             Orden pOrden = null;
 
-            using (MyContext ctx = new MyContext())
+            try
             {
-                ctx.Configuration.LazyLoadingEnabled = false;
-                pOrden = GetOrdenById((int)orden.Id);
+              using(MyContext ctx = new MyContext())
+                {
+                    //Guardar los datos en ambos tablas Orden y OrdenDet...
+                    using (var transaccion = ctx.Database.BeginTransaction())
+                    {
+                        ctx.Orden.Add(orden);
+                        retorno = ctx.SaveChanges();
+                        transaccion.Commit();
+                    }
+                }
 
-                if (pOrden == null)
-                {
-                    //Insertar
-                    ctx.Orden.Add(orden);
-                    retorno = ctx.SaveChanges();
-                }
-                else
-                {
-                    //Actualizar
-                    ctx.Orden.Add(orden);
-                    ctx.Entry(orden).State = EntityState.Modified;
-                    retorno = ctx.SaveChanges();
-                }
+              if(retorno >= 0) 
+                 pOrden = GetOrdenById(orden.Id);
+
+
+                return pOrden; 
+                
             }
-            if (retorno >= 0)
-                pOrden = GetOrdenById((int)orden.Id);
-
-            return pOrden;
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
         }
     }
 }
