@@ -16,7 +16,7 @@ namespace Web.Controllers
     public class ProductoController : Controller
     {
         // GET: Producto
-        public ActionResult Index()
+        public ActionResult IndexAdmin()
         {
             return View();
         }
@@ -29,7 +29,8 @@ namespace Web.Controllers
                     var draw = Request.Form.GetValues("draw").FirstOrDefault();
                     var start = Request.Form.GetValues("start").FirstOrDefault();
                     var length = Request.Form.GetValues("length").FirstOrDefault();
-                    var sortColumn = Request.Form.GetValues("columns[" + Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                    var sortColumn = Request.Form.GetValues("columns[" +
+                        Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
                     var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
                     var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
 
@@ -61,6 +62,7 @@ namespace Web.Controllers
                     var data = productoData.Skip(skip).Take(pageSize).ToList();
                     // Retorno del JSON
                     return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
                 }
 
             }

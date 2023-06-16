@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<Infraestructure.Models.Producto>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Mantenimiento de Productos";
 }
 
-<h2>Index</h2>
+<h2>Mantenimiento de Productos</h2>
 
 
 
@@ -63,10 +63,12 @@
                 { "data": "Categoria", "title": "Categoría", "name": "Categoria", "autoWidth": true },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/' + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
+                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Editar" href="/Producto/Editar/' + full.Id + '"><i class="fa-solid fa-pen fa-xl"></i></a>'; }
+                    "render": function (data, type, full, meta) { return '<a class="btn Editar" href="/Producto/Editar/'
+                    + full.Id + '"><i class="fa-solid fa-pen fa-xl"></i></a>'; }
                 },
             ]
 
@@ -83,10 +85,10 @@
                     <th>Id</th> @* 0 *@
                     <th>Nombre</th> @* 1 *@
                     <th>Precio</th> @* 2 *@
-                    <th>Categoria</th> @* 4 *@
-                    <th>Estado</th> @* 3 *@
-                    <th>Detalle</th> @* 6 *@
-                    <th>Editar</th> @* 3 *@
+                    <th>Categoria</th> @* 3 *@
+                    <th>Estado</th> @* 4 *@
+                    <th>Detalle</th> @* 5 *@
+                    <th>Editar</th> @* 6 *@
 
                 </tr>
             </thead>
