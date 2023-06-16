@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{A86991EF-D1C1-468B-A780-B6B52F2F3A82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC5360AA-EF19-4546-9CF7-5D50AFAA231F} = {BC5360AA-EF19-4546-9CF7-5D50AFAA231F}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationCore", "ApplicationCore\ApplicationCore.csproj", "{A136857A-9569-4155-B7FF-78DF9B54DF3E}"
 EndProject

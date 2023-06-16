@@ -3,6 +3,7 @@
     letter-spacing: 0.3vh;
 }
 
+
 .logo2 {
     height: 6em;
     object-fit: cover;
@@ -44,6 +45,22 @@
 .nav-link2:hover, .nav-link2:focus {
     color: #a847ea;
     padding: var(--bs-nav-link-padding-y) 0.7rem;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    padding: 5px;
+    background-color: white;
+    margin-left: 3px;
+}
+
+btn-table {
+    text-align: center;
+    margin: 0 auto;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
 }
 
 
