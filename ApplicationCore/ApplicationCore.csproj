@@ -52,7 +52,6 @@
     <Compile Include="Services\IServiceFoto.cs" />
     <Compile Include="Services\IServiceMensaje.cs" />
     <Compile Include="Services\IServiceOrden.cs" />
-    <Compile Include="Services\IServiceOrdenDetalle.cs" />
     <Compile Include="Services\IServiceProducto.cs" />
     <Compile Include="Services\IServiceRespuesta.cs" />
     <Compile Include="Services\IServiceTipoPago.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Services\ServiceFoto.cs" />
     <Compile Include="Services\ServiceMensaje.cs" />
     <Compile Include="Services\ServiceOrden.cs" />
-    <Compile Include="Services\ServiceOrdenDetalle.cs" />
     <Compile Include="Services\ServiceProducto.cs" />
     <Compile Include="Services\ServiceRespuesta.cs" />
     <Compile Include="Services\ServiceTipoPago.cs" />

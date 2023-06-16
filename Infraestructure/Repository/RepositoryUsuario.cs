@@ -21,10 +21,19 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Usuario.Include("TipoUsuario").ToList();
+                    list = ctx.Usuario
+                        .Include("TipoUsuario")
+                        .Include("Estado1")
+                        .ToList();
                 }
                 return list;
 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -44,10 +53,17 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     lista = ctx.Usuario
                         .Where(x => x.Estado == Estado)
-                        .Include("TipoUsuario")
+                         .Include("TipoUsuario")
+                        .Include("Estado1")
                         .ToList();
                 }
                 return lista;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -71,10 +87,17 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = ctx.Usuario
                         .Include("TipoUsuario")
+                        .Include("Estado1")
                         .Where(u => u.Id == Id)
                         .FirstOrDefault<Usuario>();
                 }
                 return oUsuario;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -83,6 +106,7 @@ namespace Infraestructure.Repository
                 throw;
             }
         }
+
         /*
          Retorna una lista de usuarios según su tipo de usuario.
         Parámetros: IDTipoUsuario
@@ -101,6 +125,12 @@ namespace Infraestructure.Repository
                         .ToList();
                 }
                 return lista;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -140,58 +170,75 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Usuario Save(Usuario usuario, string[] seletedTipoUsuario)
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
         {
             int retorno = 0;
             Usuario oUsuario = null;
 
-            using (MyContext ctx = new MyContext())
+            try
             {
-                ctx.Configuration.LazyLoadingEnabled = false;
-                oUsuario = GetUsuarioByID((int)usuario.Id);
-                IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
-
-                if (oUsuario == null)
+                using (MyContext ctx = new MyContext())
                 {
-                    if (seletedTipoUsuario != null)
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oUsuario = GetUsuarioByID((int)usuario.Id);
+                    IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
+
+                    if (oUsuario == null)
                     {
-                        usuario.TipoUsuario = new List<TipoUsuario>();
-                        foreach (var tipoUser in seletedTipoUsuario)
+                        if (selectedTipoUsuario != null)
                         {
-                            var tipoUserAdd = _RepositoryTipoUsuario.GetTipoUsuarioByID(int.Parse(tipoUser));
-                            ctx.TipoUsuario.Add(tipoUserAdd);
-                            usuario.TipoUsuario.Add(tipoUserAdd);
+                            usuario.TipoUsuario = new List<TipoUsuario>();
+                            foreach (var tipoUser in selectedTipoUsuario)
+                            {
+                                var tipoUserAdd = _RepositoryTipoUsuario.GetTipoUsuarioByID(int.Parse(tipoUser));
+                                ctx.TipoUsuario.Add(tipoUserAdd);
+                                usuario.TipoUsuario.Add(tipoUserAdd);
+                            }
                         }
-                    }
 
-                    //Insertar
-                    ctx.Usuario.Add(usuario);
-                    retorno = ctx.SaveChanges();
-                }
-                else
-                {
-                    //Actualizar
-                    ctx.Usuario.Add(usuario);
-                    ctx.Entry(usuario).State = EntityState.Modified;
-                    retorno = ctx.SaveChanges();
-
-                    var selectedTipoUserID = new HashSet<string>(seletedTipoUsuario);
-                    if(seletedTipoUsuario != null)
-                    {
-                        ctx.Entry(usuario).Collection(x => x.TipoUsuario).Load();
-                        var newTipoUsForUser = ctx.TipoUsuario
-                            .Where(x => selectedTipoUserID.Contains(x.Id.ToString())).ToList();
-                        usuario.TipoUsuario = newTipoUsForUser;
-
-                        ctx.Entry(usuario).State = EntityState.Modified;
+                        //Insertar
+                        ctx.Usuario.Add(usuario);
                         retorno = ctx.SaveChanges();
                     }
-                }
-            }
-            if (retorno >= 0)
-                oUsuario = GetUsuarioByID((int)usuario.Id);
+                    else
+                    {
+                        //Actualizar
+                        ctx.Usuario.Add(usuario);
+                        ctx.Entry(usuario).State = EntityState.Modified;
+                        retorno = ctx.SaveChanges();
 
-            return oUsuario;
+                        var selectedTipoUserID = new HashSet<string>(selectedTipoUsuario);
+                        if (selectedTipoUsuario != null)
+                        {
+                            ctx.Entry(usuario).Collection(x => x.TipoUsuario).Load();
+                            var newTipoUsForUser = ctx.TipoUsuario
+                                .Where(x => selectedTipoUserID.Contains(x.Id.ToString())).ToList();
+                            usuario.TipoUsuario = newTipoUsForUser;
+
+                            ctx.Entry(usuario).State = EntityState.Modified;
+                            retorno = ctx.SaveChanges();
+                        }
+                    }
+                }
+                if (retorno >= 0)
+                    oUsuario = GetUsuarioByID((int)usuario.Id);
+
+                return oUsuario;
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+
         }
     }
 }

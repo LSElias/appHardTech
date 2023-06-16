@@ -3,6 +3,7 @@ using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,20 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Evaluacion.ToList<Evaluacion>();
+                    list = ctx.Evaluacion.
+                        Include("Escala").
+                        Include("Usuario").
+                        Include("Usuario1").
+                        ToList<Evaluacion>();
                 }
                 return list;
 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -40,12 +51,20 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oEvaluacion = ctx.Evaluacion
-                        .Include("Usuario")
+                    oEvaluacion = ctx.Evaluacion.
+                        Include("Escala").
+                        Include("Usuario").
+                        Include("Usuario1")
                         .Where(x => x.Id == Id)
                         .FirstOrDefault();
                 }
                 return oEvaluacion;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -64,11 +83,19 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oEvaluacion = ctx.Evaluacion.
-                        Where(x => x.IdEvaluado == IdEvaluado)
-                        .Include("Usuario")
+                        Where(x => x.IdEvaluado == IdEvaluado).
+                        Include("Escala").
+                        Include("Usuario").
+                        Include("Usuario1")
                         .ToList();
                 }
                 return oEvaluacion;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -87,11 +114,19 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oEvaluacion = ctx.Evaluacion.
-                        Where(x => x.IdEvaluador == IdEvaluador)
-                        .Include("Usuario")
+                        Where(x => x.IdEvaluador == IdEvaluador).
+                        Include("Escala").
+                        Include("Usuario").
+                        Include("Usuario1")
                         .ToList();
                 }
                 return oEvaluacion;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -124,29 +159,45 @@ namespace Infraestructure.Repository
             int retorno = 0;
             Evaluacion pEvaluacion = null;
 
-            using (MyContext ctx = new MyContext())
+            try
             {
-                ctx.Configuration.LazyLoadingEnabled = false;
-                pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
 
-                if (pEvaluacion == null)
-                {
-                    //Insertar
-                    ctx.Evaluacion.Add(evaluacion);
-                    retorno = ctx.SaveChanges();
+                    if (pEvaluacion == null)
+                    {
+                        //Insertar
+                        ctx.Evaluacion.Add(evaluacion);
+                        retorno = ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        //Actualizar
+                        ctx.Evaluacion.Add(evaluacion);
+                        ctx.Entry(evaluacion).State = EntityState.Modified;
+                        retorno = ctx.SaveChanges();
+                    }
                 }
-                else
-                {
-                    //Actualizar
-                    ctx.Evaluacion.Add(evaluacion);
-                    ctx.Entry(evaluacion).State = EntityState.Modified;
-                    retorno = ctx.SaveChanges();
-                }
+                if (retorno >= 0)
+                    pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
+
+                return pEvaluacion;
             }
-            if (retorno >= 0)
-                pEvaluacion = GetEvaluacionById((int)evaluacion.Id);
 
-            return pEvaluacion;
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
         }
     }
 }

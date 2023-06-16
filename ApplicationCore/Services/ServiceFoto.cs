@@ -27,5 +27,12 @@ namespace ApplicationCore.Services
             IRepositoryFoto oRep = new RepositoryFoto();
             return oRep.GetFotoByIdProducto(IdProducto);
         }
+
+        public Foto Save(Foto foto)
+        {
+            IRepositoryFoto oRep = new RepositoryFoto();
+            return oRep.Save(foto);
+
+        }
     }
 }

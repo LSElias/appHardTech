@@ -27,5 +27,11 @@ namespace ApplicationCore.Services
             IRepositoryDireccion oRep = new RepositoryDireccion();
             return oRep.GetDirecciones();
         }
+
+        public Direccion Save(Direccion direccion)
+        {
+            IRepositoryDireccion oRep = new RepositoryDireccion();
+            return oRep.Save(direccion);
+        }
     }
 }

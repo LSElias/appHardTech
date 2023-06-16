@@ -33,5 +33,11 @@ namespace ApplicationCore.Services
             IRepositoryMensaje oRep = new RepositoryMensaje();
             return oRep.GetMensajeByIdUsuario(IdUsuario);
         }
+
+        public Mensaje Save(Mensaje mensaje)
+        {
+            IRepositoryMensaje oRep = new RepositoryMensaje();
+            return oRep.Save(mensaje);
+        }
     }
 }

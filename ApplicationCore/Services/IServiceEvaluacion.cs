@@ -14,5 +14,6 @@ namespace ApplicationCore.Services
         IEnumerable<Evaluacion> GetEvaluacionByIdEvaluador(int IdEvaluador);
         IEnumerable<Evaluacion> GetEvaluacionByIdEvaluado(int IdEvaluado);
         double GetPromedioEvaluacion(int IdEvaluado);
+        Evaluacion Save(Evaluacion evaluacion);
     }
 }

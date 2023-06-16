@@ -134,7 +134,6 @@
     <Compile Include="Repository\IRepositoryFoto.cs" />
     <Compile Include="Repository\IRepositoryMensaje.cs" />
     <Compile Include="Repository\IRepositoryOrden.cs" />
-    <Compile Include="Repository\IRepositoryOrdenDetalle.cs" />
     <Compile Include="Repository\IRepositoryProducto.cs" />
     <Compile Include="Repository\IRepositoryRespuesta.cs" />
     <Compile Include="Repository\IRepositoryTipoPago.cs" />
@@ -150,7 +149,6 @@
     <Compile Include="Repository\RepositoryFoto.cs" />
     <Compile Include="Repository\RepositoryMensaje.cs" />
     <Compile Include="Repository\RepositoryOrden.cs" />
-    <Compile Include="Repository\RepositoryOrdenDetalle.cs" />
     <Compile Include="Repository\RepositoryProducto.cs" />
     <Compile Include="Repository\RepositoryRespuesta.cs" />
     <Compile Include="Repository\RepositoryTipoPago.cs" />

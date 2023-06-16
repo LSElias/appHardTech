@@ -33,5 +33,11 @@ namespace ApplicationCore.Services
             IRepositoryFactura oRep = new RepositoryFactura();
             return oRep.GetFacturaByIdUsuario(IdUsuario);
         }
+
+        public Factura Save(Factura factura)
+        {
+            IRepositoryFactura oRep = new RepositoryFactura();
+            return oRep.Save(factura);
+        }
     }
 }

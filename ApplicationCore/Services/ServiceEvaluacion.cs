@@ -39,5 +39,11 @@ namespace ApplicationCore.Services
             IRepositoryEvaluacion oRep = new RepositoryEvaluacion();
             return oRep.GetPromedioEvaluacion(IdEvaluado);
         }
+
+        public Evaluacion Save(Evaluacion evaluacion)
+        {
+            IRepositoryEvaluacion oRep = new RepositoryEvaluacion();
+            return oRep.Save(evaluacion);
+        }
     }
 }

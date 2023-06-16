@@ -3,6 +3,7 @@ using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace Infraestructure.Repository
@@ -17,10 +18,18 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Foto.ToList<Foto>();
+                    list = ctx.Foto.
+                        Include("Producto").
+                        ToList<Foto>();
                 }
                 return list;
 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -44,6 +53,12 @@ namespace Infraestructure.Repository
                         .FirstOrDefault();
                 }
                 return oFoto;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
             }
             catch (Exception ex)
             {
@@ -69,6 +84,12 @@ namespace Infraestructure.Repository
                 }
                 return list;
             }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
             catch (Exception ex)
             {
                 string mensaje = "";
@@ -82,29 +103,45 @@ namespace Infraestructure.Repository
             int retorno = 0;
             Foto pFoto = null;
 
-            using (MyContext ctx = new MyContext())
+            try
             {
-                ctx.Configuration.LazyLoadingEnabled = false;
-                pFoto = GetFotoById((int)foto.Id);
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    pFoto = GetFotoById((int)foto.Id);
 
-                if (pFoto == null)
-                {
-                    //Insertar
-                    ctx.Foto.Add(foto);
-                    retorno = ctx.SaveChanges();
+                    if (pFoto == null)
+                    {
+                        //Insertar
+                        ctx.Foto.Add(foto);
+                        retorno = ctx.SaveChanges();
+                    }
+                    else
+                    {
+                        //Actualizar
+                        ctx.Foto.Add(foto);
+                        ctx.Entry(foto).State = EntityState.Modified;
+                        retorno = ctx.SaveChanges();
+                    }
                 }
-                else
-                {
-                    //Actualizar
-                    ctx.Foto.Add(foto);
-                    ctx.Entry(foto).State = EntityState.Modified;
-                    retorno = ctx.SaveChanges();
-                }
+                if (retorno >= 0)
+                    pFoto = GetFotoById((int)foto.Id);
+
+                return pFoto;
             }
-            if (retorno >= 0)
-                pFoto = GetFotoById((int)foto.Id);
 
-            return pFoto;
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
         }
     }
 }

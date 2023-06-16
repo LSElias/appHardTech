@@ -12,5 +12,7 @@ namespace ApplicationCore.Services
         IEnumerable<Direccion> GetDirecciones();
         Direccion GetDireccionByID(int Id);
         Direccion GetDireccionByIdUsuario(int IdUsuario);
+        Direccion Save(Direccion direccion);
+
     }
 }
