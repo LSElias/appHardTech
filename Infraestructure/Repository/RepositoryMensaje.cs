@@ -167,14 +167,14 @@ namespace Infraestructure.Repository
 
             catch (DbUpdateException dbEx)
             {
-                string mensaje = "";
-                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
-                throw new Exception(mensaje);
+                string mensajeEx = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensajeEx);
+                throw new Exception(mensajeEx);
             }
             catch (Exception ex)
             {
-                string mensaje = "";
-                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                string mensajeEx = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensajeEx);
                 throw;
             }
 
