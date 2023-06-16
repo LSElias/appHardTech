@@ -12,14 +12,10 @@ namespace Infraestructure.Models
         public int Id { get; set; }
 
         [Display(Name = "Categoría")]
-
         public string Nombre { get; set; }
 
         [Display(Name = "Descripción")]
-
         public string Descripcion { get; set; }
-
-        [Display(Name = "Productos")]
 
         public virtual ICollection<Producto> Producto { get; set; }
 
@@ -30,17 +26,25 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public Nullable<int> IdTipoPago { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El número de tarjeta es requerida")]
+        [StringLength(18, MinimumLength = 13, ErrorMessage = "La cantidad de dígitos no es válida")]
+        [DataType(DataType.CreditCard)]
         [Display(Name = "Número de cuenta")]
         public string NumCuenta { get; set; }
 
+        [Required(ErrorMessage = "La fecha de vencimiento es requerida")]
+        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
         [Display(Name = "Fecha de vencimiento")]
         public string FechaExp { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El código de seguridad es requerido")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "El código de seguridad solo acepta números")]
         [Display(Name = "Código de seguridad")]
         public string CodSeguridad { get; set; }
 
         public Nullable<int> IdUsuario { get; set; }
 
+        [Required(ErrorMessage = "El tipo de pago es requerido")]
         [Display(Name = "Tipo de pago")]
         public virtual TipoPago TipoPago { get; set; }
 
@@ -57,15 +61,19 @@ namespace Infraestructure.Models
 
         public Nullable<int> IdUsuario { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La provincia es requerida")]
         [Display(Name = "Provincia")]
         public string Provincia { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El cantón es requerido")]
         [Display(Name = "Cantón")]
         public string Canton { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El distrito es requerida")]
         [Display(Name = "Distrito")]
         public string Distrito { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La dirección exacta es requerida")]
         [Display(Name = "Dirección exacta")]
         public string DireccionExacta { get; set; }
 
@@ -77,7 +85,6 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 
         [Display(Name = "Orden")]
@@ -101,15 +108,19 @@ namespace Infraestructure.Models
         public Nullable<int> IdEvaluado { get; set; }
         public Nullable<int> IdEscala { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El comentario es requerido")]
         [Display(Name = "Comentario")]
         public string Comentario { get; set; }
 
+        [Required(ErrorMessage = "La escala es requerida")]
         [Display(Name = "Escala")]
         public virtual Escala Escala { get; set; }
 
+        [Required(ErrorMessage = "Sus datos son requeridos")]
         [Display(Name = "Evaluador")]
         public virtual Usuario Usuario { get; set; }
 
+        [Required(ErrorMessage = "Los datos de la persona ha evaluador son requeridos")]
         [Display(Name = "Evaluado")]
         public virtual Usuario Usuario1 { get; set; }
     }
@@ -119,9 +130,11 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public int IdProducto { get; set; }
 
+        [Required(ErrorMessage = "La fotografía es requerida")]
         [Display(Name = "Fotografía")]
         public byte[] Media { get; set; }
 
+        [Required(ErrorMessage = "El producto es requerido")]
         [Display(Name = "Producto")]
         public virtual Producto Producto { get; set; }
     }
@@ -132,14 +145,22 @@ namespace Infraestructure.Models
 
         public Nullable<int> Estado { get; set; }
 
+        [Required(ErrorMessage = "La fecha de inicio es requerida")]
+        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
         [Display(Name = "Fecha de inicio")]
         public Nullable<System.DateTime> FechaInicio { get; set; }
 
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        [Required(ErrorMessage = "El subtotal es requerido")]
+        [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
         [Display(Name = "Subtotal")]
         public Nullable<double> SubTotal { get; set; }
 
+        [Required(ErrorMessage = "El estado de la orden es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado1 { get; set; }
+
 
         [Display(Name = "Factura")]
         public virtual ICollection<Factura> Factura { get; set; }
@@ -153,18 +174,26 @@ namespace Infraestructure.Models
     {
         public int IdOrden { get; set; }
         public int idProducto { get; set; }
+
+        [Required(ErrorMessage = "La cantidad es requerida")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> Cantidad { get; set; }
+
         public Nullable<int> Estado { get; set; }
 
+        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
+        [Required(ErrorMessage = "La fecha de entrega es requerida")]
         [Display(Name = "Fecha de entrega")]
         public Nullable<System.DateTime> FechaEntrega { get; set; }
 
+        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado1 { get; set; }
 
         [Display(Name = "Orden")]
         public virtual Orden Orden { get; set; }
 
+        [Required(ErrorMessage = "Los productos son requeridos")]
         [Display(Name = "Produto")]
         public virtual Producto Producto { get; set; }
     }
@@ -173,26 +202,41 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre del producto es requerido")]
         public string Nombre { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La descripción es requerida")]
         [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
 
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        [Required(ErrorMessage = "El precio es requerido")]
+        [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El precio solo acepta números con dos decimales")]
         public Nullable<double> Precio { get; set; }
+
+        [Required(ErrorMessage = "La cantidad es requerida")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> Cantidad { get; set; }
+
         public Nullable<int> IdCategoria { get; set; }
         public Nullable<int> IdProveedor { get; set; }
         public Nullable<int> Estado { get; set; }
 
+        [Required(ErrorMessage = "La cantidad de ventas realizadas son requeridas")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         [Display(Name = "Ventas realizadas")]
         public Nullable<int> VentasR { get; set; }
 
+        [Required(ErrorMessage = "La categoría es requerida")]
         [Display(Name = "Categoría")]
         public virtual Categoria Categoria { get; set; }
 
+        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado1 { get; set; }
 
+        [Required(ErrorMessage = "La fotografía es requerida")]
         [Display(Name = "Fotografía")]
         public virtual ICollection<Foto> Foto { get; set; }
 
@@ -202,14 +246,16 @@ namespace Infraestructure.Models
         [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
 
+        [Required(ErrorMessage = "Los datos del proveedor son requeridos")]
         [Display(Name = "Proveedor")]
         public virtual Usuario Usuario { get; set; }
     }
 
     internal partial class TipoPagoMetadata
     {
-
         public int Id { get; set; }
+
+        [Display(Name = "Tipos de pagos")]
         public string Nombre { get; set; }
 
         [Display(Name = "Cuenta de pago")]
@@ -220,6 +266,8 @@ namespace Infraestructure.Models
     {
 
         public int Id { get; set; }
+
+        [Display(Name = "Tipos de usuarios")]
         public string Nombre { get; set; }
 
         [Display(Name = "Usuario")]
@@ -229,31 +277,48 @@ namespace Infraestructure.Models
     internal partial class UsuarioMetadata
     {
         public int Id { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El primer apellido es requerido")]
         [Display(Name = "Primer apellido")]
         public string Apellido1 { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El segundo apellido es requerido")]
         [Display(Name = "Segundo apellido")]
         public string Apellido2 { get; set; }
 
+        [Required(AllowEmptyStrings = false, ErrorMessage = "La cédula es requerida")]
+        [StringLength(9, MinimumLength = 9, ErrorMessage = "El formato válido debe estar conformado por nueve dígitos")]
         [Display(Name = "Cédula")]
         public string Cedula { get; set; }
 
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se acepta números")]
+        [StringLength(8, MinimumLength = 8, ErrorMessage = "El número de teléfono no es válido")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El número de teléfono es requerido")]
         [Display(Name = "Teléfono")]
         public string Telefono { get; set; }
 
+        
+        [Required(AllowEmptyStrings = true, ErrorMessage = "El correo electrónico es requerido")]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "E-mail")]
         public string Correo { get; set; }
 
+        [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$",
+        ErrorMessage = "La contraseña debe estar compuesta por 8 caracteres, al menos un dígito, una minúscula y una mayúscula. No puede tener otros símbolos")]
+        [Required(AllowEmptyStrings = true, ErrorMessage = "La contraseña es requerida")]
         [Display(Name = "Contraseña")]
         public string Clave { get; set; }
+
 
         public Nullable<int> Estado { get; set; }
 
         [Display(Name = "Fotografía")]
         public byte[] Foto { get; set; }
 
+        [Required(ErrorMessage = "El género es requerido")]
         [Display(Name = "Género")]
         public string Genero { get; set; }
 
@@ -263,9 +328,11 @@ namespace Infraestructure.Models
         [Display(Name = "Dirección")]
         public virtual ICollection<Direccion> Direccion { get; set; }
 
+        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado1 { get; set; }
 
+        [Required(ErrorMessage = "El tipo de usuario es requerido")]
         [Display(Name = "Tipo de usuario")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
     }
