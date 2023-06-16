@@ -222,7 +222,7 @@
     <Content Include="src\fonts\code_bold-webfont.woff2" />
     <Content Include="src\fonts\code_light-webfont.woff" />
     <Content Include="src\fonts\code_light-webfont.woff2" />
-    <Content Include="Views\Producto\Index.cshtml" />
+    <Content Include="Views\Producto\IndexAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
