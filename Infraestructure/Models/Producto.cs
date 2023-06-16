@@ -11,7 +11,11 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Runtime.Serialization;
+
+    [Table("Producto")]
     public partial class Producto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +25,7 @@ namespace Infraestructure.Models
             this.Mensaje = new HashSet<Mensaje>();
             this.OrdenDetalle = new HashSet<OrdenDetalle>();
         }
-    
+        [Key]
         public int Id { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
@@ -31,9 +35,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdProveedor { get; set; }
         public Nullable<int> Estado { get; set; }
         public Nullable<int> VentasR { get; set; }
-    
-        public virtual Categoria Categoria { get; set; }
-        public virtual Estado Estado1 { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Foto> Foto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -41,5 +43,7 @@ namespace Infraestructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Categoria Categoria { get; set; }
+        public virtual Estado Estado1 { get; set; }
     }
 }
