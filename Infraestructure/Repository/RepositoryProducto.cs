@@ -115,6 +115,8 @@ namespace Infraestructure.Repository
                         .Include("Categoria")
                         .Include("Usuario")
                         .Include("Estado1")
+                        .Include("Foto")
+                        .Include("Mensaje")
                         .FirstOrDefault();
                 }
                 return oProducto;

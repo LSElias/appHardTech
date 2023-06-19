@@ -1,0 +1,109 @@
+﻿@model Infraestructure.Models.Producto
+
+@{
+    ViewBag.Title = Model.Nombre;
+}
+
+@helper CarouselFiller(int first = 0)
+{
+    foreach (var c in Model.Foto)
+    {
+        if (first == 0)
+        {
+            first = 1;
+            <div class="carousel-item active">
+                <img class="d-block" style="margin: auto; object-fit: scale-down;" src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
+                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
+            </div>
+        }
+        else
+        {
+            <div class="carousel-item">
+                <img class="d-block" style="margin: auto; object-fit: scale-down; " src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
+                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
+            </div>
+        }
+    }
+}
+
+<div class="col-sm-9"
+     style=" 
+    margin: 1em 0em; 
+    background-color: #161616; 
+    border-width: 1px; 
+    border-style: solid; 
+    border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+
+      ">
+
+
+    <div
+         style="padding: 2em">
+        <div>
+            <h2 style="color: #ffffffd5">
+                @Html.DisplayFor(model => model.Nombre)
+            </h2>
+            <hr style="
+    border-style: solid; 
+       border-image: linear-gradient(90deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;" />
+
+            <div id="carouselExampleControls" class="carousel slide w-100" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @CarouselFiller(0)
+                </div>
+            </div>
+            
+            <div class="desc-box">
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Descripcion)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Precio)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Precio)
+            </div>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </dt>
+
+            <div>
+                @Html.DisplayFor(model => model.Cantidad)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.VentasR)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.VentasR)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Categoria)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Categoria.Nombre)
+            </div>
+
+            <div>
+                @Html.DisplayNameFor(model => model.Estado1)
+            </div>
+
+            <div>
+                @Html.DisplayFor(model => model.Estado1.Nombre)
+            </div>
+
+
+            </div>
+        </div>
+    </div>
+
+

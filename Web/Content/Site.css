@@ -9,6 +9,10 @@
     object-fit: cover;
 }
 
+detalleContainer {
+    background: antiquewhite
+}
+
 .footerColor {
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 1%);
@@ -62,6 +66,8 @@ btn-table {
     vertical-align: middle;
     float: none;
 }
+
+
 
 
 @font-face {

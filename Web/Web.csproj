@@ -223,6 +223,7 @@
     <Content Include="src\fonts\code_light-webfont.woff" />
     <Content Include="src\fonts\code_light-webfont.woff2" />
     <Content Include="Views\Producto\IndexAdmin.cshtml" />
+    <Content Include="Views\Producto\Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
