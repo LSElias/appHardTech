@@ -26,84 +26,138 @@
     }
 }
 
-<div class="col-sm-9"
-     style=" 
-    margin: 1em 0em; 
-    background-color: #161616; 
-    border-width: 1px; 
-    border-style: solid; 
+<div class="col-lg-12"
+     style="
+    margin: 1em 0em;
+    background-color: #ffffffd8;
+    border-width: 1px;
+    border-style: solid;
     border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
 
       ">
 
 
-    <div
-         style="padding: 2em">
+    <div style="padding: 2em">
         <div>
-            <h2 style="color: #ffffffd5">
+            <h2 style="color: #161616">
                 @Html.DisplayFor(model => model.Nombre)
             </h2>
             <hr style="
-    border-style: solid; 
+       border-width: 2px;
+       border-style: solid;
        border-image: linear-gradient(90deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;" />
 
-            <div id="carouselExampleControls" class="carousel slide w-100" data-bs-ride="carousel">
+            <div style="
+            background-color: #ffff;
+            border-radius: 5px;
+            box-shadow: #6e7a86ff 0px 0px 10px ;
+            "
+                 id="carouselExampleControls" class="carousel slide w-100" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     @CarouselFiller(0)
                 </div>
             </div>
-            
+
             <div class="desc-box">
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </div>
+                <div class="row">
+                    <div class="col-md-5">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Estado1)
+                        </h6>
+                        <hr />
 
-            <div>
-                @Html.DisplayFor(model => model.Descripcion)
-            </div>
+                        <p id="subtitulo-detalle">
+                            @Html.DisplayFor(model => model.Estado1.Nombre)
+                        </p>
+                    </div>
 
-            <div>
-                @Html.DisplayNameFor(model => model.Precio)
-            </div>
+                    <div class="col-md-5">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Precio)
+                        </h6>
+                        <hr />
+                        <p>
+                            @Html.DisplayFor(model => model.Precio)
+                        </p>
+                    </div>
 
-            <div>
-                @Html.DisplayFor(model => model.Precio)
-            </div>
+                    <div class="col-md-2 justify-content-center">
+                        <a class="btn btn-secondary btn-lg btn-comprar" href="#meow">
+                            Comprar
+                        </a>
+                    </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Cantidad)
-            </dt>
+                </div>
+                <div class="desc-text">
+                    <h3>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </h3>
+                    <hr />
+                    <p>
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </p>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Categoria)
+                        </h6>
+                        <hr />
 
-            <div>
-                @Html.DisplayFor(model => model.Cantidad)
-            </div>
+                        <p>
+                            @Html.DisplayFor(model => model.Categoria.Nombre)
+                        </p>
+                    </div>
 
-            <div>
-                @Html.DisplayNameFor(model => model.VentasR)
-            </div>
+                    <div class="col-md-2">
 
-            <div>
-                @Html.DisplayFor(model => model.VentasR)
-            </div>
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </h6>
+                        <hr />
 
-            <div>
-                @Html.DisplayNameFor(model => model.Categoria)
-            </div>
+                        <p>
+                            @Html.DisplayFor(model => model.Cantidad)
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.VentasR)
+                        </h6>
+                        <hr />
 
-            <div>
-                @Html.DisplayFor(model => model.Categoria.Nombre)
-            </div>
-
-            <div>
-                @Html.DisplayNameFor(model => model.Estado1)
-            </div>
-
-            <div>
-                @Html.DisplayFor(model => model.Estado1.Nombre)
-            </div>
-
-
+                        <p>
+                            @Html.DisplayFor(model => model.VentasR)
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="col-lg-9"
+     style="
+    margin: 1em 0em;
+    background-color: #ffffffd8;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+
+      ">
+    <div class="comment-box">
+       @foreach(var c in Model.Mensaje)
+            {
+                <div>
+                    <h2>
+                        @c.Mensaje1
+                    </h2>
+                </div>
+            }
+    </div>
+</div>
+
 
 

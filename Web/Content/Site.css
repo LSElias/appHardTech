@@ -67,6 +67,31 @@ btn-table {
     float: none;
 }
 
+.desc-box{
+    margin: 20px 0px;
+}
+
+.desc-text{
+    border: 1px solid #808080d2;
+    border-radius: 5px;
+    padding: 0.8em;
+}
+
+.btn-comprar {
+    text-decoration: none;
+    border: 1px solid #a847ea;
+    background-color: #a847ea;
+}
+
+    .btn-comprar:hover {
+        text-decoration: none;
+        border: 1px solid #7d33d1;
+        background-color: #7d33d1;
+    }
+
+.desc-box p {
+    color: #686868
+}
 
 
 

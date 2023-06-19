@@ -15,6 +15,11 @@ namespace Web.Controllers
 {
     public class ProductoController : Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
+
         // GET: Producto
         public ActionResult IndexAdmin()
         {
