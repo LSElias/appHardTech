@@ -194,6 +194,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\img\Accesorios.png" />
+    <Content Include="src\img\circle-user-solid.svg" />
     <Content Include="src\img\Comp.png" />
     <Content Include="src\img\Component.png" />
     <Content Include="src\img\HT-1.png" />

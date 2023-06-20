@@ -94,7 +94,9 @@
                     </h3>
                     <hr />
                     <p>
-                        @Html.DisplayFor(model => model.Descripcion)
+                        <span>
+                              @Html.DisplayFor(model => model.Descripcion)
+                        </span>
                     </p>
                 </div>
                 <br />
@@ -138,24 +140,56 @@
 </div>
 
 
-<div class="col-lg-9"
+<div class="col-lg-12"
      style="
     margin: 1em 0em;
     background-color: #ffffffd8;
-    border-width: 1px;
-    border-style: solid;
-    border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+    border: 1px solid #6e7a86ff;
 
       ">
     <div class="comment-box">
-       @foreach(var c in Model.Mensaje)
+        <div style="padding: 1em">
+            <div>
+                <h3> Sección de Comentarios </h3>
+                <textarea class="form-text" draggable="false"  maxlength="480" placeholder="Deja tu comentario" style="height:5em; width: 100%; resize:none;"></textarea>
+                <button class="btn btn-comprar" > Enviar </button>
+            </div>
+            @foreach (var c in Model.Mensaje)
             {
                 <div>
-                    <h2>
-                        @c.Mensaje1
-                    </h2>
+                    <hr/>
+                    <div class="row com-text" style=" " >
+                        <div class="col-1 combox-limit"  >
+                            <div class="smallpfp">
+                                @if (c.Usuario.Foto == null)
+                                {
+                                    <img src="~/src/img/circle-user-solid.svg" />
+                                }
+                                else
+                                {
+
+                                }
+                            </div>
+                        </div>
+                        <div class="col-10">
+                            <div style="padding-top: 0.5em;">
+                                <h6 style="margin-bottom: 1px">
+                                    @c.Usuario.Nombre  @c.Usuario.Apellido1 @c.Usuario.Apellido2
+                                </h6>
+                                <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
+                                    @c.Mensaje1
+                                </p>
+                                @if(c.Respuesta == null)
+                                {
+                                    <a> Agregar respuesta </a>
+                                }
+                            </div>
+                            @if()
+                        </div>
+                    </div>
                 </div>
             }
+        </div>
     </div>
 </div>
 
