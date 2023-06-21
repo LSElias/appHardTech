@@ -1,0 +1,243 @@
+﻿@model Infraestructure.Models.Producto
+
+@{
+    ViewBag.Title = Model.Nombre;
+}
+
+@helper CarouselFiller(int first = 0)
+{
+    foreach (var c in Model.Foto)
+    {
+        if (first == 0)
+        {
+            first = 1;
+            <div class="carousel-item active">
+                <img class="d-block" style="margin: auto; object-fit: scale-down;" src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
+                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
+            </div>
+        }
+        else
+        {
+            <div class="carousel-item">
+                <img class="d-block" style="margin: auto; object-fit: scale-down; " src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
+                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
+            </div>
+        }
+    }
+}
+
+<div class="col-lg-12"
+     style="
+    margin: 1em 0em;
+    background-color: #ffffffd8;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+
+      ">
+
+
+    <div style="padding: 2em">
+        <div>
+            <h2 style="color: #161616">
+                @Html.DisplayFor(model => model.Nombre)
+            </h2>
+            <hr style="
+       border-width: 2px;
+       border-style: solid;
+       border-image: linear-gradient(90deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;" />
+
+            <div style="
+            background-color: #ffff;
+            border-radius: 5px;
+            box-shadow: #6e7a86ff 0px 0px 10px ;
+            "
+                 id="carouselExampleControls" class="carousel slide w-100" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    @CarouselFiller(0)
+                </div>
+            </div>
+
+            <div class="desc-box">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Estado1)
+                        </h6>
+                        <hr />
+
+                        <p id="subtitulo-detalle">
+                            @Html.DisplayFor(model => model.Estado1.Nombre)
+                        </p>
+                    </div>
+
+                    <div class="col-md-5">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Precio)
+                        </h6>
+                        <hr />
+                        <p>
+                            @Html.DisplayFor(model => model.Precio)
+                        </p>
+                    </div>
+
+                    <div class="col-md-2 justify-content-center">
+                        <a class="btn btn-secondary btn-lg btn-comprar" href="#meow">
+                            Comprar
+                        </a>
+                    </div>
+
+                </div>
+                <div class="desc-text">
+                    <h3>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </h3>
+                    <hr />
+                    <p>
+                        <span>
+                              @Html.DisplayFor(model => model.Descripcion)
+                        </span>
+                    </p>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-4">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Categoria)
+                        </h6>
+                        <hr />
+
+                        <p>
+                            @Html.DisplayFor(model => model.Categoria.Nombre)
+                        </p>
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <h6>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </h6>
+                        <hr />
+
+                        <p>
+                            @Html.DisplayFor(model => model.Cantidad)
+                        </p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>
+                            @Html.DisplayNameFor(model => model.VentasR)
+                        </h6>
+                        <hr />
+
+                        <p>
+                            @Html.DisplayFor(model => model.VentasR)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-lg-12"
+     style="
+    margin: 1em 0em;
+    background-color: #ffffffd8;
+    border: 1px solid #6e7a86ff;
+
+      ">
+    <div class="comment-box">
+        <div style="padding: 1em">
+            <div>
+                <h3> Sección de Comentarios </h3>
+                <textarea class="form-text" draggable="false"  maxlength="480" placeholder="Deja tu comentario" style="height:5em; width: 100%; padding: 1em; resize:none;"></textarea>
+                <button class="btn btn-comprar" > Enviar </button>
+            </div>
+            @if (Model.Mensaje.Count !> 0)
+            {
+                foreach (var c in Model.Mensaje)
+                {
+
+                    <div>
+                        <hr/>
+                        <div class="row com-text" style=" " >
+                            <div class="col-1 combox-limit"  >
+                                <div class="smallpfp">
+                                    @if (c.Usuario.Foto == null)
+                                    {
+                                        <img src="~/src/img/circle-user-solid.svg" />
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div style="padding-top: 0.5em;">
+                                    <h6 style="margin-bottom: 1px">
+                                        @c.Usuario.Nombre  @c.Usuario.Apellido1 @c.Usuario.Apellido2
+                                    </h6>
+                                    <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
+                                        @c.Mensaje1
+                                    </p>
+                                    @if (c.Respuesta.Count! > 0)
+                                    {
+                                        foreach(var r in c.Respuesta)
+                                         {
+
+                                            <div class="row com-text respuesta">
+                                                <div class="col-1 combox-limit ">
+                                                    <div class="smallpfp">
+                                                        @if (c.Usuario.Foto == null)
+                                                        {
+                                                            <img src="~/src/img/circle-user-solid.svg" />
+                                                        }
+                                                        else
+                                                        {
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-10">
+                                                    <h6 style="margin-bottom: 1px">
+                                                        <span>@r.Usuario.Nombre  @r.Usuario.Apellido1 @r.Usuario.Apellido2</span> respondió:
+                                                    </h6>
+                                                    <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
+                                                        @r.Respuesta1
+                                                    </p>
+                                                </div>
+                                            </div>
+
+
+                                           }
+                                    }
+                                    else
+                                    {
+                                        <div>
+                                            <a class="btn btn-comprar" href="#muahaha"> Agregar respuesta </a>
+                                        </div>
+
+                                    }
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else { 
+                <div class="com-text text-center" style="padding-top:2em;">
+                    <p>
+                        Parece que no hay comentarios. ¡Sé el primero!
+                    </p>
+                </div>
+            
+            }
+        </div>
+    </div>
+</div>
+
+
+

@@ -15,6 +15,29 @@ namespace Web.Controllers
 {
     public class ProductoController : Controller
     {
+        public ActionResult Index()
+        {
+            IEnumerable<Producto> lista = null;
+            try
+            {
+
+                IServiceProducto _ServiceProducto = new ServiceProducto();
+                lista = _ServiceProducto.GetProductos();
+                ViewBag.title = "Productos";
+                // Lista Categoría
+                IServiceCategoria _ServiceCategoria = new ServiceCategoria();
+                ViewBag.listaCategorias = _ServiceCategoria.GetCategorias();
+                return View(lista);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
         // GET: Producto
         public ActionResult IndexAdmin()
         {
@@ -71,6 +94,38 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
+        }
+
+        public ActionResult Detalle(int? id)
+        {
+            IServiceProducto _ServiceProducto = new ServiceProducto();
+            Producto producto= null;
+            try
+            {
+                //Si es null el parametro
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+                producto= _ServiceProducto.GetProductoById(Convert.ToInt32(id));
+                if (producto== null)
+                {
+                    TempData["Message"] = "No existe el producto solicitado";
+                    TempData["Redirect"] = "Producto";
+                    TempData["Redirect-Action"] = "Index";
+                    //Redireccion a la vista del error
+                    return RedirectToAction("Default", "Error");
+
+                }
+                return View(producto);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+
         }
 
 

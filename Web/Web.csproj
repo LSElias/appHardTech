@@ -173,6 +173,15 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Custom_DT.css" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.structure.css" />
+    <Content Include="Content\jquery-ui.theme.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -188,12 +197,14 @@
     <Content Include="Scripts\jquery-3.7.0.slim.js" />
     <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="src\img\Accesorios.png" />
+    <Content Include="src\img\circle-user-solid.svg" />
     <Content Include="src\img\Comp.png" />
     <Content Include="src\img\Component.png" />
     <Content Include="src\img\HT-1.png" />
@@ -202,6 +213,7 @@
     <Content Include="src\img\Logo_T.png" />
     <Content Include="src\img\Logo_Z%28hover%29.png" />
     <Content Include="src\img\Logo_Z.png" />
+    <Content Include="src\img\no-photo.jpg" />
     <Content Include="src\img\Perifericos.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -223,6 +235,8 @@
     <Content Include="src\fonts\code_light-webfont.woff" />
     <Content Include="src\fonts\code_light-webfont.woff2" />
     <Content Include="Views\Producto\IndexAdmin.cshtml" />
+    <Content Include="Views\Producto\Detalle.cshtml" />
+    <Content Include="Views\Producto\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

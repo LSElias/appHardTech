@@ -55,6 +55,7 @@ namespace Infraestructure.Repository
                         .Include("Categoria")
                         .Include("Usuario")
                         .Include("Estado1")
+                        .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
                 }
@@ -115,6 +116,11 @@ namespace Infraestructure.Repository
                         .Include("Categoria")
                         .Include("Usuario")
                         .Include("Estado1")
+                        .Include("Foto")
+                        .Include("Mensaje")
+                        .Include("Mensaje.Usuario")
+                        .Include("Mensaje.Respuesta")
+                        .Include("Mensaje")
                         .FirstOrDefault();
                 }
                 return oProducto;
@@ -145,6 +151,8 @@ namespace Infraestructure.Repository
                     .Include("Categoria")
                     .Include("Usuario")
                     .Include("Estado1")
+                    .Include("Foto")
+
                     .ToList<Producto>();
                 }
                 return list;

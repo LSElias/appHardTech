@@ -206,8 +206,8 @@ body {
 
 .logo {
     background: url('../../src/img/Logo_z.png') no-repeat center right;
-    height: 2.5em;
-    width: 2.5em;
+    height: 60px;
+    width: 60px;
     background-size: contain;
 }
 
@@ -218,8 +218,8 @@ body {
 .logo:hover {
     animation: 1s ease;
     background: url('../../src/img/Logo_Z(hover).png') no-repeat center right;
-    height: 2.5em;
-    width: 2.5em;
+    height: 60px;
+    width: 60px;
     background-size: contain;
 }
 

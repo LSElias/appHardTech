@@ -223,9 +223,9 @@ namespace Infraestructure.Models
         public Nullable<int> IdProveedor { get; set; }
         public Nullable<int> Estado { get; set; }
 
+        [Display(Name = "Ventas realizadas")]
         [Required(ErrorMessage = "La cantidad de ventas realizadas son requeridas")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
-        [Display(Name = "Ventas realizadas")]
         public Nullable<int> VentasR { get; set; }
 
         [Required(ErrorMessage = "La categoría es requerida")]

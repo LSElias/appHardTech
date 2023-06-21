@@ -9,6 +9,10 @@
     object-fit: cover;
 }
 
+detalleContainer {
+    background: antiquewhite
+}
+
 .footerColor {
     background: rgb(255,255,255);
     background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 1%);
@@ -63,17 +67,86 @@ btn-table {
     float: none;
 }
 
-
-@font-face {
-    font-family: 'code_boldregular';
-    src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+.desc-box{
+    margin: 20px 0px;
 }
 
-@font-face {
-    font-family: 'code_lightregular';
-    src: url('../src/fonts/code_light-webfont.woff2') format('woff2'), url('../src/fonts/code_light-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+.desc-text{
+    border: 1px solid #808080d2;
+    border-radius: 5px;
+    padding: 0.8em;
 }
+
+.btn-comprar {
+    color: white;
+    text-decoration: none;
+    border: 1px solid #a847ea;
+    background-color: #a847ea;
+}
+
+    .btn-comprar:hover {
+        color: white;
+        text-decoration: none;
+        border: 1px solid #7d33d1;
+        background-color: #7d33d1;
+    }
+
+.desc-box p {
+    color: #686868
+}
+
+.desc-box p span{
+    color: #2c2c2c ;
+}
+
+.smallpfp {
+    width: 3.5em;
+    padding: 5px;
+    background-color: white;
+    border-radius: 50px;
+    border: 1px solid #686868;
+}
+
+
+.com-text {
+    padding: 10px;
+    background-color: #f3f4f8b8;
+    border-radius: 10px;
+    margin: 10px;
+    border: 1px solid #909090;
+}
+
+
+.combox-limit {
+    margin: 5px;
+}
+
+    @media (max-width: 768px) {
+        .combox-limit {
+            margin-right: 30px;
+        }
+
+
+    }
+h6 span {
+    font-weight: 900;
+    color: #9d29ed;
+}
+
+.respuesta {
+    background-color: #edededdd;
+}
+
+    @font-face {
+        font-family: 'code_boldregular';
+        src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: 'code_lightregular';
+        src: url('../src/fonts/code_light-webfont.woff2') format('woff2'), url('../src/fonts/code_light-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
