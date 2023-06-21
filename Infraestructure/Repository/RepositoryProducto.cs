@@ -55,6 +55,7 @@ namespace Infraestructure.Repository
                         .Include("Categoria")
                         .Include("Usuario")
                         .Include("Estado1")
+                        .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
                 }
@@ -150,6 +151,8 @@ namespace Infraestructure.Repository
                     .Include("Categoria")
                     .Include("Usuario")
                     .Include("Estado1")
+                    .Include("Foto")
+
                     .ToList<Producto>();
                 }
                 return list;

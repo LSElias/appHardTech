@@ -13,7 +13,7 @@
             <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        @Html.ActionLink("Productos", "Index", "Libro", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Productos", "Index", "Producto", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("Mis Ordenes", "Index", "Libro", null, new { @class = "nav-link" })
@@ -25,8 +25,6 @@
                             <li>
                                 @Html.ActionLink("Usuarios", "Index", "Autor", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Producto", "IndexAdmin", "Producto", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Factura", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Orden", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
                             </li>
                         </ul>
                     </li>

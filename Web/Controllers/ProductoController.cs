@@ -17,7 +17,25 @@ namespace Web.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<Producto> lista = null;
+            try
+            {
+
+                IServiceProducto _ServiceProducto = new ServiceProducto();
+                lista = _ServiceProducto.GetProductos();
+                ViewBag.title = "Productos";
+                // Lista Categoría
+                IServiceCategoria _ServiceCategoria = new ServiceCategoria();
+                ViewBag.listaCategorias = _ServiceCategoria.GetCategorias();
+                return View(lista);
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
         }
 
         // GET: Producto
