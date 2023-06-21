@@ -100,15 +100,17 @@ btn-table {
 }
 
 .smallpfp {
-    border-radius: 4px;
     width: 3.5em;
     padding: 5px;
+    background-color: white;
+    border-radius: 50px;
+    border: 1px solid #686868;
 }
 
 
 .com-text {
     padding: 10px;
-    background-color: #e8e8e8b4;
+    background-color: #f3f4f8b8;
     border-radius: 10px;
     margin: 10px;
     border: 1px solid #909090;
@@ -126,7 +128,15 @@ btn-table {
 
 
     }
-    
+h6 span {
+    font-weight: 900;
+    color: #9d29ed;
+}
+
+.respuesta {
+    background-color: #edededdd;
+}
+
     @font-face {
         font-family: 'code_boldregular';
         src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
