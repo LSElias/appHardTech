@@ -19,6 +19,16 @@
                         @Html.ActionLink("Mis Ordenes", "Index", "Libro", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedor</a>
+
+                        <ul class="dropdown-menu">
+                            <li>
+                                @Html.ActionLink("Mis Productos", "IndexProveedor", "Producto", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Mis Ventas", "IndexAdmin", "Producto", null, new { @class = "dropdown-item" })
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
 
                         <ul class="dropdown-menu">

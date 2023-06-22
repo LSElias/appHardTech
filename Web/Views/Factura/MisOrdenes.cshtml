@@ -1,14 +1,12 @@
-﻿@model IEnumerable<Infraestructure.Models.Producto>
+﻿@model Infraestructure.Models.Factura
 
 @{
-    ViewBag.Title = "Mantenimiento de Productos";
+    ViewBag.Title = "MisOrdenes";
 }
 
-<div  class="container-fluid m-auto text-center pt-5">
-    <h1 class="page-title">Mantenimiento de Productos</h1>
+<div class="container-fluid m-auto text-center pt-5">
+    <h1 class="page-title">Mis Ordenes</h1>
 </div>
-
-
 
 
 <script>
@@ -17,8 +15,8 @@
         $('#productoGrid').dataTable({
             "processing": true,
             "serverSide": true,
-            "filter": true,
-            "bFilter": true,
+            "filter": false,
+            "bFilter": false,
             "orderMulti": false,
             "pageLength": 5,
             "scrollX": true,
@@ -38,7 +36,8 @@
             },
 
             "ajax": {
-                "url": "/Producto/LoadData",
+                "url": "/Factura/LoadData",
+                data: { "id": 2 },
                 "type": "POST",
                 "datatype": "json"
             },
@@ -50,7 +49,7 @@
                     "searchable": false
                     },
                     {
-                        "targets": [5,6],
+                        "targets": [5],
                         "visible": true,
                         "searchable": false,
                         orderable: false,
@@ -60,22 +59,19 @@
             "columns": [
                 { "data": "Id", "name": "Id", "autoWidth": true },
                 { "data": "Nombre", "name": "Nombre", "autoWidth": true },
-                { "data": "Precio", "name": "Precio", "autoWidth": true },
-                { "data": "Categoria", "title": "Categoría", "name": "Categoria", "autoWidth": true },
+                { "data": "Total", "name": "Total", "autoWidth": true },
+                { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
                     "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
-                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
-                },
-                {
-                    "render": function (data, type, full, meta) { return '<a class="btn Editar" href="/Producto/Editar/'
-                    + full.Id + '"><i class="fa-solid fa-pen fa-xl"></i></a>'; }
+                    + full.IdOrden + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
             ]
 
         });
     });
 </script>
+
 
 <div class=" ">
     <br />
@@ -85,16 +81,12 @@
                 <tr>
                     <th>Id</th> @* 0 *@
                     <th>Nombre</th> @* 1 *@
-                    <th>Precio</th> @* 2 *@
-                    <th>Categoria</th> @* 3 *@
+                    <th>Total</th> @* 2 *@
+                    <th>Fecha</th> @* 3 *@
                     <th>Estado</th> @* 4 *@
                     <th>Detalle</th> @* 5 *@
-                    <th>Editar</th> @* 6 *@
-
                 </tr>
             </thead>
         </table>
     </div>
 </div>
-
-

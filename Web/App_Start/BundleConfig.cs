@@ -24,10 +24,10 @@ namespace Web
                       "~/Scripts/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/Site.css",
+                      "~/Content/bootstrap.css", 
                       "~/Content/jquery-ui.css",
-                      "~/Content/Custom_DT.css"));
+                      "~/Content/Custom_DT.css",
+                      "~/Content/Site.css"));
         }
     }
 }

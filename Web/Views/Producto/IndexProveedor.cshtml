@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Infraestructure.Models.Producto>
 
 @{
-    ViewBag.Title = "Mantenimiento de Productos";
+    ViewBag.Title = "Mis Productos";
 }
 
-<div  class="container-fluid m-auto text-center pt-5">
-    <h1 class="page-title">Mantenimiento de Productos</h1>
+<div class="container-fluid m-auto text-center pt-5">
+    <h1 class="page-title">Mis Productos</h1>
 </div>
 
 
@@ -38,7 +38,8 @@
             },
 
             "ajax": {
-                "url": "/Producto/LoadData",
+                "url": "/Producto/LoadDataProveedor",
+                data: { "id": 1 },
                 "type": "POST",
                 "datatype": "json"
             },
