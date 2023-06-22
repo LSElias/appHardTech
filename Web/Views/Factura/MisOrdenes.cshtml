@@ -1,0 +1,92 @@
+﻿@model Infraestructure.Models.Factura
+
+@{
+    ViewBag.Title = "MisOrdenes";
+}
+
+<div class="container-fluid m-auto text-center pt-5">
+    <h1 class="page-title">Mis Ordenes</h1>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+
+        $('#productoGrid').dataTable({
+            "processing": true,
+            "serverSide": true,
+            "filter": false,
+            "bFilter": false,
+            "orderMulti": false,
+            "pageLength": 5,
+            "scrollX": true,
+            "language": {
+                "lengthMenu": "Muestre _MENU_ productos por página",
+                "zeroRecords": "No logramos encontrar los productos - Perdón :(",
+                "info": "Mostrando página _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay productos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ productos totales)",
+                    "paginate": {
+                    "first": "Primera",
+                    "last": "Última",
+                    "next": "Siguiente",
+                    "previous": "Previa"
+                },
+                "search": "Buscar  "
+            },
+
+            "ajax": {
+                "url": "/Factura/LoadData",
+                data: { "id": 2 },
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columnDefs":
+                [
+                    {
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                    },
+                    {
+                        "targets": [5],
+                        "visible": true,
+                        "searchable": false,
+                        orderable: false,
+                    },
+                ],
+
+            "columns": [
+                { "data": "Id", "name": "Id", "autoWidth": true },
+                { "data": "Nombre", "name": "Nombre", "autoWidth": true },
+                { "data": "Total", "name": "Total", "autoWidth": true },
+                { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
+                { "data": "Estado", "name": "Estado", "autoWidth": true },
+                {
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
+                    + full.IdOrden + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                },
+            ]
+
+        });
+    });
+</script>
+
+
+<div class=" ">
+    <br />
+    <div style=" width:101%; margin:0 auto;">
+        <table id="productoGrid" class="table table-striped table-bordered dt-responsive nowrap overflow-x-scroll" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Id</th> @* 0 *@
+                    <th>Nombre</th> @* 1 *@
+                    <th>Total</th> @* 2 *@
+                    <th>Fecha</th> @* 3 *@
+                    <th>Estado</th> @* 4 *@
+                    <th>Detalle</th> @* 5 *@
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
