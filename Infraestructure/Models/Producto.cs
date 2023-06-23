@@ -11,12 +11,7 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.Runtime.Serialization;
-
-    [Table("Producto")]
-    [MetadataType(typeof(ProductoMetadata))]
+    
     public partial class Producto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -26,17 +21,19 @@ namespace Infraestructure.Models
             this.Mensaje = new HashSet<Mensaje>();
             this.OrdenDetalle = new HashSet<OrdenDetalle>();
         }
-        [Key]
-        public int Id { get; set; }
+    
+        public int IdProducto { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public Nullable<double> Precio { get; set; }
         public Nullable<int> Cantidad { get; set; }
         public Nullable<int> IdCategoria { get; set; }
         public Nullable<int> IdProveedor { get; set; }
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
         public Nullable<int> VentasR { get; set; }
-
+    
+        public virtual Categoria Categoria { get; set; }
+        public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Foto> Foto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -44,7 +41,5 @@ namespace Infraestructure.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
         public virtual Usuario Usuario { get; set; }
-        public virtual Categoria Categoria { get; set; }
-        public virtual Estado Estado1 { get; set; }
     }
 }

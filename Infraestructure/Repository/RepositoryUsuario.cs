@@ -23,7 +23,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Usuario
                         .Include("TipoUsuario")
-                        .Include("Estado1")
+                        .Include("Estado")
                         .ToList();
                 }
                 return list;
@@ -52,9 +52,9 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     lista = ctx.Usuario
-                        .Where(x => x.Estado == Estado)
+                        .Where(x => x.IdEstado == Estado)
                          .Include("TipoUsuario")
-                        .Include("Estado1")
+                        .Include("Estado")
                         .ToList();
                 }
                 return lista;
@@ -87,7 +87,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = ctx.Usuario
                         .Include("TipoUsuario")
-                        .Include("Estado1")
+                        .Include("Estado")
                         .Where(u => u.Id == Id)
                         .FirstOrDefault<Usuario>();
                 }

@@ -15,12 +15,12 @@ namespace Infraestructure.Models
     public partial class OrdenDetalle
     {
         public int IdOrden { get; set; }
-        public int idProducto { get; set; }
+        public int IdProducto { get; set; }
         public Nullable<int> Cantidad { get; set; }
-        public Nullable<int> Estado { get; set; }
         public Nullable<System.DateTime> FechaEntrega { get; set; }
+        public Nullable<int> IdEstado { get; set; }
     
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
         public virtual Orden Orden { get; set; }
         public virtual Producto Producto { get; set; }
     }

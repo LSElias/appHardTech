@@ -23,7 +23,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado1")                        
+                        .Include("Estado")                        
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
                 }
@@ -54,7 +54,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado1")
+                        .Include("Estado")
                         .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
@@ -112,10 +112,10 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oProducto = ctx.Producto.
-                        Where(n => n.Id == Id)
+                        Where(n => n.IdProducto == Id)
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado1")
+                        .Include("Estado")
                         .Include("Foto")
                         .Include("Mensaje")
                         .Include("Mensaje.Usuario")
@@ -150,7 +150,7 @@ namespace Infraestructure.Repository
                     list = ctx.Producto
                     .Include("Categoria")
                     .Include("Usuario")
-                    .Include("Estado1")
+                    .Include("Estado")
                     .Include("Foto")
 
                     .ToList<Producto>();
@@ -183,7 +183,7 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oProducto = GetProductoById((int)producto.Id);
+                    oProducto = GetProductoById((int)producto.IdProducto);
 
                     if (oProducto == null)
                     {
@@ -200,7 +200,7 @@ namespace Infraestructure.Repository
                     }
                 }
                 if (retorno >= 0)
-                    oProducto = GetProductoById((int)producto.Id);
+                    oProducto = GetProductoById((int)producto.IdProducto);
 
                 return oProducto;
 

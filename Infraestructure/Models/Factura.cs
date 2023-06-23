@@ -11,14 +11,12 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
-    [Table("Factura")]
+    
     public partial class Factura
     {
         public int IdFactura { get; set; }
         public Nullable<int> IdCuentaPago { get; set; }
-        public string Fecha { get; set; }
+        public System.DateTime Fecha { get; set; }
         public Nullable<int> IdUsuario { get; set; }
         public Nullable<int> IVA { get; set; }
         public Nullable<double> Total { get; set; }

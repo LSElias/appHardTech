@@ -23,7 +23,7 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public Nullable<int> IdTipoPago { get; set; }
         public string NumCuenta { get; set; }
-        public string FechaExp { get; set; }
+        public System.DateTime FechaExp { get; set; }
         public string CodSeguridad { get; set; }
         public Nullable<int> IdUsuario { get; set; }
     

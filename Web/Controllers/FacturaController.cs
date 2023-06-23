@@ -52,7 +52,7 @@ namespace Web.Controllers
 
                                         where f.IdUsuario == id
                                         where f.IdOrden == o.Id
-                                        where o.Estado == e.Id
+                                        where o.IdEstado == e.Id
                                         where f.IdUsuario == u.Id
                                         select new { Id = f.IdFactura,IdOrden = o.Id, u.Nombre, f.Total, Fecha = f.Fecha, Estado = e.Nombre }); ;
                     //   join o in _context.Orden on f.IdOrden equals o.Id

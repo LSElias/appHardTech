@@ -36,7 +36,7 @@ namespace Infraestructure.Models
         public string Telefono { get; set; }
         public string Correo { get; set; }
         public string Clave { get; set; }
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
         public byte[] Foto { get; set; }
         public string Genero { get; set; }
     
@@ -44,7 +44,7 @@ namespace Infraestructure.Models
         public virtual ICollection<CuentaPago> CuentaPago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Direccion> Direccion { get; set; }
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evaluacion> Evaluacion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
