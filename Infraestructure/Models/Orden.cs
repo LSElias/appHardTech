@@ -22,11 +22,11 @@ namespace Infraestructure.Models
         }
     
         public int Id { get; set; }
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
         public Nullable<System.DateTime> FechaInicio { get; set; }
         public Nullable<double> SubTotal { get; set; }
     
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura> Factura { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

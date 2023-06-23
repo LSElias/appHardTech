@@ -21,7 +21,7 @@ namespace Infraestructure.Models
         }
     
         public int Id { get; set; }
-        public Nullable<int> idProducto { get; set; }
+        public Nullable<int> IdProducto { get; set; }
         public string Mensaje1 { get; set; }
         public Nullable<int> IdUsuario { get; set; }
     

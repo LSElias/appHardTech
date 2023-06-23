@@ -81,7 +81,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oMensaje = ctx.Mensaje
-                        .Where(x => x.idProducto == idProducto)
+                        .Where(x => x.IdProducto == idProducto)
                         .Include("Producto").
                          Include("Usuario")
                         .ToList();

@@ -4,11 +4,11 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="420f5c7d053a48ac95760ddc3761fcc3" Name="Diagram1" ZoomLevel="116">
+      <Diagram DiagramId="0c029e14384c4d9b9ab4307d3304aee1" Name="Diagram1">
         <EntityTypeShape EntityType="DBHardTechModel.Categoria" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.CuentaPago" Width="1.5" PointX="8.25" PointY="16.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Direccion" Width="1.5" PointX="5.25" PointY="20.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.Escala" Width="1.5" PointX="10.25" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.Escala" Width="1.5" PointX="6" PointY="26.875" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Estado" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Evaluacion" Width="1.5" PointX="8.25" PointY="20.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Factura" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />

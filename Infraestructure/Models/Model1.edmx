@@ -4,12 +4,12 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DBHardTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DBHardTechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categoria">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Descripcion" Type="varchar" MaxLength="250" />
         </EntityType>
@@ -17,10 +17,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdTipoPago" Type="int" />
           <Property Name="NumCuenta" Type="nvarchar" MaxLength="16" />
-          <Property Name="FechaExp" Type="nvarchar" MaxLength="5" />
+          <Property Name="FechaExp" Type="date" Nullable="false" />
           <Property Name="CodSeguridad" Type="nvarchar" MaxLength="3" />
           <Property Name="IdUsuario" Type="int" />
         </EntityType>
@@ -28,7 +28,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdUsuario" Type="int" />
           <Property Name="Provincia" Type="varchar" MaxLength="50" />
           <Property Name="Canton" Type="varchar" MaxLength="50" />
@@ -39,7 +39,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Valor" Type="int" />
         </EntityType>
@@ -47,14 +47,14 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Evaluacion">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdEvaluador" Type="int" />
           <Property Name="IdEvaluado" Type="int" />
           <Property Name="IdEscala" Type="int" />
@@ -64,9 +64,9 @@
           <Key>
             <PropertyRef Name="IdFactura" />
           </Key>
-          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="IdFactura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdCuentaPago" Type="int" />
-          <Property Name="Fecha" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
           <Property Name="IdUsuario" Type="int" />
           <Property Name="IVA" Type="int" />
           <Property Name="Total" Type="float" />
@@ -77,7 +77,7 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="IdProducto" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="Media" Type="varbinary(max)" />
         </EntityType>
@@ -85,8 +85,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="idProducto" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdProducto" Type="int" />
           <Property Name="Mensaje" Type="varchar" MaxLength="480" />
           <Property Name="IdUsuario" Type="int" />
         </EntityType>
@@ -94,64 +94,64 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Estado" Type="int" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEstado" Type="int" />
           <Property Name="FechaInicio" Type="date" />
           <Property Name="SubTotal" Type="float" />
         </EntityType>
         <EntityType Name="OrdenDetalle">
           <Key>
             <PropertyRef Name="IdOrden" />
-            <PropertyRef Name="idProducto" />
+            <PropertyRef Name="IdProducto" />
           </Key>
           <Property Name="IdOrden" Type="int" Nullable="false" />
-          <Property Name="idProducto" Type="int" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
           <Property Name="Cantidad" Type="int" />
-          <Property Name="Estado" Type="int" />
           <Property Name="FechaEntrega" Type="date" />
+          <Property Name="IdEstado" Type="int" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdProducto" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Descripcion" Type="varchar" MaxLength="2000" />
           <Property Name="Precio" Type="float" />
           <Property Name="Cantidad" Type="int" />
           <Property Name="IdCategoria" Type="int" />
           <Property Name="IdProveedor" Type="int" />
-          <Property Name="Estado" Type="int" />
+          <Property Name="IdEstado" Type="int" />
           <Property Name="VentasR" Type="int" />
         </EntityType>
         <EntityType Name="Respuesta">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdMensaje" Type="int" />
-          <Property Name="Respuesta" Type="nchar" MaxLength="10" />
-          <Property Name="IdUsuario" Type="int" />
+          <Property Name="Respuesta" Type="varchar" MaxLength="480" />
+          <Property Name="IdProveedor" Type="int" />
         </EntityType>
         <EntityType Name="TipoPago">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TipoUsuario">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Usuario">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
           <Property Name="Apellido1" Type="varchar" MaxLength="50" />
           <Property Name="Apellido2" Type="varchar" MaxLength="50" />
@@ -159,7 +159,7 @@
           <Property Name="Telefono" Type="nvarchar" MaxLength="8" />
           <Property Name="Correo" Type="varchar" MaxLength="250" />
           <Property Name="Clave" Type="varchar" MaxLength="250" />
-          <Property Name="Estado" Type="int" />
+          <Property Name="IdEstado" Type="int" />
           <Property Name="Foto" Type="varbinary(max)" />
           <Property Name="Genero" Type="char" MaxLength="1" />
         </EntityType>
@@ -284,7 +284,7 @@
           <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="Foto">
               <PropertyRef Name="IdProducto" />
@@ -296,10 +296,10 @@
           <End Role="Mensaje" Type="Self.Mensaje" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="Mensaje">
-              <PropertyRef Name="idProducto" />
+              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -323,7 +323,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orden">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -335,7 +335,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -356,10 +356,10 @@
           <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="idProducto" />
+              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -383,7 +383,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Producto">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -419,7 +419,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Respuesta">
-              <PropertyRef Name="IdUsuario" />
+              <PropertyRef Name="IdProveedor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -431,7 +431,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Usuario">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -574,7 +574,8 @@
             <End Role="Usuario_Tipo" EntitySet="Usuario_Tipo" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBHardTechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -582,7 +583,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Categoria" FromRole="Categoria" ToRole="Producto" />
@@ -591,10 +592,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdTipoPago" Type="Int32" />
           <Property Name="NumCuenta" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
-          <Property Name="FechaExp" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="FechaExp" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="CodSeguridad" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
           <Property Name="IdUsuario" Type="Int32" />
           <NavigationProperty Name="TipoPago" Relationship="Self.FK_CuentaPago_TipoPago" FromRole="CuentaPago" ToRole="TipoPago" />
@@ -605,7 +606,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdUsuario" Type="Int32" />
           <Property Name="Provincia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Canton" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -617,7 +618,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Valor" Type="Int32" />
           <NavigationProperty Name="Evaluacion" Relationship="Self.FK_Evaluacion_Escala" FromRole="Escala" ToRole="Evaluacion" />
@@ -626,7 +627,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_Estado" FromRole="Estado" ToRole="Orden" />
           <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Estado" FromRole="Estado" ToRole="OrdenDetalle" />
@@ -637,7 +638,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdEvaluador" Type="Int32" />
           <Property Name="IdEvaluado" Type="Int32" />
           <Property Name="IdEscala" Type="Int32" />
@@ -650,9 +651,9 @@
           <Key>
             <PropertyRef Name="IdFactura" />
           </Key>
-          <Property Name="IdFactura" Type="Int32" Nullable="false" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdCuentaPago" Type="Int32" />
-          <Property Name="Fecha" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="IdUsuario" Type="Int32" />
           <Property Name="IVA" Type="Int32" />
           <Property Name="Total" Type="Double" />
@@ -666,7 +667,7 @@
             <PropertyRef Name="Id" />
             <PropertyRef Name="IdProducto" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdProducto" Type="Int32" Nullable="false" />
           <Property Name="Media" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Foto_Producto" FromRole="Foto" ToRole="Producto" />
@@ -675,8 +676,8 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="idProducto" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdProducto" Type="Int32" />
           <Property Name="Mensaje1" Type="String" MaxLength="480" FixedLength="false" Unicode="false" />
           <Property Name="IdUsuario" Type="Int32" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Mensaje_Producto" FromRole="Mensaje" ToRole="Producto" />
@@ -687,43 +688,43 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Estado" Type="Int32" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEstado" Type="Int32" />
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="SubTotal" Type="Double" />
-          <NavigationProperty Name="Estado1" Relationship="Self.FK_Orden_Estado" FromRole="Orden" ToRole="Estado" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Orden_Estado" FromRole="Orden" ToRole="Estado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Orden" FromRole="Orden" ToRole="Factura" />
           <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Orden" FromRole="Orden" ToRole="OrdenDetalle" />
         </EntityType>
         <EntityType Name="OrdenDetalle">
           <Key>
             <PropertyRef Name="IdOrden" />
-            <PropertyRef Name="idProducto" />
+            <PropertyRef Name="IdProducto" />
           </Key>
           <Property Name="IdOrden" Type="Int32" Nullable="false" />
-          <Property Name="idProducto" Type="Int32" Nullable="false" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
           <Property Name="Cantidad" Type="Int32" />
-          <Property Name="Estado" Type="Int32" />
           <Property Name="FechaEntrega" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Estado1" Relationship="Self.FK_OrdenDetalle_Estado" FromRole="OrdenDetalle" ToRole="Estado" />
+          <Property Name="IdEstado" Type="Int32" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_OrdenDetalle_Estado" FromRole="OrdenDetalle" ToRole="Estado" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_OrdenDetalle_Orden" FromRole="OrdenDetalle" ToRole="Orden" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_OrdenDetalle_Producto" FromRole="OrdenDetalle" ToRole="Producto" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdProducto" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Descripcion" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="Precio" Type="Double" />
           <Property Name="Cantidad" Type="Int32" />
           <Property Name="IdCategoria" Type="Int32" />
           <Property Name="IdProveedor" Type="Int32" />
-          <Property Name="Estado" Type="Int32" />
+          <Property Name="IdEstado" Type="Int32" />
           <Property Name="VentasR" Type="Int32" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Producto_Categoria" FromRole="Producto" ToRole="Categoria" />
-          <NavigationProperty Name="Estado1" Relationship="Self.FK_Producto_Estado" FromRole="Producto" ToRole="Estado" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Producto_Estado" FromRole="Producto" ToRole="Estado" />
           <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_Producto" FromRole="Producto" ToRole="Foto" />
           <NavigationProperty Name="Mensaje" Relationship="Self.FK_Mensaje_Producto" FromRole="Producto" ToRole="Mensaje" />
           <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Producto" FromRole="Producto" ToRole="OrdenDetalle" />
@@ -733,10 +734,10 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdMensaje" Type="Int32" />
-          <Property Name="Respuesta1" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="IdUsuario" Type="Int32" />
+          <Property Name="Respuesta1" Type="String" MaxLength="480" FixedLength="false" Unicode="false" />
+          <Property Name="IdProveedor" Type="Int32" />
           <NavigationProperty Name="Mensaje" Relationship="Self.FK_Respuesta_Mensaje" FromRole="Respuesta" ToRole="Mensaje" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Respuesta_Usuario" FromRole="Respuesta" ToRole="Usuario" />
         </EntityType>
@@ -744,7 +745,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CuentaPago" Relationship="Self.FK_CuentaPago_TipoPago" FromRole="TipoPago" ToRole="CuentaPago" />
         </EntityType>
@@ -752,7 +753,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Usuario" Relationship="Self.Usuario_Tipo" FromRole="TipoUsuario" ToRole="Usuario" />
         </EntityType>
@@ -760,7 +761,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Apellido1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Apellido2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -768,12 +769,12 @@
           <Property Name="Telefono" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
           <Property Name="Correo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
           <Property Name="Clave" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="Int32" />
+          <Property Name="IdEstado" Type="Int32" />
           <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="CuentaPago" Relationship="Self.FK_CuentaPago_Usuario" FromRole="Usuario" ToRole="CuentaPago" />
           <NavigationProperty Name="Direccion" Relationship="Self.FK_Direccion_Usuario" FromRole="Usuario" ToRole="Direccion" />
-          <NavigationProperty Name="Estado1" Relationship="Self.FK_Usuario_Estado" FromRole="Usuario" ToRole="Estado" />
+          <NavigationProperty Name="Estado" Relationship="Self.FK_Usuario_Estado" FromRole="Usuario" ToRole="Estado" />
           <NavigationProperty Name="Evaluacion" Relationship="Self.FK_Evaluacion_Usuario" FromRole="Usuario" ToRole="Evaluacion" />
           <NavigationProperty Name="Evaluacion1" Relationship="Self.FK_Evaluacion_Usuario1" FromRole="Usuario" ToRole="Evaluacion" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Usuario" FromRole="Usuario" ToRole="Factura" />
@@ -862,7 +863,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orden">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -874,7 +875,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -886,7 +887,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Producto">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -898,7 +899,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Usuario">
-              <PropertyRef Name="Estado" />
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -955,7 +956,7 @@
           <End Role="Foto" Type="Self.Foto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="Foto">
               <PropertyRef Name="IdProducto" />
@@ -967,10 +968,10 @@
           <End Role="Mensaje" Type="Self.Mensaje" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="Mensaje">
-              <PropertyRef Name="idProducto" />
+              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1015,10 +1016,10 @@
           <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Producto">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdProducto" />
             </Principal>
             <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="idProducto" />
+              <PropertyRef Name="IdProducto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1042,7 +1043,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Respuesta">
-              <PropertyRef Name="IdUsuario" />
+              <PropertyRef Name="IdProveedor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1050,7 +1051,7 @@
           <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="*" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="DBHardTechEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="DBHardTechEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
           <EntitySet Name="CuentaPago" EntityType="Self.CuentaPago" />
           <EntitySet Name="Direccion" EntityType="Self.Direccion" />
@@ -1165,7 +1166,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DBHardTechModelStoreContainer" CdmEntityContainer="DBHardTechEntities1">
+        <EntityContainerMapping StorageEntityContainer="DBHardTechModelStoreContainer" CdmEntityContainer="DBHardTechEntities">
           <EntitySetMapping Name="Categoria">
             <EntityTypeMapping TypeName="DBHardTechModel.Categoria">
               <MappingFragment StoreEntitySet="Categoria">
@@ -1253,7 +1254,7 @@
             <EntityTypeMapping TypeName="DBHardTechModel.Mensaje">
               <MappingFragment StoreEntitySet="Mensaje">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Mensaje1" ColumnName="Mensaje" />
                 <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
               </MappingFragment>
@@ -1263,7 +1264,7 @@
             <EntityTypeMapping TypeName="DBHardTechModel.Orden">
               <MappingFragment StoreEntitySet="Orden">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />
               </MappingFragment>
@@ -1273,24 +1274,24 @@
             <EntityTypeMapping TypeName="DBHardTechModel.OrdenDetalle">
               <MappingFragment StoreEntitySet="OrdenDetalle">
                 <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
-                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="FechaEntrega" ColumnName="FechaEntrega" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Producto">
             <EntityTypeMapping TypeName="DBHardTechModel.Producto">
               <MappingFragment StoreEntitySet="Producto">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Precio" ColumnName="Precio" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />
                 <ScalarProperty Name="IdCategoria" ColumnName="IdCategoria" />
                 <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="VentasR" ColumnName="VentasR" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1301,7 +1302,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="IdMensaje" ColumnName="IdMensaje" />
                 <ScalarProperty Name="Respuesta1" ColumnName="Respuesta" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdProveedor" ColumnName="IdProveedor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1332,7 +1333,7 @@
                 <ScalarProperty Name="Telefono" ColumnName="Telefono" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="Genero" ColumnName="Genero" />
               </MappingFragment>

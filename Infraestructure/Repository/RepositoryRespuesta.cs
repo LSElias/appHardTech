@@ -113,7 +113,7 @@ namespace Infraestructure.Repository
                     oRespuesta = ctx.Respuesta
                         .Include("Mensaje")
                         .Include("Usuario")
-                        .Where(x => x.IdUsuario == IdUsuario)
+                        .Where(x => x.IdProveedor == IdUsuario)
                         .ToList();
                 }
                 return oRespuesta;

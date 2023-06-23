@@ -17,7 +17,7 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public Nullable<int> IdMensaje { get; set; }
         public string Respuesta1 { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
+        public Nullable<int> IdProveedor { get; set; }
     
         public virtual Mensaje Mensaje { get; set; }
         public virtual Usuario Usuario { get; set; }

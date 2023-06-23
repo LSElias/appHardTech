@@ -66,8 +66,8 @@ namespace Web.Controllers
                     // Obtención de datos
                     var productoData = (from p in _context.Producto
                                         join c in _context.Categoria on p.IdCategoria equals c.Id
-                                        join e in _context.Estado on p.Estado equals e.Id
-                                        select new { p.Id, Estado = e.Nombre , p.Precio, p.Nombre, Categoria = c.Nombre});
+                                        join e in _context.Estado on p.IdEstado equals e.Id
+                                        select new { p.IdProducto, Estado = e.Nombre , p.Precio, p.Nombre, Categoria = c.Nombre});
 
                     // Organización
                     if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -125,8 +125,8 @@ namespace Web.Controllers
                     // Obtención de datos
                     var productoData = (from p in _context.Producto where p.IdProveedor == id
                                         join c in _context.Categoria on p.IdCategoria equals c.Id
-                                        join e in _context.Estado on p.Estado equals e.Id
-                                        select new { p.Id, Estado = e.Nombre, p.Precio, p.Nombre, Categoria = c.Nombre });
+                                        join e in _context.Estado on p.IdEstado equals e.Id
+                                        select new { p.IdProducto, Estado = e.Nombre, p.Precio, p.Nombre, Categoria = c.Nombre });
 
                     // Organización
                     if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
