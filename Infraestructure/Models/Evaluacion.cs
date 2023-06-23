@@ -11,7 +11,7 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    
+     
     public partial class Evaluacion
     {
         public int Id { get; set; }
