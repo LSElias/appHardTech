@@ -53,7 +53,8 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oMensaje = ctx.Mensaje.
                         Include("Producto").
-                        Include("Usuario")                        .Where(x => x.Id == Id)
+                        Include("Usuario") 
+                        .Where(x => x.Id == Id)
                         .FirstOrDefault();
                 }
                 return oMensaje;
@@ -72,7 +73,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto)
+        public IEnumerable<Mensaje> GetMensajeByIdProducto(int IdProducto)
         {
             try
             {
@@ -81,7 +82,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oMensaje = ctx.Mensaje
-                        .Where(x => x.IdProducto == idProducto)
+                        .Where(x => x.IdProducto == IdProducto)
                         .Include("Producto").
                          Include("Usuario")
                         .ToList();

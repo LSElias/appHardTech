@@ -7,6 +7,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Util;
 
 namespace Infraestructure.Repository
 {
@@ -23,7 +24,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")                        
+                        .Include("IdEstado")                        
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
                 }
@@ -54,7 +55,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")
+                        .Include("IdEstado")
                         .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
@@ -103,7 +104,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Producto GetProductoById(int Id)
+        public Producto GetProductoById(int IdProducto)
         {
             Producto oProducto = null;
             try
@@ -112,15 +113,14 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oProducto = ctx.Producto.
-                        Where(n => n.IdProducto == Id)
+                        Where(n => n.IdProducto == IdProducto)
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")
+                        .Include("IdEstado")
                         .Include("Foto")
                         .Include("Mensaje")
                         .Include("Mensaje.Usuario")
                         .Include("Mensaje.Respuesta")
-                        .Include("Mensaje")
                         .FirstOrDefault();
                 }
                 return oProducto;
@@ -150,7 +150,7 @@ namespace Infraestructure.Repository
                     list = ctx.Producto
                     .Include("Categoria")
                     .Include("Usuario")
-                    .Include("Estado")
+                    .Include("IdEstado")
                     .Include("Foto")
                     .ToList();
                 }
@@ -187,9 +187,14 @@ namespace Infraestructure.Repository
 
                     if (oProducto == null)
                     {
-                        //Insertar
-                        ctx.Producto.Add(producto);
-                        retorno = ctx.SaveChanges();
+                      //Intentar Guardar la foto y el producto 
+                      using(var transaccion = ctx.Database.BeginTransaction())
+                        {
+                            //Insertar
+                            ctx.Producto.Add(producto);
+                            retorno = ctx.SaveChanges();
+                            transaccion.Commit();
+                        }
                     }
                     else
                     {
