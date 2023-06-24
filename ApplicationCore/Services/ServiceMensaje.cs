@@ -22,10 +22,10 @@ namespace ApplicationCore.Services
             return oRep.GetMensajeById(Id);
         }
 
-        public IEnumerable<Mensaje> GetMensajeByIdProducto(int idProducto)
+        public IEnumerable<Mensaje> GetMensajeByIdProducto(int IdProducto)
         {
             IRepositoryMensaje oRep = new RepositoryMensaje();
-            return oRep.GetMensajeByIdProducto(idProducto);
+            return oRep.GetMensajeByIdProducto(IdProducto);
         }
 
         public IEnumerable<Mensaje> GetMensajeByIdUsuario(int IdUsuario)

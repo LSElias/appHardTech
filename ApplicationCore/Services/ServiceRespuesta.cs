@@ -31,7 +31,7 @@ namespace ApplicationCore.Services
         public IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario)
         {
             IRepositoryRespuesta oRep = new RepositoryRespuesta();
-            return oRep.GetRespuestaByIdUsuario(IdUsuario);
+            return oRep.GetRespuestaByIdProveedor(IdUsuario);
         }
 
         public Respuesta Save(Respuesta respuesta)

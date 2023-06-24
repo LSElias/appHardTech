@@ -102,7 +102,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public IEnumerable<Respuesta> GetRespuestaByIdUsuario(int IdUsuario)
+        public IEnumerable<Respuesta> GetRespuestaByIdProveedor(int IdProveedor)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace Infraestructure.Repository
                     oRespuesta = ctx.Respuesta
                         .Include("Mensaje")
                         .Include("Usuario")
-                        .Where(x => x.IdProveedor == IdUsuario)
+                        .Where(x => x.IdProveedor == IdProveedor)
                         .ToList();
                 }
                 return oRespuesta;

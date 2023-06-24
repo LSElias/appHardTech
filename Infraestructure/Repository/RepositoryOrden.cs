@@ -21,7 +21,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Orden.
-                            Include("Estado").
+                            Include("IdEstado").
                             ToList<Orden>();
                 }
                 return list;
@@ -52,7 +52,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     pOrden = ctx.Orden.
-                        Include("Estado").
+                        Include("IdEstado").
                         Include("Factura").
                         Include("OrdenDetalle").
                         Include("OrdenDetalle.Producto")

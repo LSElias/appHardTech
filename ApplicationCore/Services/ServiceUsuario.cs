@@ -16,10 +16,10 @@ namespace ApplicationCore.Services
             return oRep.GetUsuario();
         }
 
-        public IEnumerable<Usuario> GetUsuarioByEstado(int Estado)
+        public IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
-            return oRep.GetUsuarioByEstado(Estado);
+            return oRep.GetUsuarioByEstado(IdEstado);
         }
 
         public Usuario GetUsuarioByID(int Id)
