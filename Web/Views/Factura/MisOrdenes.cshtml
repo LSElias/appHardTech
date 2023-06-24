@@ -12,6 +12,12 @@
 <script>
     $(document).ready(function () {
 
+
+        function getDateString(date) {
+            var dateObj = new Date(parseInt(date.substr(6)));
+            return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        }
+
         $('#productoGrid').dataTable({
             "processing": true,
             "serverSide": true,
@@ -49,6 +55,10 @@
                     "searchable": false
                     },
                     {
+                        targets: [3],
+
+                    },
+                    {
                         "targets": [5],
                         "visible": true,
                         "searchable": false,
@@ -60,10 +70,14 @@
                 { "data": "Id", "name": "Id", "autoWidth": true },
                 { "data": "Nombre", "name": "Nombre", "autoWidth": true },
                 { "data": "Total", "name": "Total", "autoWidth": true },
-                { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
+             //   { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
+                {
+                    "data": "Fecha", "name": "Fecha",
+                    "render": function (data) { return getDateString(data); }
+                },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Orden/Detalle/'
                     + full.IdOrden + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
             ]

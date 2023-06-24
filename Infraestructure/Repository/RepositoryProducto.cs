@@ -24,7 +24,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("IdEstado")                        
+                        .Include("Estado")                        
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
                 }
@@ -55,7 +55,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("IdEstado")
+                        .Include("Estado")
                         .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
@@ -116,7 +116,7 @@ namespace Infraestructure.Repository
                         Where(n => n.IdProducto == IdProducto)
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("IdEstado")
+                        .Include("Estado")
                         .Include("Foto")
                         .Include("Mensaje")
                         .Include("Mensaje.Usuario")
@@ -150,7 +150,7 @@ namespace Infraestructure.Repository
                     list = ctx.Producto
                     .Include("Categoria")
                     .Include("Usuario")
-                    .Include("IdEstado")
+                    .Include("Estado")
                     .Include("Foto")
                     .ToList();
                 }

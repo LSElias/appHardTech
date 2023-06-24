@@ -139,6 +139,25 @@ namespace Infraestructure.Models
         public virtual Producto Producto { get; set; }
     }
 
+    internal partial class FacturaMetadata
+    {
+        public int IdFactura { get; set; }
+        public Nullable<int> IdCuentaPago { get; set; }
+
+        [Required(ErrorMessage = "La fecha de inicio es requerida")]
+        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
+        [Display(Name = "Fecha de Facturación")]
+        public System.DateTime Fecha { get; set; }
+        public Nullable<int> IdUsuario { get; set; }
+        public Nullable<int> IVA { get; set; }
+        public Nullable<double> Total { get; set; }
+        public Nullable<int> IdOrden { get; set; }
+
+        public virtual CuentaPago CuentaPago { get; set; }
+        public virtual Orden Orden { get; set; }
+        public virtual Usuario Usuario { get; set; }
+    }
+
     internal partial class OrdenMetadata
     {
         public int Id { get; set; }
