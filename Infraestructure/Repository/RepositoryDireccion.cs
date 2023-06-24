@@ -51,7 +51,6 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .Where(x => x.IdUsuario == IdUsuario)
                         .Include("Usuario")
                         .FirstOrDefault();
 

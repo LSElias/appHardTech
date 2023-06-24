@@ -243,6 +243,8 @@
     <Content Include="Views\Producto\IndexProveedor.cshtml" />
     <Content Include="Views\Factura\MisOrdenes.cshtml" />
     <Content Include="Views\Orden\Detalle.cshtml" />
+    <Content Include="Views\Factura\Detalle.cshtml" />
+    <Content Include="Views\Factura\MisVentas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

@@ -4,19 +4,89 @@
     ViewBag.Title = "Detalle";
 }
 
-<h2>Details</h2>
+@functions{
+    public string getDateString(DateTime? date)
+    {
+        DateTime fecha = (DateTime)date;
+        return fecha.Day + "/" + fecha.Month + "/" + fecha.Year;
+    }
 
-<div>
-    <h4>Orden</h4>
+    public double? calcularAcumulado(int? cantidad, double? precio)
+    {
+        return (cantidad * precio);
+    }
+}
+
+<div class="container-fluid m-auto text-center pt-5">
+    <h2 class="page-title">Detalle de tu orden en el día @getDateString(Model.FechaInicio)</h2>
+
+</div>
+
+
+<div class="orden-container">
+    <div class="orden-header">
+        <h4>Orden</h4>
+    </div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
+    <div class="dl-horizontal inside-orden">
 
-        <dd>
-            @Html.DisplayFor(model => model.FechaInicio)
-        </dd>
+        <div class="header-inside-orden row">
+            <div class="col-md-6">
+                <h6>
+                    @Html.DisplayNameFor(model => model.FechaInicio)
+                </h6>
+
+                <p>
+                    @Html.DisplayFor(model => model.FechaInicio)
+                </p>
+            </div>
+            <div class="col-md-6">
+                <h6>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </h6>
+
+                <p>
+                    @Html.DisplayFor(model => model.Estado.Nombre)
+                </p>
+            </div>
+
+        </div>
+        <table class="table table-hover">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Precio Acumulado
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model.OrdenDetalle)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Precio)
+                    </td>
+                    <td>
+                        @calcularAcumulado(item.Cantidad, item.Producto.Precio)
+                    </td>
+                </tr>
+            }
+
+        </table>
 
         <dt>
             @Html.DisplayNameFor(model => model.SubTotal)
@@ -26,15 +96,9 @@
             @Html.DisplayFor(model => model.SubTotal)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Estado.Nombre)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Estado.Nombre)
-        </dd>
 
-    </dl>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.IdOrden }) |

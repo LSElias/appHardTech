@@ -1,7 +1,7 @@
 ﻿@model Infraestructure.Models.Factura
 
 @{
-    ViewBag.Title = "MisOrdenes";
+    ViewBag.Title = "Mis Ordenes";
 }
 
 <div class="container-fluid m-auto text-center pt-5">
@@ -77,8 +77,8 @@
                 },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Orden/Detalle/'
-                    + full.IdOrden + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Factura/Detalle/'
+                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
             ]
 

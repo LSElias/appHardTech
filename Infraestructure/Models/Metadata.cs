@@ -160,7 +160,7 @@ namespace Infraestructure.Models
 
     internal partial class OrdenMetadata
     {
-        public int Id { get; set; }
+        public int IdOrden { get; set; }
 
         public Nullable<int> IdEstado { get; set; }
 
@@ -178,7 +178,7 @@ namespace Infraestructure.Models
 
         [Required(ErrorMessage = "El estado de la orden es requerido")]
         [Display(Name = "Estado")]
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
 
 
         [Display(Name = "Factura")]

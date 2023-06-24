@@ -29,7 +29,6 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdUsuario" Type="int" />
           <Property Name="Provincia" Type="varchar" MaxLength="50" />
           <Property Name="Canton" Type="varchar" MaxLength="50" />
           <Property Name="Distrito" Type="varchar" MaxLength="50" />
@@ -162,6 +161,7 @@
           <Property Name="IdEstado" Type="int" />
           <Property Name="Foto" Type="varbinary(max)" />
           <Property Name="Genero" Type="char" MaxLength="1" />
+          <Property Name="IdDireccion" Type="int" />
         </EntityType>
         <EntityType Name="Usuario_Tipo">
           <Key>
@@ -191,18 +191,6 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="CuentaPago">
-              <PropertyRef Name="IdUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Direccion_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
-          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuario">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Direccion">
               <PropertyRef Name="IdUsuario" />
             </Dependent>
           </ReferentialConstraint>
@@ -423,6 +411,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Usuario_Direccion">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Direccion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdDireccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Usuario_Estado">
           <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
           <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
@@ -484,10 +484,6 @@
           <AssociationSet Name="FK_CuentaPago_Usuario" Association="Self.FK_CuentaPago_Usuario">
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="CuentaPago" EntitySet="CuentaPago" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Direccion_Usuario" Association="Self.FK_Direccion_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
-            <End Role="Direccion" EntitySet="Direccion" />
           </AssociationSet>
           <AssociationSet Name="FK_Evaluacion_Escala" Association="Self.FK_Evaluacion_Escala">
             <End Role="Escala" EntitySet="Escala" />
@@ -561,6 +557,10 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Respuesta" EntitySet="Respuesta" />
           </AssociationSet>
+          <AssociationSet Name="FK_Usuario_Direccion" Association="Self.FK_Usuario_Direccion">
+            <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Estado" Association="Self.FK_Usuario_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -607,12 +607,11 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdUsuario" Type="Int32" />
           <Property Name="Provincia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Canton" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Distrito" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DireccionExacta" Type="String" MaxLength="450" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Usuario" Relationship="Self.FK_Direccion_Usuario" FromRole="Direccion" ToRole="Usuario" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Direccion" FromRole="Direccion" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Escala">
           <Key>
@@ -772,8 +771,9 @@
           <Property Name="IdEstado" Type="Int32" />
           <Property Name="Foto" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Genero" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="IdDireccion" Type="Int32" />
           <NavigationProperty Name="CuentaPago" Relationship="Self.FK_CuentaPago_Usuario" FromRole="Usuario" ToRole="CuentaPago" />
-          <NavigationProperty Name="Direccion" Relationship="Self.FK_Direccion_Usuario" FromRole="Usuario" ToRole="Direccion" />
+          <NavigationProperty Name="Direccion" Relationship="Self.FK_Usuario_Direccion" FromRole="Usuario" ToRole="Direccion" />
           <NavigationProperty Name="Estado" Relationship="Self.FK_Usuario_Estado" FromRole="Usuario" ToRole="Estado" />
           <NavigationProperty Name="Evaluacion" Relationship="Self.FK_Evaluacion_Usuario" FromRole="Usuario" ToRole="Evaluacion" />
           <NavigationProperty Name="Evaluacion1" Relationship="Self.FK_Evaluacion_Usuario1" FromRole="Usuario" ToRole="Evaluacion" />
@@ -831,15 +831,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Direccion_Usuario">
-          <End Role="Usuario" Type="Self.Usuario" Multiplicity="0..1" />
-          <End Role="Direccion" Type="Self.Direccion" Multiplicity="*" />
+        <Association Name="FK_Usuario_Direccion">
+          <End Role="Direccion" Type="Self.Direccion" Multiplicity="0..1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Usuario">
+            <Principal Role="Direccion">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Direccion">
-              <PropertyRef Name="IdUsuario" />
+            <Dependent Role="Usuario">
+              <PropertyRef Name="IdDireccion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1084,9 +1084,9 @@
             <End Role="CuentaPago" EntitySet="CuentaPago" />
             <End Role="Factura" EntitySet="Factura" />
           </AssociationSet>
-          <AssociationSet Name="FK_Direccion_Usuario" Association="Self.FK_Direccion_Usuario">
-            <End Role="Usuario" EntitySet="Usuario" />
+          <AssociationSet Name="FK_Usuario_Direccion" Association="Self.FK_Usuario_Direccion">
             <End Role="Direccion" EntitySet="Direccion" />
+            <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
           <AssociationSet Name="FK_Evaluacion_Escala" Association="Self.FK_Evaluacion_Escala">
             <End Role="Escala" EntitySet="Escala" />
@@ -1192,7 +1192,6 @@
             <EntityTypeMapping TypeName="DBHardTechModel.Direccion">
               <MappingFragment StoreEntitySet="Direccion">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
                 <ScalarProperty Name="Provincia" ColumnName="Provincia" />
                 <ScalarProperty Name="Canton" ColumnName="Canton" />
                 <ScalarProperty Name="Distrito" ColumnName="Distrito" />
@@ -1336,6 +1335,7 @@
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="Foto" ColumnName="Foto" />
                 <ScalarProperty Name="Genero" ColumnName="Genero" />
+                <ScalarProperty Name="IdDireccion" ColumnName="IdDireccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
