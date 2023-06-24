@@ -54,7 +54,7 @@ namespace Web.Controllers
                                         where f.IdOrden == o.Id
                                         where o.IdEstado == e.Id
                                         where f.IdUsuario == u.Id
-                                        select new { Id = f.IdFactura,IdOrden = o.Id, u.Nombre, f.Total, Fecha = f.Fecha, Estado = e.Nombre }); ;
+                                        select new { Id = f.IdFactura,IdOrden = o.Id, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id
@@ -90,9 +90,11 @@ namespace Web.Controllers
 
 
         // GET: Factura/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+
+                return View();
+
         }
 
         // GET: Factura/Create

@@ -152,9 +152,9 @@ namespace Infraestructure.Repository
                     .Include("Usuario")
                     .Include("Estado")
                     .Include("Foto")
-
-                    .ToList<Producto>();
+                    .ToList();
                 }
+                list = list.OrderBy(x => x.Precio);
                 return list;
 
             }

@@ -148,6 +148,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\OrdenController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -240,6 +241,7 @@
     <Content Include="Views\Producto\Index.cshtml" />
     <Content Include="Views\Producto\IndexProveedor.cshtml" />
     <Content Include="Views\Factura\MisOrdenes.cshtml" />
+    <Content Include="Views\Orden\Detalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
