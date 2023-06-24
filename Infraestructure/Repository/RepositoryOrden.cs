@@ -56,7 +56,7 @@ namespace Infraestructure.Repository
                         Include("Factura").
                         Include("OrdenDetalle").
                         Include("OrdenDetalle.Producto")
-                        .Where(x => x.Id == Id)
+                        .Where(x => x.IdOrden == Id)
                         .FirstOrDefault<Orden>();
                 }
                 return pOrden;
@@ -94,7 +94,7 @@ namespace Infraestructure.Repository
                 }
 
               if(retorno >= 0) 
-                 pOrden = GetOrdenById(orden.Id);
+                 pOrden = GetOrdenById(orden.IdOrden);
 
 
                 return pOrden; 

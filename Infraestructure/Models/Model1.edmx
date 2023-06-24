@@ -92,9 +92,9 @@
         </EntityType>
         <EntityType Name="Orden">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdOrden" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdOrden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdEstado" Type="int" />
           <Property Name="FechaInicio" Type="date" />
           <Property Name="SubTotal" Type="float" />
@@ -260,7 +260,7 @@
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Orden">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdOrden" />
             </Principal>
             <Dependent Role="Factura">
               <PropertyRef Name="IdOrden" />
@@ -344,7 +344,7 @@
           <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Orden">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdOrden" />
             </Principal>
             <Dependent Role="OrdenDetalle">
               <PropertyRef Name="IdOrden" />
@@ -686,9 +686,9 @@
         </EntityType>
         <EntityType Name="Orden">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdOrden" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdOrden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="IdEstado" Type="Int32" />
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="SubTotal" Type="Double" />
@@ -932,7 +932,7 @@
           <End Role="Factura" Type="Self.Factura" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Orden">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdOrden" />
             </Principal>
             <Dependent Role="Factura">
               <PropertyRef Name="IdOrden" />
@@ -1004,7 +1004,7 @@
           <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Orden">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="IdOrden" />
             </Principal>
             <Dependent Role="OrdenDetalle">
               <PropertyRef Name="IdOrden" />
@@ -1263,7 +1263,7 @@
           <EntitySetMapping Name="Orden">
             <EntityTypeMapping TypeName="DBHardTechModel.Orden">
               <MappingFragment StoreEntitySet="Orden">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
                 <ScalarProperty Name="IdEstado" ColumnName="IdEstado" />
                 <ScalarProperty Name="FechaInicio" ColumnName="FechaInicio" />
                 <ScalarProperty Name="SubTotal" ColumnName="SubTotal" />

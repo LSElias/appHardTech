@@ -51,10 +51,10 @@ namespace Web.Controllers
                                         from e in _context.Estado
 
                                         where f.IdUsuario == id
-                                        where f.IdOrden == o.Id
+                                        where f.IdOrden == o.IdOrden
                                         where o.IdEstado == e.Id
                                         where f.IdUsuario == u.Id
-                                        select new { Id = f.IdFactura,IdOrden = o.Id, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
+                                        select new { Id = f.IdFactura,IdOrden = o.IdOrden, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id

@@ -31,7 +31,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdProveedor { get; set; }
         public Nullable<int> IdEstado { get; set; }
         public Nullable<int> VentasR { get; set; }
-     
+    
         public virtual Categoria Categoria { get; set; }
         public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
