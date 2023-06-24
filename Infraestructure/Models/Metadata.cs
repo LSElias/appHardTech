@@ -143,7 +143,7 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
 
         [Required(ErrorMessage = "La fecha de inicio es requerida")]
         [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
@@ -173,13 +173,13 @@ namespace Infraestructure.Models
     internal partial class OrdenDetalleMetadata
     {
         public int IdOrden { get; set; }
-        public int idProducto { get; set; }
+        public int IdProducto { get; set; }
 
         [Required(ErrorMessage = "La cantidad es requerida")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> Cantidad { get; set; }
 
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
 
         [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
         [Required(ErrorMessage = "La fecha de entrega es requerida")]
@@ -200,7 +200,7 @@ namespace Infraestructure.Models
 
     internal partial class ProductoMetadata
     {
-        public int Id { get; set; }
+        public int IdProducto { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre del producto es requerido")]
         public string Nombre { get; set; }
@@ -221,7 +221,7 @@ namespace Infraestructure.Models
 
         public Nullable<int> IdCategoria { get; set; }
         public Nullable<int> IdProveedor { get; set; }
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
 
         [Display(Name = "Ventas realizadas")]
         [Required(ErrorMessage = "La cantidad de ventas realizadas son requeridas")]
@@ -336,4 +336,28 @@ namespace Infraestructure.Models
         [Display(Name = "Tipo de usuario")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
     }
+
+    internal partial class MensajeMetadata
+    {
+
+        public int Id { get; set; }
+        public Nullable<int> IdProducto { get; set; }
+        public string Mensaje1 { get; set; }
+        public Nullable<int> IdUsuario { get; set; }
+
+        public virtual Producto Producto { get; set; }
+        public virtual Usuario Usuario { get; set; }
+        public virtual ICollection<Respuesta> Respuesta { get; set; }
+    }
+    internal partial class RespuestaMetadata
+    {
+        public int Id { get; set; }
+        public Nullable<int> IdMensaje { get; set; }
+        public string Respuesta1 { get; set; }
+        public Nullable<int> IdProveedor { get; set; }
+
+        public virtual Mensaje Mensaje { get; set; }
+        public virtual Usuario Usuario { get; set; }
+    }
 }
+

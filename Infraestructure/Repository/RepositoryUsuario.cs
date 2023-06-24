@@ -23,7 +23,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Usuario
                         .Include("TipoUsuario")
-                        .Include("Estado")
+                        .Include("IdEstado")
                         .ToList();
                 }
                 return list;
@@ -43,7 +43,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public IEnumerable<Usuario> GetUsuarioByEstado(int Estado)
+        public IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado)
         {
             IEnumerable<Usuario> lista = null;
             try
@@ -52,9 +52,9 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     lista = ctx.Usuario
-                        .Where(x => x.IdEstado == Estado)
+                        .Where(x => x.IdEstado == IdEstado)
                          .Include("TipoUsuario")
-                        .Include("Estado")
+                        .Include("IdEstado")
                         .ToList();
                 }
                 return lista;
@@ -87,7 +87,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = ctx.Usuario
                         .Include("TipoUsuario")
-                        .Include("Estado")
+                        .Include("IdEstado")
                         .Where(u => u.Id == Id)
                         .FirstOrDefault<Usuario>();
                 }
