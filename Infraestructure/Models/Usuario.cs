@@ -18,7 +18,6 @@ namespace Infraestructure.Models
         public Usuario()
         {
             this.CuentaPago = new HashSet<CuentaPago>();
-            this.Direccion = new HashSet<Direccion>();
             this.Evaluacion = new HashSet<Evaluacion>();
             this.Evaluacion1 = new HashSet<Evaluacion>();
             this.Factura = new HashSet<Factura>();
@@ -39,11 +38,11 @@ namespace Infraestructure.Models
         public Nullable<int> IdEstado { get; set; }
         public byte[] Foto { get; set; }
         public string Genero { get; set; }
+        public Nullable<int> IdDireccion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CuentaPago> CuentaPago { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Direccion> Direccion { get; set; }
+        public virtual Direccion Direccion { get; set; }
         public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evaluacion> Evaluacion { get; set; }

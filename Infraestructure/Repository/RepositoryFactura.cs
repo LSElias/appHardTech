@@ -2,6 +2,7 @@
 using Infraestructure.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
@@ -53,9 +54,16 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oFactura = ctx.Factura.
+                        Include("Usuario").
+                        Include("Usuario.Direccion").
                         Include("CuentaPago").
+                        Include("CuentaPago.TipoPago").
                         Include("Orden").
-                        Include("Usuario")
+                        Include("Orden.Estado").
+                        Include("Orden.OrdenDetalle").
+                        Include("Orden.OrdenDetalle.Producto").
+                        Include("Orden.OrdenDetalle.Estado")
+
                         .Where(x => x.IdFactura== IdFactura)
                         .FirstOrDefault();
                 }

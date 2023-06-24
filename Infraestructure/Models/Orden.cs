@@ -21,7 +21,7 @@ namespace Infraestructure.Models
             this.OrdenDetalle = new HashSet<OrdenDetalle>();
         }
     
-        public int Id { get; set; }
+        public int IdOrden { get; set; }
         public Nullable<int> IdEstado { get; set; }
         public Nullable<System.DateTime> FechaInicio { get; set; }
         public Nullable<double> SubTotal { get; set; }

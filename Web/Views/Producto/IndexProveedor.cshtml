@@ -39,7 +39,7 @@
 
             "ajax": {
                 "url": "/Producto/LoadDataProveedor",
-                data: { "id": 1 },
+                data: { "id": 4 },
                 "type": "POST",
                 "datatype": "json"
             },
@@ -59,18 +59,18 @@
                 ],
 
             "columns": [
-                { "data": "Id", "name": "Id", "autoWidth": true },
+                { "data": "IdProducto", "name": "IdProducto", "autoWidth": true },
                 { "data": "Nombre", "name": "Nombre", "autoWidth": true },
                 { "data": "Precio", "name": "Precio", "autoWidth": true },
                 { "data": "Categoria", "title": "Categoría", "name": "Categoria", "autoWidth": true },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
-                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle"  href="/Producto/Detalle/'
+                        + full.IdProducto + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
                 {
                     "render": function (data, type, full, meta) { return '<a class="btn Editar" href="/Producto/Editar/'
-                    + full.Id + '"><i class="fa-solid fa-pen fa-xl"></i></a>'; }
+                        + full.IdProducto + '"><i class="fa-solid fa-pen fa-xl"></i></a>'; }
                 },
             ]
 
@@ -84,7 +84,7 @@
         <table id="productoGrid" class="table table-striped table-bordered dt-responsive nowrap overflow-x-scroll" width="100%" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Id</th> @* 0 *@
+                    <th>IdProducto</th> @* 0 *@
                     <th>Nombre</th> @* 1 *@
                     <th>Precio</th> @* 2 *@
                     <th>Categoria</th> @* 3 *@

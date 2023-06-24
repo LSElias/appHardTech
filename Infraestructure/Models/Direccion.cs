@@ -14,13 +14,19 @@ namespace Infraestructure.Models
     
     public partial class Direccion
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Direccion()
+        {
+            this.Usuario = new HashSet<Usuario>();
+        }
+    
         public int Id { get; set; }
-        public Nullable<int> IdUsuario { get; set; }
         public string Provincia { get; set; }
         public string Canton { get; set; }
         public string Distrito { get; set; }
         public string DireccionExacta { get; set; }
     
-        public virtual Usuario Usuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Usuario> Usuario { get; set; }
     }
 }

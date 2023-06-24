@@ -1,0 +1,128 @@
+﻿@model Infraestructure.Models.Factura
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+@functions{
+    public string getDateString(DateTime? date)
+    {
+        DateTime fecha = (DateTime)date;
+        return fecha.Day + "/" + fecha.Month + "/" + fecha.Year;
+    }
+
+    public double? calcularAcumulado(int? cantidad, double? precio)
+    {
+        return (cantidad * precio);
+    }
+}
+
+<div class="container-fluid m-auto text-center pt-5 pb-4">
+    <h2 class="page-title">Detalle de tu orden en el día @getDateString(Model.Fecha)</h2>
+</div>
+
+
+<div class="orden-container">
+    <div class="orden-header">
+        <h4>Orden</h4>
+    </div>
+    <div class="dl-horizontal inside-orden">
+
+        <div class="header-inside-orden row">
+            <div class="col-md-12">
+                <p> Cliente: @Model.Usuario.Nombre @Model.Usuario.Apellido1 @Model.Usuario.Apellido2</p>
+                <p> Correo: @Model.Usuario.Correo</p>
+            </div>
+            <div class="col-md-4">
+                <h6>
+                    @Html.DisplayNameFor(model => model.Orden.FechaInicio):
+                </h6>
+
+                <p>
+                    @Html.DisplayFor(model => model.Orden.FechaInicio)
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h6>
+                    @Html.DisplayNameFor(model => model.Orden.Estado):
+                </h6>
+
+                <p>
+                    @Html.DisplayFor(model => model.Orden.Estado.Nombre)
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h6>
+                    @Html.DisplayNameFor(model => model.CuentaPago.TipoPago):
+                </h6>
+
+                <p>
+                    @Html.DisplayFor(model => model.CuentaPago.TipoPago.Nombre)
+                </p>
+            </div>
+
+        </div>
+        <table class="table tablaOrden">
+            <tr>
+                <th>
+                    Nombre
+                </th>
+                <th>
+                    Cantidad
+                </th>
+                <th>
+                    Precio
+                </th>
+                <th>
+                    Acumulado
+                </th>
+                <th>
+                    Estado
+                </th>
+
+            </tr>
+
+            @foreach (var item in Model.Orden.OrdenDetalle)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cantidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Producto.Precio)
+                    </td>
+                    <td>
+                        @calcularAcumulado(item.Cantidad, item.Producto.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <div class="orden-totales">
+            <h6>
+                @Html.DisplayNameFor(model => model.Orden.SubTotal): @Html.DisplayFor(model => model.Orden.SubTotal)
+            </h6>
+            <h6>
+                @Html.DisplayNameFor(model => model.IVA): @Html.DisplayFor(model => model.IVA)%
+
+            </h6>
+            <h6>
+                @Html.DisplayNameFor(model => model.Total): @Html.DisplayFor(model => model.Total)
+            </h6>
+        </div>
+        <hr/>
+        <div>
+            <h5> Otros detalles: </h5>
+            <h6>
+                @Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion.Provincia), @Html.DisplayFor(model => model.Usuario.Direccion.Canton), @Html.DisplayFor(model => model.Usuario.Direccion.Distrito), @Html.DisplayFor(model => model.Usuario.Direccion.DireccionExacta)
+            </h6>
+        </div>
+        
+    </div>
+</div>

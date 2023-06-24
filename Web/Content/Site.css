@@ -214,6 +214,51 @@ producto-tainer {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.orden-container {
+    padding: 1em;
+    margin: 1em;
+    background-color: #1e1e1e;
+    border: 1px solid #808080d2;
+    border-radius: 10px;
+}
+
+.orden-container hr{
+    border: 1px solid white;
+}
+
+.orden-header{
+    color:#edededee;
+}
+.inside-orden {
+    background-color: #f3f3f3ff;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+.tablaOrden {
+    table-layout: fixed;
+    width: 100%;
+    overflow-x: scroll;
+  
+}
+
+    .tablaOrden th {
+        border-bottom: 1px solid black;
+        color: #ffffffc4;
+    }
+
+    .tablaOrden tr td {
+        background-color: #eeeeeeff;
+        border-bottom: 1px solid black;
+    }
+
+.orden-totales {
+    text-align: right;
+    border-bottom: 1px solid black;
+}
+
+
 @font-face {
     font-family: 'code_boldregular';
     src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');

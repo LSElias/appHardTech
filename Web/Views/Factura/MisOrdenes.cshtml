@@ -1,7 +1,7 @@
 ﻿@model Infraestructure.Models.Factura
 
 @{
-    ViewBag.Title = "MisOrdenes";
+    ViewBag.Title = "Mis Ordenes";
 }
 
 <div class="container-fluid m-auto text-center pt-5">
@@ -11,6 +11,12 @@
 
 <script>
     $(document).ready(function () {
+
+
+        function getDateString(date) {
+            var dateObj = new Date(parseInt(date.substr(6)));
+            return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        }
 
         $('#productoGrid').dataTable({
             "processing": true,
@@ -37,7 +43,7 @@
 
             "ajax": {
                 "url": "/Factura/LoadData",
-                data: { "id": 2 },
+                data: { "id": 5 },
                 "type": "POST",
                 "datatype": "json"
             },
@@ -47,6 +53,10 @@
                     "targets": [0],
                     "visible": false,
                     "searchable": false
+                    },
+                    {
+                        targets: [3],
+
                     },
                     {
                         "targets": [5],
@@ -60,11 +70,15 @@
                 { "data": "Id", "name": "Id", "autoWidth": true },
                 { "data": "Nombre", "name": "Nombre", "autoWidth": true },
                 { "data": "Total", "name": "Total", "autoWidth": true },
-                { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
+             //   { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
+                {
+                    "data": "Fecha", "name": "Fecha",
+                    "render": function (data) { return getDateString(data); }
+                },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Producto/Detalle/'
-                    + full.IdOrden + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Factura/Detalle/'
+                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
                 },
             ]
 

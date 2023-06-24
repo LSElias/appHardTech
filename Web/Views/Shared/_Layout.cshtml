@@ -38,11 +38,15 @@
         </div>
     </div>
 
-     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery")
     @*Scripts.Render("~/bundles/bootstrap")*@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
 
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
     <script src="https://cdn.datatables.net/v/dt/dt-1.13.4/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js" charset="utf8">
+    </script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
