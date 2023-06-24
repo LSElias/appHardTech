@@ -150,7 +150,9 @@ namespace Infraestructure.Models
         public System.DateTime Fecha { get; set; }
         public Nullable<int> IdUsuario { get; set; }
         public Nullable<int> IVA { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C}")]
         public Nullable<double> Total { get; set; }
+
         public Nullable<int> IdOrden { get; set; }
 
         public virtual CuentaPago CuentaPago { get; set; }
