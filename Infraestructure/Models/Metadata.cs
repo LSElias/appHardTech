@@ -150,7 +150,9 @@ namespace Infraestructure.Models
         public System.DateTime Fecha { get; set; }
         public Nullable<int> IdUsuario { get; set; }
         public Nullable<int> IVA { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:C}")]
+        [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$")]
         public Nullable<double> Total { get; set; }
 
         public Nullable<int> IdOrden { get; set; }
@@ -175,7 +177,6 @@ namespace Infraestructure.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         [Required(ErrorMessage = "El subtotal es requerido")]
         [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
-        [Display(Name = "Subtotal")]
         public Nullable<double> SubTotal { get; set; }
 
         [Required(ErrorMessage = "El estado de la orden es requerido")]
