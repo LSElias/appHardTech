@@ -11,12 +11,9 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-<<<<<<< HEAD
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(OrdenMetadata))]
-=======
->>>>>>> 42c7f540863a9ade5331e94b504900797f766f01
 
     public partial class Orden
     {
