@@ -59,8 +59,6 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
-        public Nullable<int> IdUsuario { get; set; }
-
         [Required(AllowEmptyStrings = false, ErrorMessage = "La provincia es requerida")]
         [Display(Name = "Provincia")]
         public string Provincia { get; set; }
@@ -150,7 +148,11 @@ namespace Infraestructure.Models
         public System.DateTime Fecha { get; set; }
         public Nullable<int> IdUsuario { get; set; }
         public Nullable<int> IVA { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C}")]
+        [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$")]
         public Nullable<double> Total { get; set; }
+
         public Nullable<int> IdOrden { get; set; }
 
         public virtual CuentaPago CuentaPago { get; set; }
@@ -173,7 +175,6 @@ namespace Infraestructure.Models
         [DisplayFormat(DataFormatString = "{0:C}")]
         [Required(ErrorMessage = "El subtotal es requerido")]
         [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
-        [Display(Name = "Subtotal")]
         public Nullable<double> SubTotal { get; set; }
 
         [Required(ErrorMessage = "El estado de la orden es requerido")]
@@ -207,7 +208,7 @@ namespace Infraestructure.Models
 
         [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
 
         [Display(Name = "Orden")]
         public virtual Orden Orden { get; set; }
@@ -253,7 +254,7 @@ namespace Infraestructure.Models
 
         [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
 
         [Required(ErrorMessage = "La fotografía es requerida")]
         [Display(Name = "Fotografía")]
@@ -297,6 +298,8 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
+        public Nullable<int> IdDireccion { get; set; }
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
 
@@ -332,7 +335,7 @@ namespace Infraestructure.Models
         public string Clave { get; set; }
 
 
-        public Nullable<int> Estado { get; set; }
+        public Nullable<int> IdEstado { get; set; }
 
         [Display(Name = "Fotografía")]
         public byte[] Foto { get; set; }
@@ -349,7 +352,7 @@ namespace Infraestructure.Models
 
         [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
-        public virtual Estado Estado1 { get; set; }
+        public virtual Estado Estado { get; set; }
 
         [Required(ErrorMessage = "El tipo de usuario es requerido")]
         [Display(Name = "Tipo de usuario")]

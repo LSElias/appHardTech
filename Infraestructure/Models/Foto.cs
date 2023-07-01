@@ -11,7 +11,10 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
+    [MetadataType(typeof(FotoMetadata))]
+
     public partial class Foto
     {
         public int Id { get; set; }
