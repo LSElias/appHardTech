@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
 {
+    /*Prueba */
     public class RepositoryUsuario : IRepositoryUsuario
     {
         public IEnumerable<Usuario> GetUsuario()
