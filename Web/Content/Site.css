@@ -182,6 +182,7 @@ producto-tainer {
 .img-thumbnail{
     border:none;
 }
+
 .btn-large{
     width: 100%;
 }
@@ -258,6 +259,47 @@ producto-tainer {
     border-bottom: 1px solid black;
 }
 
+.tn-img img {
+    width: 3em;
+    height: 3em;
+    border-radius: 1em;
+    opacity: 0.75;
+    transition: ease-in 0.2s; 
+
+}
+
+.tn-img img:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.producto-container {
+    margin: 1em 0em;
+    background-color: #ffffffd8;
+    border-width: 1px;
+    border-style: solid;
+    border-image: linear-gradient(180deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+}
+
+.producto-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 20em;
+    border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+    border-image: linear-gradient(90deg, rgba(213,0,255,0.2) 0%, rgba(255,156,0,0.2) 100%) 1;
+}
+
+.form-text {
+    letter-spacing: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--bs-secondary-color);
+}
 
 @font-face {
     font-family: 'code_boldregular';
