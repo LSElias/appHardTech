@@ -301,6 +301,11 @@ producto-tainer {
     color: var(--bs-secondary-color);
 }
 
+.header {
+    background-color: rgba(0,0,0,0.85);
+    backdrop-filter: blur(12px);
+}
+
 @font-face {
     font-family: 'code_boldregular';
     src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
