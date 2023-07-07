@@ -9,7 +9,7 @@
 </div>
 
 
-<div class="container-fluid">
+<div class="">
     <div class="card my-4">
         <form id="formBusqueda">
             <div class="card-body">
@@ -23,58 +23,90 @@
     </div>
 </div>
 
-    <div class="row" style="box-shadow: 0px 0px 20px #262626; border-radius: 0px 10px 10px 0px; ">
-        <div class="col-lg-3">
-            <h1 class="my-4 foot-Title text-center">
-                
-                Categoría
-            </h1>
-            <div >
-                @* Categoría *@
-                @foreach (var cat in (List<Infraestructure.Models.Categoria>)ViewBag.listaCategorias)
-                {
-                    <div class="block-cat">
-                        <button class="m-auto list-group-item filterAutor notfair " data-idcategoria="@cat.Id"> @cat.Nombre </button>
-                    </div>
-              }
+<div class="row" style="box-shadow: 0px 0px 20px #262626; border-radius: 0px 10px 10px 0px; ">
+    <div class="col-lg-3">
+        <h1 class="my-4 foot-Title text-center">
 
+            Categoría
+        </h1>
+        <div>
+            @* Categoría *@
+            @foreach (var cat in (List<Infraestructure.Models.Categoria>)ViewBag.listaCategorias)
+            {
+                <div class="block-cat">
+                    <button class="m-auto list-group-item filterItem notfair " data-idcategoria="@cat.Id"> @cat.Nombre </button>
+                </div>
+            }
+            <div class="block-cat">
+                <button class="m-auto list-group-item filterItem notfair " data-idcategoria=0> Todos </button>
             </div>
+
         </div>
+    </div>
 
-        <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 10px 10px 0px;">
-            <div id="productos" class="row">
-                @foreach (var item in Model)
-                {
+    <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 10px 10px 0px;">
+        <div id="productos" class="row">
+            @foreach (var item in Model)
+            {
 
-                    <div class="col-sm-4" style="padding: 0.9em;">
-                        <div class="card align-items-center individualproduct">
-                            @if (item.Foto.Count > 0)
-                            {
-                                <img style="height:200px; width:200px;" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(item.Foto.First().Media)"
-                                     alt="Imagen @Html.DisplayFor(modelItem => item.Nombre)" class="img-thumbnail" />
-                            }
-                            else
-                            {
-                                <img style="height:200px; width:200px;" src="~/src/img/no-photo.jpg"
-                                     alt="Imagen @Html.DisplayFor(modelItem => item.Nombre)" class="img-thumbnail" />
-                            }
-                            <div class="card-body ">
-                                <h5 class="card-title"><span>@Html.DisplayFor(modelItem => item.Nombre)</span> </h5>
-                                <p class="card-text">   @Html.DisplayNameFor(model => model.Precio):  <span>@Html.DisplayFor(modelItem => item.Precio)</span></p>
+                <div class="col-sm-4" style="padding: 0.9em;">
+                    <div class="card align-items-center individualproduct">
+                        @if (item.Foto.Count > 0)
+                        {
+                            <img style="height:200px; width:200px;" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(item.Foto.First().Media)"
+                                 alt="Imagen @Html.DisplayFor(modelItem => item.Nombre)" class="img-thumbnail" />
+                        }
+                        else
+                        {
+                            <img style="height:200px; width:200px;" src="~/src/img/no-photo.jpg"
+                                 alt="Imagen @Html.DisplayFor(modelItem => item.Nombre)" class="img-thumbnail" />
+                        }
+                        <div class="card-body ">
+                            <h5 class="card-title"><span>@Html.DisplayFor(modelItem => item.Nombre)</span> </h5>
+                            <p class="card-text">   @Html.DisplayNameFor(model => model.Precio):  <span>@Html.DisplayFor(modelItem => item.Precio)</span></p>
 
-                                <div class="btn-group row card-footer" role="group">
-                                    @* Detalle Ajax Modal *@
-                                    <div class="col-md-12 ">
-                                        <a href="/Producto/Detalle/@item.IdProducto" class="btn btn-large btn-detalle">Detalle</a>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <button class="btn btn-large btn-comprar">Comprar</button>
-                                    </div>
+                            <div class="btn-group row card-footer" role="group">
+                                @* Detalle Ajax Modal *@
+                                <div class="col-md-12 ">
+                                    <a href="/Producto/Detalle/@item.IdProducto" class="btn btn-large btn-detalle">Detalle</a>
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn-large btn-comprar">Comprar</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+            }
         </div>
     </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(document).on('click', '.filterItem',
+            function () {
+                var idCategoria = $(this).data('idcategoria');
+                $.ajax({
+                    method: "GET",
+                    url: "/Producto/ProductosxCat",
+                    data: { "id": idCategoria },
+                    success: function (result) {
+                        $("#productos").html("");
+                        $("#productos").html(result)
+                    },
+                    error: function (xhr,status,error) {
+                        console.log("Error: " + error, "No error: " + xhr.status);
+                    }
+
+
+                });
+
+            });
+    </script>
+
+
+
+    }

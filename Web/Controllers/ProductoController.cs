@@ -38,6 +38,24 @@ namespace Web.Controllers
             }
         }
 
+        public PartialViewResult ProductosxCat(int? id)
+        {
+            //contenido a actualizar
+            IEnumerable<Producto> lista = null;
+            IServiceProducto _ServiceProducto = new ServiceProducto();
+            if (id != null && id > 0)
+            {
+                lista = _ServiceProducto.GetByIdCategoria((int)id);
+            }
+            else
+            {
+                lista = _ServiceProducto.GetProductos();
+            }
+            //Nombre vista, datos para la vista
+            return PartialView("_PartialViewProducto", lista);
+        }
+
+
         // GET: Producto
         public ActionResult IndexAdmin()
         {

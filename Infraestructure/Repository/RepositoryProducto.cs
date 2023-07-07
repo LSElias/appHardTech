@@ -24,7 +24,8 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")                        
+                        .Include("Estado")     
+                        .Include("Foto")
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
                 }
