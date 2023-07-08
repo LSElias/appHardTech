@@ -128,11 +128,9 @@ namespace Infraestructure.Models
         public int Id { get; set; }
         public int IdProducto { get; set; }
 
-        [Required(ErrorMessage = "La fotografía es requerida")]
         [Display(Name = "Fotografía")]
         public byte[] Media { get; set; }
 
-        [Required(ErrorMessage = "El producto es requerido")]
         [Display(Name = "Producto")]
         public virtual Producto Producto { get; set; }
     }
@@ -238,21 +236,25 @@ namespace Infraestructure.Models
         [Required(ErrorMessage = "La cantidad es requerida")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> Cantidad { get; set; }
-
+       
+        [Display(Name = "Categoría")]
+        [Required(ErrorMessage = "La categoría es requerida")]
         public Nullable<int> IdCategoria { get; set; }
+
+        [Display(Name = "Proveedor")]
         public Nullable<int> IdProveedor { get; set; }
+        
+        [Display(Name = "Estado")]
+        [Required(ErrorMessage = "El estado es requerido")]
         public Nullable<int> IdEstado { get; set; }
 
         [Display(Name = "Ventas realizadas")]
-        [Required(ErrorMessage = "La cantidad de ventas realizadas son requeridas")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> VentasR { get; set; }
 
-        [Required(ErrorMessage = "La categoría es requerida")]
         [Display(Name = "Categoría")]
         public virtual Categoria Categoria { get; set; }
 
-        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
@@ -266,7 +268,6 @@ namespace Infraestructure.Models
         [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
 
-        [Required(ErrorMessage = "Los datos del proveedor son requeridos")]
         [Display(Name = "Proveedor")]
         public virtual Usuario Usuario { get; set; }
     }
@@ -328,9 +329,9 @@ namespace Infraestructure.Models
         [Display(Name = "E-mail")]
         public string Correo { get; set; }
 
-        [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$",
-        ErrorMessage = "La contraseña debe estar compuesta por 8 caracteres, al menos un dígito, una minúscula y una mayúscula. No puede tener otros símbolos")]
-        [Required(AllowEmptyStrings = true, ErrorMessage = "La contraseña es requerida")]
+      //  [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$",
+      //  ErrorMessage = "La contraseña debe estar compuesta por 8 caracteres, al menos un dígito, una minúscula y una mayúscula. No puede tener otros símbolos")]
+      //  [Required(AllowEmptyStrings = true, ErrorMessage = "La contraseña es requerida")]
         [Display(Name = "Contraseña")]
         public string Clave { get; set; }
 
@@ -350,8 +351,8 @@ namespace Infraestructure.Models
         [Display(Name = "Dirección")]
         public virtual ICollection<Direccion> Direccion { get; set; }
 
-        [Required(ErrorMessage = "El estado es requerido")]
-        [Display(Name = "Estado")]
+      //  [Required(ErrorMessage = "El estado es requerido")]
+      //  [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
         [Required(ErrorMessage = "El tipo de usuario es requerido")]

@@ -306,6 +306,47 @@ producto-tainer {
     backdrop-filter: blur(12px);
 }
 
+output {
+    width: 100%;
+    min-height: 150px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+    border-radius: 5px;
+}
+
+    output .image {
+        height: 150px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+        overflow: hidden;
+        position: relative;
+    }
+
+        output .image img {
+            height: 100%;
+            width: 100%;
+        }
+
+        output .image span {
+            position: absolute;
+            top: -4px;
+            right: 4px;
+            cursor: pointer;
+            font-size: 22px;
+            color: white;
+        }
+
+            output .image span:hover {
+                opacity: 0.8;
+            }
+
+    output .span--hidden {
+        visibility: hidden;
+    }
+
 @font-face {
     font-family: 'code_boldregular';
     src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');

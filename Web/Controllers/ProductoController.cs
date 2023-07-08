@@ -1,9 +1,11 @@
 ﻿using ApplicationCore.Services;
 using Infraestructure.Models;
 using log4net.Util.TypeConverters;
+using Microsoft.SqlServer.Server;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
@@ -206,7 +208,110 @@ namespace Web.Controllers
             }
 
         }
+        public ActionResult Crear()
+        {
+            //Recursos que necesito para crear un Libro
+            //Listado de autores
+            //Listado de categorías
+            ViewBag.IdCategoria = ListaCategorias();
+            ViewBag.IdEstado = ListaEstados();
 
+            return View();
+        }
+
+        public ActionResult Editar(int? id)
+        {
+            IServiceProducto _Service = new ServiceProducto();
+            Producto formato = null;
+            try
+            {
+                //Si es null el parametro
+                if (id == null)
+                {
+                    return RedirectToAction("IndexAdmin");
+                }
+                formato = _Service.GetProductoById(Convert.ToInt32(id));
+                if (formato == null)
+                {
+                    TempData["Message"] = "No existe el producto solicitado";
+                    TempData["Redirect"] = "Producto";
+                    TempData["Redirect-Action"] = "IndexProveedor";
+                    //Redireccion a la vista del error
+                    return RedirectToAction("Default", "Error");
+
+                }
+                ViewBag.IdCategoria = ListaCategorias((int)formato.IdCategoria);
+                ViewBag.IdEstado = ListaEstados((int)formato.IdEstado);
+                return View(formato);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+
+        private SelectList ListaCategorias(int idCategoria = 0)
+        {
+            IServiceCategoria _service = new ServiceCategoria();
+            IEnumerable<Categoria> lista = _service.GetCategorias();
+            return new SelectList(lista, "Id", "Nombre", idCategoria);
+        }
+
+        private SelectList ListaEstados(int idEstado = 0)
+        {
+            IServiceEstado _service = new ServiceEstado();
+            List<Estado> estado = new List<Estado>
+            {
+                _service.GetEstadoByID(3),
+                _service.GetEstadoByID(4)
+            };
+            IEnumerable<Estado> lista = estado;
+            return new SelectList(lista, "Id", "Nombre", idEstado);
+        }
+
+        // POST: Libro/Create-Update
+        [HttpPost]
+        public ActionResult Save(Producto producto, IEnumerable<HttpPostedFileBase> images, List<Foto> lista)
+        {
+            var imageList = new List<Foto>();
+            MemoryStream target = new MemoryStream();
+            IServiceProducto _Service = new ServiceProducto();
+            IServiceFoto _ServiceFoto = new ServiceFoto();
+            producto.VentasR = 0;
+            producto.IdProveedor = 4; 
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Producto oProductoI = _Service.Save(producto, images);
+                }
+                else
+                {
+                    // Valida Errores si Javascript está deshabilitado
+                    Utils.Util.ValidateErrors(this);
+                    //Recurso a cargar en la vista
+
+                    //Debe funcionar para crear y modificar
+                    ViewBag.IdCategoria = ListaCategorias();
+                    ViewBag.IdEstado = ListaEstados();
+                    return View("Crear", producto);
+                }
+
+                return RedirectToAction("IndexProveedor");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Libro";
+                TempData["Redirect-Action"] = "IndexProveedor";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
+            }
+        }
 
     }
 }

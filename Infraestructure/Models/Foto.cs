@@ -23,4 +23,6 @@ namespace Infraestructure.Models
     
         public virtual Producto Producto { get; set; }
     }
+
+
 }
