@@ -301,6 +301,16 @@ producto-tainer {
     color: var(--bs-secondary-color);
 }
 
+textarea{
+    width: 100%;
+    letter-spacing: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--bs-secondary-color);
+}
+
+
 .header {
     background-color: rgba(0,0,0,0.85);
     backdrop-filter: blur(12px);
@@ -308,7 +318,6 @@ producto-tainer {
 
 output {
     width: 100%;
-    min-height: 150px;
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -317,13 +326,22 @@ output {
     border-radius: 5px;
 }
 
-    output .image {
-        height: 150px;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
-        overflow: hidden;
-        position: relative;
-    }
+.text-validation > span {
+    font-size: 14px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-left: 5px;
+    letter-spacing: 0;
+    font-weight: bold;
+}
+
+
+output .image {
+    height: 150px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    position: relative;
+}
 
         output .image img {
             height: 100%;
