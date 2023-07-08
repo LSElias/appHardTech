@@ -228,7 +228,7 @@ namespace Infraestructure.Repository
                         }
                         foreach (var foto in imageList)
                         {
-                            _RepositoryFoto.Save(foto);
+                                var retornoo = _RepositoryFoto.Save(foto);
                         }
                     }
                 oProducto = GetProductoById((int)producto.IdProducto);

@@ -66,7 +66,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-2", })
         <div class="col-md-10">
-            <input type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control lmao">
+            <input type="file" name="images" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control lmao">
             <output></output>
         </div>
     </div>
@@ -75,7 +75,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-default" />
+            <input type="submit" onclick="Guardar()" value="Guardar" readonly class="btn btn-default" />
         </div>
     </div>
 
@@ -90,10 +90,38 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
+    <script>
+        function Guardar() {
+            console.log('meoww');
+            var producto = {};
+
+            producto.Name = $("#txtName").val();
+
+            /**$.ajax({
+                type: "POST",
+                url: "/Home/AjaxMethod",
+                data: '{person: ' + JSON.stringify(person) + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("Hello: " + response.Name + ".\nCurrent Date and Time: " + response.DateTime);
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });**/
+
+        }
+    </script>
 
     <script>
         const output = document.querySelector("output")
         const input = document.querySelector(".lmao")
+        const dt = new DataTransfer()
         let imagesArray = []
 
         input.addEventListener("change", () => {
@@ -103,6 +131,19 @@
             }
             displayImages()
         })
+
+        input.addEventListener("change", () => {
+            const { files } = input
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i]
+                dt.items.add(file)
+            }
+            input.files = dt.files // Assign the updates list
+        })
+
+
+
 
         function displayImages() {
             let images = ""
@@ -117,17 +158,15 @@
 
         function deleteImage(index) {
             imagesArray.splice(index, 1)
-
-            const dt = new DataTransfer()
-
             const { files } = input
-
+       
             for (let i = 0; i < files.length; i++) {
-                const file = files[i]
-                if (index !== i)
-                    dt.items.add(file) // here you exclude the file. thus removing it.
-            }
+                if (i == index) {
+                    let file = files[i];
+                    dt.items.remove(file)
 
+                }
+            }
             input.files = dt.files // Assign the updates list
             displayImages()
         }

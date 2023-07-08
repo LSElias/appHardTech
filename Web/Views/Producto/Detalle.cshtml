@@ -1,30 +1,9 @@
 ﻿@model Infraestructure.Models.Producto
 
 @{
-    ViewBag.Title = Model.Nombre;
+    ViewBag.Title = "meow";
 }
 
-@helper CarouselFiller(int first = 0)
-{
-    foreach (var c in Model.Foto)
-    {
-        if (first == 0)
-        {
-            first = 1;
-            <div class="carousel-item active">
-                <img class="d-block" style="margin: auto; object-fit: scale-down;" src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
-                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
-            </div>
-        }
-        else
-        {
-            <div class="carousel-item">
-                <img class="d-block" style="margin: auto; object-fit: scale-down; " src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)"
-                     alt="Producto @Html.DisplayFor(model=>model.Foto)" />
-            </div>
-        }
-    }
-}
 
 @helper ImageList()
 {
@@ -50,15 +29,26 @@ int number = 0;
 </script>
 
 <div class="producto-container row py-3">
+    
     <div class="col-sm-4" style="border-right: 1px solid #9c9393">
-        <div>
-            <img id="img-focus" class="producto-image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(Model.Foto.First().Media)"
-                 alt="Imagen @Html.DisplayFor(modelItem => Model.Nombre)" />
+        @if (Model.Foto.Count >= 1)
+        {
+            <div>
+                
+                <img id="img-focus" class="producto-image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(Model.Foto.First().Media)"
+                     alt="Imagen @Html.DisplayFor(modelItem => Model.Nombre)" />
+            </div>
+            <div class="flex-column py-2 px-1">
+                @ImageList()
+            </div>
+}
+else
+            {
+                <div class="text-center">
+                    <p style=" margin: 50% auto; "> No hay imagenes para mostrar </p>
+                </div>
+            }
         </div>
-        <div class="flex-column py-2 px-1">
-            @ImageList()
-        </div>
-    </div>
     <div class="col-sm-8 py-2 px-3">
         <h4 style="color: #161616">
             @Html.DisplayFor(model => model.Nombre)

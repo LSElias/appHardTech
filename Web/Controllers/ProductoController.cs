@@ -274,11 +274,14 @@ namespace Web.Controllers
 
         // POST: Libro/Create-Update
         [HttpPost]
-        public ActionResult Save(Producto producto, IEnumerable<HttpPostedFileBase> images)
+        public ActionResult Save(Producto producto, IEnumerable<HttpPostedFileBase> images, List<Foto> lista)
         {
             var imageList = new List<Foto>();
             MemoryStream target = new MemoryStream();
             IServiceProducto _Service = new ServiceProducto();
+            IServiceFoto _ServiceFoto = new ServiceFoto();
+            producto.VentasR = 0;
+            producto.IdProveedor = 4; 
             try
             {
                 if (ModelState.IsValid)
@@ -294,17 +297,17 @@ namespace Web.Controllers
                     //Debe funcionar para crear y modificar
                     ViewBag.IdCategoria = ListaCategorias();
                     ViewBag.IdEstado = ListaEstados();
-                    return View("Create", producto);
+                    return View("Crear", producto);
                 }
 
-                return RedirectToAction("IndexProveedores");
+                return RedirectToAction("IndexProveedor");
             }
             catch (Exception ex)
             {
                 Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos! " + ex.Message;
                 TempData["Redirect"] = "Libro";
-                TempData["Redirect-Action"] = "IndexProveedores";
+                TempData["Redirect-Action"] = "IndexProveedor";
                 // Redireccion a la captura del Error
                 return RedirectToAction("Default", "Error");
             }

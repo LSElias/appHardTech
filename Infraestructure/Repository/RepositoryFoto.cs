@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
 
 namespace Infraestructure.Repository
@@ -107,14 +108,18 @@ namespace Infraestructure.Repository
             {
                 using (MyContext ctx = new MyContext())
                 {
+
                     ctx.Configuration.LazyLoadingEnabled = false;
                     pFoto = GetFotoById((int)foto.Id);
 
                     if (pFoto == null)
                     {
-                        //Insertar
-                        ctx.Foto.Add(foto);
-                        retorno = ctx.SaveChanges();
+
+                            //Insertar
+                            ctx.Foto.Add(foto);
+                            retorno = ctx.SaveChanges();
+
+
                     }
                     else
                     {
@@ -144,4 +149,5 @@ namespace Infraestructure.Repository
             }
         }
     }
+
 }
