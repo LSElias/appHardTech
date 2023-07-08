@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Util;
 
 namespace Infraestructure.Repository
@@ -174,10 +176,12 @@ namespace Infraestructure.Repository
 
         }
 
-        public Producto Save(Producto producto)
+        public Producto Save(Producto producto, IEnumerable<HttpPostedFileBase> images)
         {
             int retorno = 0;
             Producto oProducto = null;
+            IRepositoryFoto _RepositoryFoto = new RepositoryFoto();
+            var imageList = new List<Foto>();
 
             try
             {
@@ -188,13 +192,14 @@ namespace Infraestructure.Repository
 
                     if (oProducto == null)
                     {
-                      //Intentar Guardar la foto y el producto 
-                      using(var transaccion = ctx.Database.BeginTransaction())
+                        //Intentar Guardar la foto y el producto 
+                        using (var transaccion = ctx.Database.BeginTransaction())
                         {
                             //Insertar
                             ctx.Producto.Add(producto);
                             retorno = ctx.SaveChanges();
                             transaccion.Commit();
+
                         }
                     }
                     else
@@ -207,6 +212,26 @@ namespace Infraestructure.Repository
                 }
                 if (retorno >= 0)
                     oProducto = GetProductoById((int)producto.IdProducto);
+
+                if (images != null)
+                    {
+
+                        foreach (var image in images)
+                        {
+                            using (var br = new BinaryReader(image.InputStream))
+                            {
+                                var data = br.ReadBytes(image.ContentLength);
+                                var img = new Foto { IdProducto = oProducto.IdProducto };
+                                img.Media = data;
+                                imageList.Add(img);
+                            }
+                        }
+                        foreach (var foto in imageList)
+                        {
+                            _RepositoryFoto.Save(foto);
+                        }
+                    }
+                oProducto = GetProductoById((int)producto.IdProducto);
 
                 return oProducto;
 

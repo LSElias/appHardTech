@@ -238,9 +238,14 @@ namespace Infraestructure.Models
         [Required(ErrorMessage = "La cantidad es requerida")]
         [RegularExpression(@"^\d+$", ErrorMessage = "La cantidad solo acepta números")]
         public Nullable<int> Cantidad { get; set; }
-
+       
+        [Display(Name = "Categoría")]
         public Nullable<int> IdCategoria { get; set; }
+        
+        [Display(Name = "Proveedor")]
         public Nullable<int> IdProveedor { get; set; }
+        
+        [Display(Name = "Estado")]
         public Nullable<int> IdEstado { get; set; }
 
         [Display(Name = "Ventas realizadas")]

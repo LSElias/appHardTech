@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace ApplicationCore.Services
 {
@@ -40,10 +41,10 @@ namespace ApplicationCore.Services
             return oRep.GetProductos();
         }
 
-        public Producto Save(Producto producto)
+        public Producto Save(Producto producto, IEnumerable<HttpPostedFileBase> images)
         {
             IRepositoryProducto oRep = new RepositoryProducto();
-            return oRep.Save(producto);
+            return oRep.Save(producto, images);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Infraestructure.Repository
 {
@@ -15,7 +16,7 @@ namespace Infraestructure.Repository
         IEnumerable<Producto> GetByIdCategoria(int IdCategoria);
         IEnumerable<Producto> GetByNombre(String Nombre);
 
-        Producto Save(Producto producto);
+        Producto Save(Producto producto, IEnumerable<HttpPostedFileBase> images);
 
 
     }

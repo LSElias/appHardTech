@@ -246,6 +246,7 @@
     <Content Include="Views\Factura\Detalle.cshtml" />
     <Content Include="Views\Factura\MisVentas.cshtml" />
     <Content Include="Views\Producto\_PartialViewProducto.cshtml" />
+    <Content Include="Views\Producto\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
