@@ -218,12 +218,14 @@ namespace Infraestructure.Repository
 
                         foreach (var image in images)
                         {
+                        if(image != null) { 
                             using (var br = new BinaryReader(image.InputStream))
                             {
                                 var data = br.ReadBytes(image.ContentLength);
                                 var img = new Foto { IdProducto = oProducto.IdProducto };
                                 img.Media = data;
                                 imageList.Add(img);
+                                }
                             }
                         }
                         foreach (var foto in imageList)
