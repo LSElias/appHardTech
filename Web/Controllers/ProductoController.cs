@@ -177,6 +177,28 @@ namespace Web.Controllers
             }
         }
 
+
+        public ActionResult SaveMensaje(Mensaje oMensaje)
+        {
+            MemoryStream target = new MemoryStream();
+            IServiceMensaje oServiceMensaje = new ServiceMensaje();
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+                }
+                return null; 
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
         public ActionResult Detalle(int? id)
         {
             IServiceProducto _ServiceProducto = new ServiceProducto();
