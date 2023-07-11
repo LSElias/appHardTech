@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Web.Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.Controllers
 {
@@ -178,25 +179,24 @@ namespace Web.Controllers
         }
 
 
-        public ActionResult SaveMensaje(Mensaje oMensaje)
+        public PartialViewResult SaveMensaje( int? id, string txt)
         {
             MemoryStream target = new MemoryStream();
             IServiceMensaje oServiceMensaje = new ServiceMensaje();
+            Mensaje oMensaje = new Mensaje();
+            oMensaje.IdProducto = id;
+            oMensaje.IdUsuario = 3;
+            oMensaje.Mensaje1 = txt;
 
-            try
-            {
+            IServiceProducto oServiceProduct = new ServiceProducto();
+            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
                 if (ModelState.IsValid)
                 {
                     Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
                 }
-                return null; 
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
-                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
-                return RedirectToAction("Default", "Error");
-            }
+                return PartialView("_ParticialViewMsj", oPrduct); 
+
         }
 
         public ActionResult Detalle(int? id)

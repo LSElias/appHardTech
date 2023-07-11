@@ -164,7 +164,7 @@ else
             <div>
                 <h3> Sección de Comentarios </h3>
                 <textarea id="txt" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu comentario" style="height:5em; width: 100%; padding: 1em; resize:none;"></textarea>
-                <button class="btn btn-comprar crearMensaje" data-id='[@Model.IdProducto, document.getElementById("txt").value, @Model.IdProveedor]'> Enviar </button>
+                <button onclick="" class="btn btn-comprar crearMensaje" data-id ="@Model.IdProducto" > Enviar </button>
             </div>
             @if (Model.Mensaje.Count! > 0)
             {
@@ -257,14 +257,18 @@ else
  <script type="text/javascript">
      $(document).on('click', '.crearMensaje',
          function () {
-             var oMensaje = $(this).data('id')
+             var text = document.getElementById("txt").value
+             var idProduct = $(this).data('id')
+            var idProvee = $(this).data('idProveedor')
+
              $.ajax({
-                 method: "POST",
+                 method: "GET",
                  url: "/Producto/SaveMensaje",
-                 data: { "id": oMensaje },
+                 data: {
+                     "id": idProduct, "txt": text},
                  success: function (result) {
                      $("#cargaMensaje").html("");
-                     $("cargaMensaje").html(result);
+                     $("#cargaMensaje").html(result);
                  },
                  error: function (xhr, status, error) {
                      console.log("Error: " + error, "No Error: " + xhr.status)
