@@ -1,12 +1,7 @@
 ﻿@model Infraestructure.Models.Producto
 
 
-        <div style="padding: 1em">
-            <div>
-                <h3> Sección de Comentarios </h3>
-                <textarea id="txt" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu comentario" style="height:5em; width: 100%; padding: 1em; resize:none;"></textarea>
-                <button onclick="" class="btn btn-comprar crearMensaje" data-id="@Model.IdProducto"> Enviar </button>
-            </div>
+
             @if (Model.Mensaje.Count! > 0)
             {
                 foreach (var c in Model.Mensaje)
@@ -89,4 +84,3 @@
                 </div>
 
             }
-        </div>

@@ -188,14 +188,41 @@ namespace Web.Controllers
             oMensaje.IdUsuario = 3;
             oMensaje.Mensaje1 = txt;
 
-            IServiceProducto oServiceProduct = new ServiceProducto();
-            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
 
                 if (ModelState.IsValid)
                 {
                     Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
                 }
-                return PartialView("_ParticialViewMsj", oPrduct); 
+
+            IServiceProducto oServiceProduct = new ServiceProducto();
+            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
+            return PartialView("_ParticialViewMsj", oPrduct); 
+
+        }
+
+
+        public PartialViewResult SaveRespuesta(int? id, string txt, int? idProveedor)
+        {
+            MemoryStream target = new MemoryStream();
+            IServiceMensaje oServiceMensaje = new ServiceMensaje();
+            Mensaje oMensaje = new Mensaje();
+            oMensaje.IdProducto = id;
+            oMensaje.IdUsuario = 3;
+            oMensaje.Mensaje1 = txt;
+
+
+
+            if (ModelState.IsValid)
+            {
+                Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+            }
+
+            IServiceProducto oServiceProduct = new ServiceProducto();
+            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
+            return PartialView("_ParticialViewMsj", oPrduct);
 
         }
 
