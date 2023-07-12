@@ -12,9 +12,11 @@ namespace Infraestructure.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Runtime.Serialization;
+    using System.Security.Cryptography.Xml;
 
     [MetadataType(typeof(FotoMetadata))]
-
+    [DataContract(IsReference = true)]
     public partial class Foto
     {
         public int Id { get; set; }

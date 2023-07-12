@@ -1,16 +1,30 @@
 ﻿@model Infraestructure.Models.Producto
 
 @{
-    ViewBag.Title = "Crear";
+    ViewBag.Title = "Editar";
 }
 
-<h2>Crear</h2>
+<h2>Editar</h2>
+
+@helper ImageList()
+{
+    <div class="col-1-md tn-img">
+        @foreach (var c in Model.Foto)
+        {
+            <img readonly src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)" onclick="changeSrc(src)" alt="image">
+        }
+    </div>
+}
+
+
+
 
 
 @using (Html.BeginForm("Save", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
+
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => model.IdProducto)
 
     #region
     <div class="producto-container row py-3">
@@ -19,12 +33,15 @@
 
             <div>
 
-                <img id="img-focus" class="producto-image" src="~/src/img/no-photo.jpg"
-                     alt="No hay fotos" />
+                <img id="img-focus" class="producto-image" src="data:image/jpeg;charset=utf-8;base64,@Convert.ToBase64String(Model.Foto.First().Media)"
+                     alt="Imagen @Html.DisplayFor(modelItem => Model.Nombre)" />
             </div>
             <div class="flex-column py-2 px-1 tn-img">
-                <output class="col-1-md tn-img">
-    
+                <div class="col-1-md tn-img mb-2">
+                    @ImageList()
+                </div>
+                <p class="mb-2"> Imagenes a añadir</p>
+                <output class="mb-2">
                 </output>
             </div>
             <div class="form-group mb-3">
@@ -89,61 +106,61 @@
                     </div>
 
 
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <h6>
-                                    @Html.DisplayNameFor(model => model.Cantidad)
-                                </h6>
-                                <hr />
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>
-                                    @Html.DisplayNameFor(model => model.Precio)
-                                </h6>
-                                <hr />
-                                <div class="form-group">
-                                    <div class="col-md-12">
-                                        @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
-                                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </h6>
+                            <hr />
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group mb-3">
-                            <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="Guardar" readonly class="btn btn-comprar" />
+                        <div class="col-md-6">
+                            <h6>
+                                @Html.DisplayNameFor(model => model.Precio)
+                            </h6>
+                            <hr />
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group mb-3">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Guardar" readonly class="btn btn-comprar" />
+                        </div>
+                    </div>
                 </div>
+            </div>
+
+
+
         </div>
     </div>
 
     #endregion
 
 
-
-
-
-
-
+    <div>
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 }
 
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
+    <script type="text/javascript">
+    </script>
 
     <script>
         const output = document.querySelector("output")
@@ -151,13 +168,20 @@
         const dt = new DataTransfer()
         let imagesArray = []
         var doneOnce = false;
+        //new File([parts], filename, options)
+        //new Blob([parts], options)
+        let preCarga = [];
+
+
+
+        //var src = "data:image/jpeg;chartset=utf-8;base64," + Convert.ToBase64String(foto.Media);
 
         input.addEventListener("change", () => {
             const files = input.files
             for (let i = 0; i < files.length; i++) {
                 imagesArray.push(files[i])
             }
-            if (doneOnce == false){
+            if (doneOnce == false) {
                 var src = URL.createObjectURL(imagesArray[0]);
                 changeSrc(src);
                 doneOnce = true;
@@ -176,6 +200,7 @@
         })
 
 
+
         function changeSrc(src) {
             if (src != null) {
                 var imgsrc = src;
@@ -187,9 +212,9 @@
             let images = ""
             imagesArray.forEach((image, index) => {
                 images += `<div class="">
-                    <img readonly src="${URL.createObjectURL(image)}" onclick="changeSrc(src)" alt="image">
-                    <span readonly style="cursor: pointer; " onclick="deleteImage(${index})">&times;</span>
-                  </div>`
+            <img readonly src="${URL.createObjectURL(image)}" onclick="changeSrc(src)" alt="image">
+            <span readonly style="cursor: pointer; " onclick="deleteImage(${index})">&times;</span>
+</div>`
             })
             output.innerHTML = images
         }
@@ -213,5 +238,5 @@
     </script>
 
 
-
 }
+

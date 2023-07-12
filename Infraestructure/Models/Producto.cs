@@ -12,9 +12,11 @@ namespace Infraestructure.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Runtime.Serialization;
+    using System.Security.Cryptography.Xml;
 
     [MetadataType(typeof(ProductoMetadata))]
-
+    [DataContract(IsReference = true)]
     public partial class Producto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
