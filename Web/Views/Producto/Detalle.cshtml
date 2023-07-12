@@ -262,7 +262,6 @@ else
 
              var text = document.getElementById("txt").value
              var idProduct = $(this).data('id')
-            var idProvee = $(this).data('idProveedor')
                  $.ajax({
                      method: "GET",
                      url: "/Producto/SaveMensaje",
@@ -272,6 +271,8 @@ else
                      success: function (result) {
                          $("#cargaMensaje").html("");
                          $("#cargaMensaje").html(result);
+                         document.getElementById('txt').value = "";
+
                      },
                      error: function (xhr, status, error) {
                          console.log("Error: " + error, "No Error: " + xhr.status)
