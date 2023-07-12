@@ -248,6 +248,7 @@
     <Content Include="Views\Producto\_PartialViewProducto.cshtml" />
     <Content Include="Views\Producto\Crear.cshtml" />
     <Content Include="Views\Producto\Editar.cshtml" />
+    <Content Include="Views\Producto\_ParticialViewMsj.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
