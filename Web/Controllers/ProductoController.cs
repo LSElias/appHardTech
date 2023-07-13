@@ -211,24 +211,24 @@ namespace Web.Controllers
         }
 
 
-        public PartialViewResult SaveRespuesta(int? id, string txt, int? idProveedor)
+        public PartialViewResult SaveRespuesta(int? id, Mensaje idMensaje, string txtResp, int idProd)
         {
             MemoryStream target = new MemoryStream();
-            IServiceMensaje oServiceMensaje = new ServiceMensaje();
-            Mensaje oMensaje = new Mensaje();
-            oMensaje.IdProducto = id;
-            oMensaje.IdUsuario = 3;
-            oMensaje.Mensaje1 = txt;
+            IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
+            Respuesta oRespuesta = new Respuesta();
+            oRespuesta.IdProveedor = id;
+            oRespuesta.IdMensaje = idMensaje.Id;
+            oRespuesta.Respuesta1 = txtResp;
 
 
 
             if (ModelState.IsValid)
             {
-                Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+                Respuesta oRespI = oServiceRespuesta.Save(oRespuesta);
             }
 
             IServiceProducto oServiceProduct = new ServiceProducto();
-            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+            Producto oPrduct = oServiceProduct.GetProductoById((int)idProd);
 
             return PartialView("_ParticialViewMsj", oPrduct);
 

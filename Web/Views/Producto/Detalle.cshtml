@@ -164,7 +164,7 @@ else
             <div>
                 <h3> Sección de Comentarios </h3>
                 <textarea id="txt" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu comentario" style="height:5em; width: 100%; padding: 1em; resize:none;"></textarea>
-                <button onclick="" class="btn btn-comprar crearMensaje" data-id="@Model.IdProducto"> Enviar </button>
+                <button class="btn btn-comprar crearMensaje" data-id="@Model.IdProducto"> Enviar </button>
             </div>
             <div id="cargaMensaje">
                 @if (Model.Mensaje.Count! > 0)
@@ -187,7 +187,7 @@ else
                                         }
                                     </div>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-10" >
                                     <div style="padding-top: 0.5em;">
                                         <h6 style="margin-bottom: 1px">
                                             @c.Usuario.Nombre  @c.Usuario.Apellido1 @c.Usuario.Apellido2
@@ -228,14 +228,17 @@ else
                                         }
                                         else
                                         {
-                                            <div>
-                                                <button class="btn btn-comprar crearRespuesta" data-id="@Model.IdProducto" data-idP="@Model.IdProveedor"> Agregar respuesta </button>
+                                        <div style="height: auto;">
+                                            <div class="row com-text respuesta">
+                                                <textarea id="txtResp" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu respuesta" style="height:5em; width: 100%; padding: 1em; resize:none; margin: 1em 0"></textarea>
+                                                <button class="btn btn-comprar crearRespuesta" data-id="@Model.IdProveedor" data-idMensaje="@Model.Mensaje" data-idProducto="@Model.IdProducto" style=" width: 10%;"> Enviar </button>
+                                            </div>
+                                        </div>
+            
+                                        }
                                             </div>
 
-                                        }
-                                    </div>
-
-                                </div>
+                                        </div>
                             </div>
                         </div>
                     }
@@ -245,7 +248,7 @@ else
                     <div class="com-text text-center" style="padding-top:2em;">
                         <p>
                             Parece que no hay comentarios. ¡Sé el primero!
-                        </p>
+                        </p >
                     </div>
 
                 }
@@ -281,15 +284,17 @@ else
          });
      $(document).on('click', '.crearRespuesta',
          function () {
-             var text = document.getElementById("txt").value
-             var idProduct = $(this).data('id')
-             var idProvee = $(this).data('idProveedor')
+
+             var idPro = $(this).data('id')
+             var idMsj = $(this).data('idMensaje')
+             var text = document.getElementById("txtResp").value
+             var idProd = $(this).data('idProducto')
 
              $.ajax({
                  method: "GET",
-                 url: "/Producto/SaveMensaje",
+                 url: "/Producto/SaveRespuesta",
                  data: {
-                     "id": idProduct, "txt": text
+                     "id": idPro, "idMensaje": idMsj, "txtResp": text, "idProducto": idProd
                  },
                  success: function (result) {
                      $("#cargaMensaje").html("");
