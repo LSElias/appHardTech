@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Services;
+﻿
+using ApplicationCore.Services;
 using Infraestructure.Models;
 using log4net.Util.TypeConverters;
 using Microsoft.SqlServer.Server;
@@ -12,6 +13,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Web.Utils;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Web.Controllers
 {
@@ -175,6 +177,61 @@ namespace Web.Controllers
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
+        }
+
+
+        public PartialViewResult SaveMensaje( int? id, string txt)
+        {
+            MemoryStream target = new MemoryStream();
+            IServiceMensaje oServiceMensaje = new ServiceMensaje();
+            Mensaje oMensaje = new Mensaje();
+            oMensaje.IdProducto = id;
+            oMensaje.IdUsuario = 3;
+            oMensaje.Mensaje1 = txt;
+
+            if(txt == null)
+            {
+                //Mensaje
+                return null;
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+                }
+
+                IServiceProducto oServiceProduct = new ServiceProducto();
+                Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
+                return PartialView("_ParticialViewMsj", oPrduct);
+
+            }
+
+        }
+
+
+        public PartialViewResult SaveRespuesta(int? id, string txt, int? idProveedor)
+        {
+            MemoryStream target = new MemoryStream();
+            IServiceMensaje oServiceMensaje = new ServiceMensaje();
+            Mensaje oMensaje = new Mensaje();
+            oMensaje.IdProducto = id;
+            oMensaje.IdUsuario = 3;
+            oMensaje.Mensaje1 = txt;
+
+
+
+            if (ModelState.IsValid)
+            {
+                Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+            }
+
+            IServiceProducto oServiceProduct = new ServiceProducto();
+            Producto oPrduct = oServiceProduct.GetProductoById((int)id);
+
+            return PartialView("_ParticialViewMsj", oPrduct);
+
         }
 
         public ActionResult Detalle(int? id)
