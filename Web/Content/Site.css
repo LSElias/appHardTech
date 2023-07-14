@@ -365,6 +365,11 @@ output .image {
         visibility: hidden;
     }
 
+.swal2-icon.swal2-warning {
+    border-color: #a847eae4 !important;
+    color: #a847eae4 !important;
+}
+
 @font-face {
     font-family: 'code_boldregular';
     src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');

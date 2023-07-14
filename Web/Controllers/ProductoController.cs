@@ -234,6 +234,18 @@ namespace Web.Controllers
 
         }
 
+        public ActionResult EliminarFoto(int? id, string txt, int? idProveedor)
+        {
+
+            IServiceFoto oServiceFoto = new ServiceFoto();
+            Foto oFoto= oServiceFoto.GetFotoById((int)id);
+
+            Producto oPrduct = oServiceFoto.Eliminar(oFoto);
+
+            return PartialView("_PartialViewFotosEdit", oPrduct);
+
+        }
+
         public ActionResult Detalle(int? id)
         {
             IServiceProducto _ServiceProducto = new ServiceProducto();
