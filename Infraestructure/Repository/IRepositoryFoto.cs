@@ -13,6 +13,7 @@ namespace Infraestructure.Repository
         IEnumerable<Foto> GetFotoByIdProducto(int IdProducto);
         Foto GetFotoById(int Id);
         Foto Save(Foto foto);
+        Producto Eliminar(Foto foto);
 
     }
 }

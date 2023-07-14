@@ -14,5 +14,7 @@ namespace ApplicationCore.Services
         Foto GetFotoById(int Id);
         Foto Save(Foto foto);
 
+        Producto Eliminar(Foto foto);
+
     }
 }
