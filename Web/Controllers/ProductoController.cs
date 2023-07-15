@@ -216,21 +216,26 @@ namespace Web.Controllers
             MemoryStream target = new MemoryStream();
             IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
             Respuesta oRespuesta = new Respuesta();
-            oRespuesta.IdProveedor = objProd; //Con el session validar que solo Prov. responda
+            oRespuesta.IdProveedor = objProv; //Con el session validar que solo Prov. responda
             oRespuesta.IdMensaje = id;
             oRespuesta.Respuesta1 = txtResp;
 
-
-
-            if (ModelState.IsValid)
+            if (txtResp == null)
             {
-                Respuesta oRespI = oServiceRespuesta.Save(oRespuesta);
+                return null; 
             }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Respuesta oRespI = oServiceRespuesta.Save(oRespuesta);
+                }
 
-            IServiceProducto oServiceProduct = new ServiceProducto();
-            Producto oPrduct = oServiceProduct.GetProductoById((int)objProd);
+                IServiceProducto oServiceProduct = new ServiceProducto();
+                Producto oPrduct = oServiceProduct.GetProductoById((int)objProd);
 
-            return PartialView("_ParticialViewMsj", oPrduct);
+                return PartialView("_ParticialViewMsj", oPrduct);
+            }
 
         }
 
