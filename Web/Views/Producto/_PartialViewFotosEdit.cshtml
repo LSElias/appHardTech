@@ -1,0 +1,17 @@
+﻿@model Infraestructure.Models.Producto
+
+@helper ImageList()
+{
+    <div class="col-1-md tn-img">
+        @foreach (var c in Model.Foto)
+        {
+            <img readonly id="@c.Id" name="@c.Id-span" src="data:image/jpeg;chartset=utf-8;base64,@Convert.ToBase64String(c.Media)" onclick="changeSrc(src)" alt="image">
+            <span readonly style="cursor: pointer; color: #eb1254; font-weight:900" onclick="deleteImg(@c.Id)">&times;</span>
+        }
+    </div>
+}
+
+
+
+
+@ImageList()

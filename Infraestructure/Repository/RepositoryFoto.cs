@@ -11,6 +11,53 @@ namespace Infraestructure.Repository
 {
     public class RepositoryFoto : IRepositoryFoto
     {
+        public Producto Eliminar(Foto foto)
+        {
+            int retorno = 0;
+            Foto pFoto = null;
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    pFoto = GetFotoById((int)foto.Id);
+
+                    if (pFoto == null)
+                    {
+                        return null;
+
+                    }
+                    else
+                    {
+                        ctx.Foto.Attach(foto);
+                        ctx.Entry(foto).State = EntityState.Deleted;
+                        retorno = ctx.SaveChanges();
+                    }
+                }
+                if (retorno >= 0)
+                {
+                    IRepositoryProducto pr = new RepositoryProducto();
+                    Producto oProducto = pr.GetProductoById(pFoto.IdProducto);
+                    return oProducto;
+                }
+
+                return null;
+            }
+
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
+
         public IEnumerable<Foto> GetFoto()
         {
             try
@@ -115,9 +162,9 @@ namespace Infraestructure.Repository
                     if (pFoto == null)
                     {
 
-                            //Insertar
-                            ctx.Foto.Add(foto);
-                            retorno = ctx.SaveChanges();
+                        //Insertar
+                        ctx.Foto.Add(foto);
+                        retorno = ctx.SaveChanges();
 
 
                     }
@@ -149,5 +196,9 @@ namespace Infraestructure.Repository
             }
         }
     }
+
+
+
+
 
 }

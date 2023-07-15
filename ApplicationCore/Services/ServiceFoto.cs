@@ -10,6 +10,12 @@ namespace ApplicationCore.Services
 {
     public class ServiceFoto : IServiceFoto
     {
+        public Producto Eliminar(Foto foto)
+        {
+            IRepositoryFoto oRep = new RepositoryFoto();
+            return oRep.Eliminar(foto);
+        }
+
         public IEnumerable<Foto> GetFoto()
         {
            IRepositoryFoto oRep = new RepositoryFoto();
