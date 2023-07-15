@@ -228,15 +228,20 @@ else
                                         }
                                         else
                                         {
-                                        <div style="height: auto;">
-                                            <div class="row com-text respuesta">
-                                                <textarea id="txtResp" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu respuesta" style="height:5em; width: 100%; padding: 1em; resize:none; margin: 1em 0"></textarea>
-                                                <button class="btn btn-comprar crearRespuesta" data-id="@Model.IdProveedor" data-idMensaje="@Model.Mensaje" data-idProducto="@Model.IdProducto" style=" width: 10%;"> Enviar </button>
+
+                                            <h6 id="objProd" style="margin:-4px 0;">@c.IdProducto</h6>
+
+                                            <div style="height: auto;">
+                                                <div class="row com-text respuesta">
+                                                    <h6 id="objProv" style="margin:-4px 0;">@Model.IdProveedor</h6>
+                                                    <textarea id="txtResp" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu respuesta" style="height:5em; width: 100%; padding: 1em; resize:none; margin: 1em 0"></textarea>
+                                                    <button class="btn btn-comprar crearRespuesta" data-id="@c.Id" style=" width: 10%;"> Enviar </button>
+                                                </div>
                                             </div>
-                                        </div>
-            
+
+
                                         }
-                                            </div>
+                                    </div>
 
                                         </div>
                             </div>
@@ -284,21 +289,21 @@ else
          });
      $(document).on('click', '.crearRespuesta',
          function () {
-
-             var idPro = $(this).data('id')
-             var idMsj = $(this).data('idMensaje')
-             var text = document.getElementById("txtResp").value
-             var idProd = $(this).data('idProducto')
+             var idMsj = $(this).data('id')
+             var idProd = document.getElementById('objProd').innerText
+             var idProveedor = document.getElementById('objProv').innerText
+             var text = document.getElementById('txtResp').value
 
              $.ajax({
                  method: "GET",
                  url: "/Producto/SaveRespuesta",
                  data: {
-                     "id": idPro, "idMensaje": idMsj, "txtResp": text, "idProducto": idProd
+                     "id": idMsj, "objProd": idProd, "objProv": idProveedor, "txtResp": text
                  },
                  success: function (result) {
                      $("#cargaMensaje").html("");
                      $("#cargaMensaje").html(result);
+                     document.getElementById('txtResp').value = ""; 
                  },
                  error: function (xhr, status, error) {
                      console.log("Error: " + error, "No Error: " + xhr.status)
