@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Recurso no encontrado";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center">
+                <h1 class="display-1 fw-bold">404</h1>
+            <p class="fs-3"> <span class="text-danger">Opps!</span> Recurso no encontrado</p>
+
+            <p class="lead">
+                Lo sentimos, se ha producido un error, no se ha encontrado el recurso o página solicitado.
+            </p>
+            <div style="margin-top: 15px; margin-bottom: 15px;">
+                @Html.ActionLink("Regresar", "Index", "Home", null, new { @class = "btn btn-primary btn-lg", @style = "margin-right:10px;" })
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

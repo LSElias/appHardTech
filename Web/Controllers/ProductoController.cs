@@ -211,12 +211,12 @@ namespace Web.Controllers
         }
 
 
-        public PartialViewResult SaveRespuesta(int? id, int? objProd, int? objProv, string txtResp)
+        public PartialViewResult SaveRespuesta(int? id, int? objProd,string txtResp)
         {
             MemoryStream target = new MemoryStream();
             IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
             Respuesta oRespuesta = new Respuesta();
-            oRespuesta.IdProveedor = objProv; //Con el session validar que solo Prov. responda
+            oRespuesta.IdProveedor = 2; //Con el session validar que solo Prov. responda
             oRespuesta.IdMensaje = id;
             oRespuesta.Respuesta1 = txtResp;
 
