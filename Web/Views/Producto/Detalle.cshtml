@@ -266,7 +266,6 @@ else
  <script type="text/javascript">
      $(document).on('click', '.crearMensaje',
          function () {
-
              var text = document.getElementById("txt").value
              var idProduct = $(this).data('id')
                  $.ajax({
@@ -279,7 +278,6 @@ else
                          $("#cargaMensaje").html("");
                          $("#cargaMensaje").html(result);
                          document.getElementById('txt').value = "";
-
                      },
                      error: function (xhr, status, error) {
                          console.log("Error: " + error, "No Error: " + xhr.status)
@@ -292,21 +290,23 @@ else
              var idProd = document.getElementById('objProd').innerText
              var text = document.getElementById('txtResp').value
 
-             $.ajax({
-                 method: "GET",
-                 url: "/Producto/SaveRespuesta",
-                 data: {
-                     "id": idMsj, "objProd": idProd, "txtResp": text
-                 },
-                 success: function (result) {
-                     $("#cargaMensaje").html("");
-                     $("#cargaMensaje").html(result);
-                     document.getElementById('txtResp').value = ""; 
-                 },
-                 error: function (xhr, status, error) {
-                     console.log("Error: " + error, "No Error: " + xhr.status)
-                 }
-             });
+
+                     $.ajax({
+                         method: "GET",
+                         url: "/Producto/SaveRespuesta",
+                         data: {
+                             "id": idMsj, "objProd": idProd, "txtResp": text
+                         },
+                         success: function (result) {
+                             $("#cargaMensaje").html("");
+                             $("#cargaMensaje").html(result);
+                             document.getElementById('txtResp').value = "";
+                         },
+                         error: function (xhr, status, error) {
+                             console.log("Error: " + error, "No Error: " + xhr.status)
+
+                         }
+                     });
          });
  </script>
 }
