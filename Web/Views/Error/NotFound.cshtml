@@ -1,25 +1,25 @@
 ﻿
 @{
-    ViewBag.Title = "Recurso no encontrado";
+    ViewBag.Title = "Error";
 }
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <p class="text-center">
-                <h1 class="display-1 fw-bold">404</h1>
-            <p class="fs-3"> <span class="text-danger">Opps!</span> Recurso no encontrado</p>
+            <div class="text-center">
 
-            <p class="lead">
-                Lo sentimos, se ha producido un error, no se ha encontrado el recurso o página solicitado.
-            </p>
-            <div style="margin-top: 15px; margin-bottom: 15px;">
-                @Html.ActionLink("Regresar", "Index", "Home", null, new { @class = "btn btn-primary btn-lg", @style = "margin-right:10px;" })
-
+                <h2 style="color:red; font-size: 40px">
+                    @ViewBag.Title
+                </h2>
+                <div class="lead">
+                    @ViewBag.Description
+                </div>
+                <div style="margin-top: 15px; margin-bottom: 15px;">
+                    @Html.ActionLink("Regresar", (String)ViewBag.redirectAction, (String)ViewBag.redirect, null, new { @class = "btn btn-comprar", @style = "margin:20px;" })
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
 

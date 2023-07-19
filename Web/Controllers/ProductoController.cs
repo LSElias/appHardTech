@@ -215,6 +215,7 @@ namespace Web.Controllers
         {
             MemoryStream target = new MemoryStream();
             IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
+
             Respuesta oRespuesta = new Respuesta();
             oRespuesta.IdProveedor = 2; //Con el session validar que solo Prov. responda
             oRespuesta.IdMensaje = id;
