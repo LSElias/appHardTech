@@ -4,7 +4,7 @@
     ViewBag.Title = "Crear";
 }
 
-<h2>Crear</h2>
+<h2 class="page-title">Crear</h2>
 
 
 @using (Html.BeginForm("Save", "Producto", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -138,7 +138,7 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    <a class="page-title" href="/Producto/IndexProveedor"> Volver</a>
 </div>
 
 @section Scripts {

@@ -370,6 +370,20 @@ output .image {
     color: #a847eae4 !important;
 }
 
+.btn-gradient {
+    color: #faf5ee;
+    background: #7c17d4;
+    border: 1px white;
+    overflow:hidden;
+}
+
+    .btn-gradient:hover {
+        color: black;
+        background: #ffb506eb;
+        border: 1px white;
+    }
+
+
 @font-face {
     font-family: 'code_boldregular';
     src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');

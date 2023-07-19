@@ -4,7 +4,7 @@
     ViewBag.Title = "Editar";
 }
 
-<h2>Editar</h2>
+<h2 class="page-title">Editar</h2>
 
 @helper ImageList()
 {
@@ -150,12 +150,11 @@
     #endregion
 
 
-    <div>
-        @Html.ActionLink("Back to List", "Index")
-    </div>
 }
 
-
+<div>
+    <a class="page-title" href="/Producto/IndexProveedor"> Volver</a>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
