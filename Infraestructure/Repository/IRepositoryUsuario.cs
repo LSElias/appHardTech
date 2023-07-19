@@ -10,12 +10,10 @@ namespace Infraestructure.Repository
 {
     public interface IRepositoryUsuario
     {
-        IEnumerable<Usuario> GetUsuario();
+        Usuario GetUsuario(string oCorreo, string oClave);
         Usuario GetUsuarioByID(int Id);
         IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario);
         IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado);
-        Usuario LogIn(string email, string clave);
-
         Usuario Save(Usuario usuario, string[] selectedTipoUsuario);
     }
 }

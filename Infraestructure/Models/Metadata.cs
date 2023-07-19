@@ -329,9 +329,7 @@ namespace Infraestructure.Models
         [Display(Name = "E-mail")]
         public string Correo { get; set; }
 
-      //  [RegularExpression(@"^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8}$",
-      //  ErrorMessage = "La contraseña debe estar compuesta por 8 caracteres, al menos un dígito, una minúscula y una mayúscula. No puede tener otros símbolos")]
-      //  [Required(AllowEmptyStrings = true, ErrorMessage = "La contraseña es requerida")]
+        [Required(AllowEmptyStrings = true, ErrorMessage = "La contraseña es requerida")]
         [Display(Name = "Contraseña")]
         public string Clave { get; set; }
 

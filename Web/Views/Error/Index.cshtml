@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Error";
 }
 
@@ -9,14 +8,14 @@
         <div class="col-md-12">
             <div class="text-center">
 
-                <h2 class="fs-3" style="color:red">
+                <h2 style="color:red; font-size: 40px">
                     @ViewBag.Title
                 </h2>
                 <div class="lead">
                     @ViewBag.Description
                 </div>
                 <div style="margin-top: 15px; margin-bottom: 15px;">
-                    @Html.ActionLink("Regresar", (String)ViewBag.redirectAction, (String)ViewBag.redirect, null, new { @class = "btn btn-primary btn-lg", @style = "margin-right:10px;" })
+                    @Html.ActionLink("Regresar", (String)ViewBag.redirectAction, (String)ViewBag.redirect, null, new { @class = "btn btn-comprar", @style = "margin:20px;" })
 
                 </div>
             </div>
