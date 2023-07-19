@@ -1,4 +1,5 @@
-﻿using Infraestructure.Models;
+﻿using ApplicationCore.Utils;
+using Infraestructure.Models;
 using Infraestructure.Repository;
 using System;
 using System.Collections.Generic;
@@ -10,40 +11,40 @@ namespace ApplicationCore.Services
 {
     public class ServiceUsuario : IServiceUsuario
     {
-        public IEnumerable<Usuario> GetUsuario()
+        public Usuario GetUsuario(string oCorreo, string oClave)
         {
            IRepositoryUsuario oRep = new RepositoryUsuario();
-            return oRep.GetUsuario();
+            string crytpPasswd = Cryptography.EncrypthAES(oClave);
+            return oRep.GetUsuario(oCorreo, crytpPasswd);
         }
 
+        public Usuario GetUsuarioByID(int Id)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            Usuario oUsuario = oRep.GetUsuarioByID(Id);
+            oUsuario.Clave = Cryptography.DecrypthAES(oUsuario.Clave);
+            
+            return oUsuario;
+        }
+
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            usuario.Clave = Cryptography.EncrypthAES(usuario.Clave);
+            return oRep.Save(usuario, selectedTipoUsuario);
+        }
+
+        //No se encriptó porque es el Admin que usará los usuarios
         public IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByEstado(IdEstado);
         }
 
-        public Usuario GetUsuarioByID(int Id)
-        {
-            IRepositoryUsuario oRep = new RepositoryUsuario();
-            return oRep.GetUsuarioByID(Id);
-        }
-
         public IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByIDTipoUsuario(IdTipoUsuario);
-        }
-
-        public Usuario LogIn(string email, string clave)
-        {
-            IRepositoryUsuario oRep = new RepositoryUsuario();
-            return oRep.LogIn(email, clave);
-        }
-
-        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
-        {
-            IRepositoryUsuario oRep = new RepositoryUsuario();
-            return oRep.Save(usuario, selectedTipoUsuario);
         }
     }
 }

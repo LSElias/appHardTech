@@ -12,6 +12,7 @@ using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Web.Utils;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -189,49 +190,54 @@ namespace Web.Controllers
             oMensaje.IdUsuario = 3;
             oMensaje.Mensaje1 = txt;
 
-            if(txt == null)
+            if (txt == "" || txt == null )
             {
-                //Mensaje
-                return null;
+                TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Error", "El mensaje no puede estar vacío", SweetAlertMessageType.warning);
             }
             else
             {
                 if (ModelState.IsValid)
                 {
                     Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
+ 
                 }
 
-                IServiceProducto oServiceProduct = new ServiceProducto();
-                Producto oPrduct = oServiceProduct.GetProductoById((int)id);
-
-                return PartialView("_ParticialViewMsj", oPrduct);
-
             }
-
-        }
-
-
-        public PartialViewResult SaveRespuesta(int? id, string txt, int? idProveedor)
-        {
-            MemoryStream target = new MemoryStream();
-            IServiceMensaje oServiceMensaje = new ServiceMensaje();
-            Mensaje oMensaje = new Mensaje();
-            oMensaje.IdProducto = id;
-            oMensaje.IdUsuario = 3;
-            oMensaje.Mensaje1 = txt;
-
-
-
-            if (ModelState.IsValid)
-            {
-                Mensaje oMensajeI = oServiceMensaje.Save(oMensaje);
-            }
-
             IServiceProducto oServiceProduct = new ServiceProducto();
             Producto oPrduct = oServiceProduct.GetProductoById((int)id);
 
             return PartialView("_ParticialViewMsj", oPrduct);
 
+        }
+
+
+        public PartialViewResult SaveRespuesta(int? id, int? objProd,string txtResp)
+        {
+            MemoryStream target = new MemoryStream();
+            IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
+
+            Respuesta oRespuesta = new Respuesta();
+            oRespuesta.IdProveedor = 2; //Con el session validar que solo Prov. responda
+            oRespuesta.IdMensaje = id;
+            oRespuesta.Respuesta1 = txtResp;
+
+            if (txtResp == "" || txtResp == null)
+            {
+                TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Error", "La respuesta no puede estar vacía", SweetAlertMessageType.warning);
+            }
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    Respuesta oRespI = oServiceRespuesta.Save(oRespuesta);
+                }
+            }
+
+            IServiceProducto oServiceProduct = new ServiceProducto();
+            Producto oPrduct = oServiceProduct.GetProductoById((int)objProd);
+
+            return PartialView("_ParticialViewMsj", oPrduct);
+            
         }
 
         public ActionResult EliminarFoto(int? id, string txt, int? idProveedor)
