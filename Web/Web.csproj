@@ -148,6 +148,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OrdenController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\SweetController.cs" />
@@ -267,6 +268,7 @@
     <Content Include="Views\Producto\_PartialViewFotosEdit.cshtml" />
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

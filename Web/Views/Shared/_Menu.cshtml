@@ -47,15 +47,45 @@
                     </li>
                     <li class="nav-item dropdown" style="align-items: end">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Mi Cuenta &nbsp  <i class="fa-regular fa-user"></i> </a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu" style="width: max-content">
                             <li>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
-                                <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
-                                <a href="@Url.Action("Logout","Login")" class="nav-link"><i class="fa-solid fa-user-minus"></i> &nbspCerrar Sesión </a>
+                                @* Información usuario *@
+                                @{
+                                    string nombre = "";
+                                    string email = "Perfil";
+                                    Infraestructure.Models.Usuario oUsuario;
+                                    //Validar si existe en la sesión
+                                    if (Session["User"] != null)
+                                    {
+                                        oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                                        if (oUsuario != null)
+                                        {
+                                            nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
+                                            email = oUsuario.Correo;
+                                        }
+                                    }
+                                }
+
+                                @if (Session["User"] != null)
+                                {
+                                    <div class="dropdown-item">
+                                        @* Nombre Usuario *@
+                                        Usuario: @nombre
+                                    </div>
+                                }
+                                @if (Session["User"] == null)
+                                {
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
+                                    <a href="@Url.Action("Logout","Login")" class="nav-link"><i class="fa-solid fa-user-minus"></i> &nbspCerrar Sesión </a>
+                                }
                             </li>
                         </ul>
                     </li>

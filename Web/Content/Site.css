@@ -34,6 +34,18 @@ detalleContainer {
         color: #a847ea;
     }
 
+.head-Title {
+    color: #ffffffc4;
+    font-family: code_boldregular;
+    letter-spacing: 2px;
+    display: block;
+    padding: var(--bs-nav-link-padding-y) 0.3rem;
+    text-decoration: none;
+    background: none;
+    border: 0;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
 .nav-link2 {
     display: block;
     padding: var(--bs-nav-link-padding-y) 0.3rem;
@@ -203,7 +215,7 @@ producto-tainer {
 }
 
     .form-control:focus {
-        background-color: #aaa;
+        background-color: #c8c8c8;
         border-color: #a847ea;
         box-shadow: 0px 0px 10px #a847ea;
     }
@@ -382,14 +394,35 @@ output .image {
         background: #ffb506eb;
         border: 1px white;
     }
-
-
-@font-face {
-    font-family: 'code_boldregular';
-    src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+.login-box {
+    height: 50vh;
+    align-items: center;
+    margin: 3em;
+    padding: 2em 2em;
+    border-width: 1px;
+    border-radius: 15px;
+    border-style: solid;
+    border-image: linear-gradient(to right, #eea50e, #9733e5) 1 1 1 1;
 }
+
+.login-box div{
+    text-align: center;
+    vertical-align: central;
+    margin: 0 auto;
+}
+
+.login-label{
+    color: #ffffffc4;
+}
+
+
+
+    @font-face {
+        font-family: 'code_boldregular';
+        src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
 
     @font-face {
         font-family: 'code_lightregular';
