@@ -1,0 +1,42 @@
+﻿@model Infraestructure.Models.Usuario
+
+@{
+    ViewBag.Title = "Inicio de Sesión — HT";
+}
+
+<div class="login-box">
+    <h2 class="head-Title mb-5">Inicio de Sesión</h2>
+    @using (Html.BeginForm("Login", "Login"))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group mb-5">
+                @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "login-label col-md-2 mb-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control text-center mb-3" } })
+                    @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mb-5">
+                @Html.LabelFor(model => model.Clave, htmlAttributes: new { @class = "login-label col-md-2 mb-2" })
+                <div class="col-md-10">
+                    @Html.PasswordFor(model => model.Clave, new { @class = "form-control text-center mb-3" })
+                    @Html.ValidationMessageFor(model => model.Clave, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group mt-3">
+                <div class="col-md-offset-2 col-md-10 mt-1">
+                    <input type="submit" value="Iniciar Sesión" class="btn btn-lg btn-gradient" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
