@@ -395,14 +395,15 @@ output .image {
         border: 1px white;
     }
 .login-box {
-    height: 50vh;
-    align-items: center;
+    position: relative;
+    background: black;
+
+
     margin: 3em;
     padding: 2em 2em;
     border-width: 1px;
     border-radius: 15px;
-    border-style: solid;
-    border-image: linear-gradient(to right, #eea50e, #9733e5) 1 1 1 1;
+
 }
 
 .login-box div{
@@ -415,7 +416,39 @@ output .image {
     color: #ffffffc4;
 }
 
+.login-box:before {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(-45deg, #8308d7ff 0%, #f5c131 100% );
+    transform: translate3d(0px, 0px, 0) scale(1);
+    filter: blur(20px);
+    opacity: var(1);
+    transition: opacity 0.3s;
+    border-radius: inherit;
+}
 
+/* 
+* Prevents issues when the parent creates a 
+* stacking context. (For example, using the transform
+* property )
+*/
+.login-box::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    border-radius: inherit;
+}
+        
 
     @font-face {
         font-family: 'code_boldregular';
