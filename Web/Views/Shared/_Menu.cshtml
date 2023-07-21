@@ -5,7 +5,24 @@
            @class = "navbar-brand logo",
 
        })
-
+            
+            @{
+                string nombre = "";
+                string email = "Perfil";
+                byte[] foto = new byte[0];
+                Infraestructure.Models.Usuario oUsuario;
+                //Validar si existe en la sesión
+                if (Session["User"] != null)
+                {
+                    oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                    if (oUsuario != null)
+                    {
+                        nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
+                        email = oUsuario.Correo;
+                        foto = oUsuario.Foto;
+                    }
+                }
+            }
             <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -46,41 +63,28 @@
                         <ul class="dropdown-menu">
                             <li>
                                 @* Información usuario *@
-                                @{
-                                    string nombre = "";
-                                    string email = "Perfil";
-                                    Infraestructure.Models.Usuario oUsuario;
-                                    //Validar si existe en la sesión
-                                    if (Session["User"] != null)
-                                    {
-                                        oUsuario = (Infraestructure.Models.Usuario)Session["User"];
-                                        if (oUsuario != null)
-                                        {
-                                            nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
-                                            email = oUsuario.Correo;
-                                        }
-                                    }
-                                }
 
-                                @if (Session["User"] != null)
-                                {
-                                    <div class="dropdown-item">
-                                        @* Nombre Usuario *@
-                                        Usuario: @nombre
-                                    </div>
-                                }
                                 @if (Session["User"] == null)
                                 {
                                     <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
                                 }
                                 else
                                 {
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
+                                    <div class="dropdown-item">
+                                        @nombre
+                                    </div>
+
+                                    <ul style="list-style: none; font-size: 0.8em;">
+                                        <li>
+                                            <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
+                                            <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
+                                        </li>
+                                    </ul>
+                                    <hr/>
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
-                                    <a href="@Url.Action("Logout","Login")" class="nav-link"><i class="fa-solid fa-user-minus"></i> &nbspCerrar Sesión </a>
+                                    <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
                                 }
                             </li>
                         </ul>
