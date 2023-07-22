@@ -90,7 +90,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = ctx.Usuario
                         .Include("TipoUsuario")
-                        .Include("IdEstado")
+                        .Include("Estado")
                         .Where(u => u.Id == Id)
                         .FirstOrDefault<Usuario>();
                 }
