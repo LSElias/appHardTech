@@ -236,6 +236,7 @@
     <Content Include="src\img\Logo_Z.png" />
     <Content Include="src\img\no-photo.jpg" />
     <Content Include="src\img\Perifericos.png" />
+    <Content Include="src\img\Unauth.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
