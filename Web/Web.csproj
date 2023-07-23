@@ -271,6 +271,7 @@
     <Content Include="Views\Error\Index.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Login\UnAuthorized.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

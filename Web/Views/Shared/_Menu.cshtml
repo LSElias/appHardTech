@@ -30,12 +30,14 @@
                     <li class="nav-item">
                         @Html.ActionLink("Productos", "Index", "Producto", null, new { @class = "nav-link" })
                     </li>
-                    <li class="nav-item">
-                        @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
-                        {
+                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
+                    {
+                        <li class="nav-item">
+
                             @Html.ActionLink("Mis Ordenes", "MisOrdenes", "Factura", null, new { @class = "nav-link" })
-                        }
-                    </li>
+                        </li>
+                    }
+                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Proveedor" })) { 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedor</a>
                         <ul class="dropdown-menu">
@@ -45,6 +47,8 @@
                             </li>
                         </ul>
                     </li>
+                    }
+                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Administrador" })) { 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
 
@@ -55,7 +59,7 @@
                             </li>
                         </ul>
                     </li>
-
+                    }
                     <li>
                         <a href="@Url.Action("Index","Login")" class="nav-link"> Carrito &nbsp <i class="fa-solid fa-cart-shopping"></i></a>
                     </li>
@@ -81,9 +85,11 @@
                                             <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
                                         </li>
                                     </ul>
-                                    <hr/>
+                                    <hr />
+                                    if(Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" })){ 
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
+                                    }
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
                                     <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
                                 }
