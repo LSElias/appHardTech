@@ -2,11 +2,13 @@
 @{
     ViewBag.Title = "UnAuthorized";
 }
-
-<h2>No Autorizado</h2>
-
-<input type="button" value="Regresar" class="btn btn-warning" onclick="goBack()" />
-
+<div style="margin: 1em auto">
+    <h2 class="page-title">No deberías estar aquí</h2>
+        <img style="height: 28em; display: block; width: 45%; margin: auto;" src="~/src/img/Unauth.png" />
+    <div class="col-12">
+        <input type="button" value="Regresar" class="btn btn-large page-title" onclick="goBack()" />
+    </div>
+</div>
 <script>
     function goBack() {
         window.history.back();
