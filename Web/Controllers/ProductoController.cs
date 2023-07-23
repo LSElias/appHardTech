@@ -11,8 +11,10 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Services.Description;
+using Web.Security;
 using Web.Utils;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -62,6 +64,7 @@ namespace Web.Controllers
 
 
         // GET: Producto
+        [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult IndexAdmin()
         {
             return View();
@@ -120,14 +123,24 @@ namespace Web.Controllers
             }
         }
 
-
+        [CustomAuthorize((int)Roles.Proveedor)]
         public ActionResult IndexProveedor()
         {
             return View();
         }
 
-        public ActionResult LoadDataProveedor(int id)
+        public ActionResult LoadDataProveedor()
         {
+            var id = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    id = oUsuario.Id;        
+                }
+            }
+
             try
             {
                 using (MyContext _context = new MyContext())
@@ -183,11 +196,22 @@ namespace Web.Controllers
 
         public PartialViewResult SaveMensaje( int? id, string txt)
         {
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
+
             MemoryStream target = new MemoryStream();
             IServiceMensaje oServiceMensaje = new ServiceMensaje();
             Mensaje oMensaje = new Mensaje();
             oMensaje.IdProducto = id;
-            oMensaje.IdUsuario = 3;
+            oMensaje.IdUsuario = _idUsuario;
             oMensaje.Mensaje1 = txt;
 
             if (txt == "" || txt == null )
@@ -213,11 +237,22 @@ namespace Web.Controllers
 
         public PartialViewResult SaveRespuesta(int? id, int? objProd,string txtResp)
         {
+
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
             MemoryStream target = new MemoryStream();
             IServiceRespuesta oServiceRespuesta = new ServiceRespuesta();
 
             Respuesta oRespuesta = new Respuesta();
-            oRespuesta.IdProveedor = 2; //Con el session validar que solo Prov. responda
+            oRespuesta.IdProveedor = _idUsuario; //Con el session validar que solo Prov. responda
             oRespuesta.IdMensaje = id;
             oRespuesta.Respuesta1 = txtResp;
 
@@ -253,6 +288,7 @@ namespace Web.Controllers
         }
 
         public ActionResult Detalle(int? id)
+
         {
             IServiceProducto _ServiceProducto = new ServiceProducto();
             Producto producto= null;
@@ -283,6 +319,8 @@ namespace Web.Controllers
             }
 
         }
+
+        [CustomAuthorize((int)Roles.Proveedor)]
         public ActionResult Crear()
         {
             //Recursos que necesito para crear un Libro
@@ -294,6 +332,7 @@ namespace Web.Controllers
             return View();
         }
 
+        [CustomAuthorize((int)Roles.Proveedor)]
         public ActionResult Editar(int? id)
         {
             IServiceProducto _Service = new ServiceProducto();
@@ -351,14 +390,24 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Save(Producto producto, IEnumerable<HttpPostedFileBase> images, List<Foto> lista)
         {
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
             var imageList = new List<Foto>();
             MemoryStream target = new MemoryStream();
             IServiceProducto _Service = new ServiceProducto();
             IServiceFoto _ServiceFoto = new ServiceFoto();
-            producto.VentasR = 0;
-            producto.IdProveedor = 4; 
+            producto.IdProveedor = _idUsuario; 
             try
             {
+                ModelState.Remove("VentasR");
                 if (ModelState.IsValid)
                 {
                     Producto oProductoI = _Service.Save(producto, images);

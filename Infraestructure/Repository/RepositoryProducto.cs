@@ -195,7 +195,8 @@ namespace Infraestructure.Repository
                         //Intentar Guardar la foto y el producto 
                         using (var transaccion = ctx.Database.BeginTransaction())
                         {
-                            //Insertar
+                            //Insertar}
+                            producto.VentasR = 0;
                             ctx.Producto.Add(producto);
                             retorno = ctx.SaveChanges();
                             transaccion.Commit();

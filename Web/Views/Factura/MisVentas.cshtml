@@ -43,7 +43,6 @@
 
             "ajax": {
                 "url": "/Factura/LoadVentas",
-                data: { "id": 4 },
                 "type": "POST",
                 "datatype": "json"
             },
@@ -55,7 +54,7 @@
                     "searchable": false
                     },
                     {
-                        "targets": [5],
+                        "targets": [5, 6],
                         "visible": true,
                         "searchable": false,
                         orderable: false,
@@ -64,13 +63,22 @@
 
             "columns": [
                 { "data": "Id", "name": "Id", "autoWidth": true },
+                {
+                    "data": "Fecha", "name": "Fecha",
+                    "render": function (data) { return getDateString(data); }
+                },
                 { "data": "Producto", "name": "Producto", "autoWidth": true },
                 { "data": "Cantidad", "name": "Cantidad", "autoWidth": true },
-                { "data": "SubTotal", "title": "SubTotal", "name": "SubTotal", "autoWidth": true },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
                     "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Factura/EditarEstado/'
                     + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                },
+                {
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn Detalle" href="/Factura/EditarEstado/'
+                            + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
+                    }
                 },
             ]
 
@@ -85,11 +93,12 @@
             <thead>
                 <tr>
                     <th>Id</th> @* 0 *@
+                    <th>Fecha</th> @* 0 *@
                     <th>Producto</th> @* 1 *@
                     <th>Cantidad</th> @* 2 *@
-                     <th>SubTotal</th> @* 3 *@
                     <th>Estado</th> @* 4 *@
-                    <th>Editar</th> @* 5 *@
+                    <th>En Progreso</th> @* 5 *@
+                    <th>Terminado</th> @* 5 *@
                 </tr>
             </thead>
         </table>
