@@ -152,10 +152,12 @@
     <Compile Include="Controllers\OrdenController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\SweetController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="EnumRoles\EnumRol.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Provincia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\AutorizeView.cs" />
     <Compile Include="Security\CustomAuthenticationFilter.cs" />
@@ -273,10 +275,9 @@
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\UnAuthorized.cshtml" />
+    <Content Include="Views\Usuario\Registro.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />

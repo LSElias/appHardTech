@@ -398,8 +398,7 @@ output .image {
     position: relative;
     background: black;
 
-
-    margin: 3em;
+    margin: 3em 10em;
     padding: 2em 2em;
     border-width: 1px;
     border-radius: 15px;
@@ -437,6 +436,7 @@ output .image {
 * stacking context. (For example, using the transform
 * property )
 */
+
 .login-box::after {
     content: "";
     z-index: -1;
@@ -448,14 +448,55 @@ output .image {
     background: inherit;
     border-radius: inherit;
 }
-        
 
-    @font-face {
-        font-family: 'code_boldregular';
-        src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
+.register-gradient {
+    border-radius: 5px;
+    background: rgb(245,196,13);
+    background: linear-gradient(180deg, rgba(245,196,13,0.8099614845938375) 20%, rgba(124,23,212,1) 80%);
+}
+
+.box-register {
+    position: relative;
+    background: black;
+    margin: 1vh 0px;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+    .box-register:before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(180deg, #ffffffc4 0%, #969696ff 100% );
+        transform: translate3d(0px, 0px, 0) scale(1);
+        filter: blur(1px);
+        opacity: var(0);
+        transition: opacity 0.3s;
+        border-radius: inherit;
     }
+
+.box-register::after {
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: inherit;
+    border-radius: inherit;
+}
+
+@font-face {
+    font-family: 'code_boldregular';
+    src: url('../src/fonts/code_bold-webfont.woff2') format('woff2'), url('../src/fonts/code_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
     @font-face {
         font-family: 'code_lightregular';
@@ -463,3 +504,12 @@ output .image {
         font-weight: normal;
         font-style: normal;
     }
+
+
+@media (max-width: 1200px) {
+    .login-box {
+
+        margin: 3em 2vh;
+
+    }
+}
