@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Services;
 using Infraestructure.Models;
+using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -9,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Web.Models;
 using static System.Net.WebRequestMethods;
@@ -123,9 +125,35 @@ namespace Web.Controllers
             }
             IEnumerable<Canton> cantones = ts;
 
-
             return new SelectList(cantones, "Id", "Nombre", idCanton);
         }
+
+        public string RefreshCanton(string idProvincia = "1")
+        {
+
+            var url = "https://ubicaciones.paginasweb.cr/provincia/" + idProvincia + "/cantones.json";
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest
+                .Create(url);
+            myReq.ContentType = "json";
+            Response.ContentType = "json";
+
+
+            var response = (HttpWebResponse)myReq.GetResponse();
+            string text;
+
+            List<Canton> ts = new List<Canton>();
+
+
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+
+                text = sr.ReadToEnd();
+
+            }
+
+            return text;
+        }
+
 
         public SelectList ListaDistritos(string idProvincia = "1", string idCanton = "1", int idDistrito = 0)
         {
@@ -162,6 +190,33 @@ namespace Web.Controllers
 
 
             return new SelectList(distritos, "Id", "Nombre", idDistrito);
+        }
+
+        public string RefreshDistritos(string idProvincia = "1", string idCanton = "1")
+        {
+
+            var url = "https://ubicaciones.paginasweb.cr/provincia/" + idProvincia + "/canton/" + idCanton + "/distritos.json";
+            HttpWebRequest myReq = (HttpWebRequest)WebRequest
+                .Create(url);
+            myReq.ContentType = "json";
+            Response.ContentType = "json";
+
+
+            var response = (HttpWebResponse)myReq.GetResponse();
+            string text;
+
+
+
+            using (var sr = new StreamReader(response.GetResponseStream()))
+            {
+
+                text = sr.ReadToEnd();
+
+            }
+
+
+
+            return text;
         }
 
 

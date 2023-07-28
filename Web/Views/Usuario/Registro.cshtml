@@ -96,21 +96,21 @@
                 <div class="form-group col-md-4 ">
                     <div class="col-md-12">
                         <h6 style="color: #ffffff8c"> Provincia </h6>
-                        @Html.DropDownList("IdProvincia", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("IdProvincia", null, htmlAttributes: new { @id= "DDprovin", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.IdDireccion, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4 ">
                     <div class="col-md-12">
                         <h6 style="color: #ffffff8c"> Canton </h6>
-                        @Html.DropDownList("IdCanton", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("IdCanton", null, htmlAttributes: new { @id = "DDcanton", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.IdDireccion, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group col-md-4 ">
                     <div class="col-md-12">
                         <h6 style="color: #ffffff8c"> Distrito </h6>
-                        @Html.DropDownList("IdDistrito", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("IdDistrito", null, htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.IdDireccion, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -134,4 +134,81 @@
     @section Scripts {
         @Scripts.Render("~/bundles/jqueryval")
 
+        <script>
+            $("#DDprovin").change(function () {
+
+                var cantones = document.getElementById("DDcanton");
+                var i;
+                var L = cantones.options.length - 1;
+                 for (i = L; i >= 0; i--) {
+                     cantones.remove(i);
+                    }
+
+                var distritos = document.getElementById("DDdistrit");
+                L = distritos.options.length - 1;
+                for (i = L; i >= 0; i--) {
+                    distritos.remove(i);
+                }
+                var provincias = document.getElementById("DDprovin").value
+                $.ajax({
+                    method: "GET",
+                    url: "/Usuario/RefreshCanton",
+                    data: {
+                        "idProvincia": provincias
+                    },
+                    success: function (data) {
+
+                        let option;
+                        var count = Object.keys(data).length;
+                        for (let j = 1; j < count; j++) {
+                            option = document.createElement('option');
+                            option.text = data[j];
+                            option.value = j;
+                            cantones.add(option);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error, "No Error: " + xhr.status)
+                    }
+                });
+            });
+
+            $("#DDcanton").change(function () {
+                var provincias = document.getElementById("DDprovin").value
+                var cantones = document.getElementById("DDcanton").value;
+                var distritos = document.getElementById("DDdistrit");
+
+                L = distritos.options.length - 1;
+                for (i = L; i >= 0; i--) {
+                    distritos.remove(i);
+                }
+             
+                $.ajax({
+                    method: "GET",
+                    url: "/Usuario/RefreshDistritos",
+                    data: {
+                        "idProvincia": provincias, "idCanton": cantones
+                    },
+                    success: function (data) {
+
+                        let option;
+                        var count = Object.keys(data).length;
+                        for (let i = 1; i < count; i++) {
+                            option = document.createElement('option');
+                            option.text = data[i];
+                            option.value = i;
+                            distritos.add(option);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Error: " + error, "No Error: " + xhr.status)
+                    }
+                });
+                console.log(provincias);
+            });
+
+
+        </script>
     }
