@@ -319,7 +319,7 @@ namespace Web.Controllers
 
         }
 
-        [CustomAuthorize((int)Roles.Proveedor)]
+        [CustomAuthorize((int)Roles.Proveedor, (int)Roles.Administrador)]
         public ActionResult Crear()
         {
             //Recursos que necesito para crear un Libro
@@ -331,7 +331,7 @@ namespace Web.Controllers
             return View();
         }
 
-        [CustomAuthorize((int)Roles.Proveedor)]
+        [CustomAuthorize((int)Roles.Proveedor, (int)Roles.Administrador)]
         public ActionResult Editar(int? id)
         {
             IServiceProducto _Service = new ServiceProducto();
