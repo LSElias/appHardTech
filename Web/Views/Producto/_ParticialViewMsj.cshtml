@@ -2,88 +2,109 @@
 
 
 
-            @if (Model.Mensaje.Count! > 0)
-            {
-                foreach (var c in Model.Mensaje)
-                {
+@if (Model.Mensaje.Count! > 0)
+{
+    foreach (var c in Model.Mensaje)
+    {
 
-                    <div>
-                        <hr />
-                        <div class="row com-text" style=" ">
-                            <div class="col-1 combox-limit">
-                                <div class="smallpfp">
-                                    @if (c.Usuario.Foto == null)
-                                    {
-                                        <img src="~/src/img/circle-user-solid.svg" />
-                                    }
-                                    else
-                                    {
+        <div>
+            <hr />
+            <div class="row com-text" style=" ">
+                <div class="col-1 combox-limit">
+                    <div class="smallpfp">
+                        @if (c.Usuario.Foto == null)
+                        {
+                            <img src="~/src/img/circle-user-solid.svg" />
+                        }
+                        else
+                        {
 
-                                    }
-                                </div>
-                            </div>
-                            <div class="col-10">
-                                <div style="padding-top: 0.5em;">
-                                    <h6 style="margin-bottom: 1px">
-                                        @c.Usuario.Nombre  @c.Usuario.Apellido1 @c.Usuario.Apellido2
-                                    </h6>
-                                    <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
-                                        @c.Mensaje1
-                                    </p>
-                                    @if (c.Respuesta.Count! > 0)
-                                    {
-                                        foreach (var r in c.Respuesta)
-                                        {
+                        }
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div style="padding-top: 0.5em;">
+                        <h6 style="margin-bottom: 1px">
+                            @c.Usuario.Nombre  @c.Usuario.Apellido1 @c.Usuario.Apellido2
+                        </h6>
+                        <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
+                            @c.Mensaje1
+                        </p>
+                        @if (c.Respuesta.Count! > 0)
+                        {
+                            foreach (var r in c.Respuesta)
+                            {
 
-                                            <div class="row com-text respuesta">
-                                                <div class="col-1 combox-limit ">
-                                                    <div class="smallpfp">
-                                                        @if (c.Usuario.Foto == null)
-                                                        {
-                                                            <img src="~/src/img/circle-user-solid.svg" />
-                                                        }
-                                                        else
-                                                        {
+                                <div class="row com-text respuesta">
+                                    <div class="col-1 combox-limit ">
+                                        <div class="smallpfp">
+                                            @if (c.Usuario.Foto == null)
+                                            {
+                                                <img src="~/src/img/circle-user-solid.svg" />
+                                            }
+                                            else
+                                            {
 
-                                                        }
-                                                    </div>
-                                                </div>
-                                                <div class="col-10">
-                                                    <h6 style="margin-bottom: 1px">
-                                                        <span>@r.Usuario.Nombre  @r.Usuario.Apellido1 @r.Usuario.Apellido2</span> respondió:
-                                                    </h6>
-                                                    <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
-                                                        @r.Respuesta1
-                                                    </p>
-                                                </div>
-                                            </div>
-
-
-                                        }
-                                    }
-                                    else
-                                    {
-                                    <div style="height: auto;">
-                                        <div class="row com-text respuesta">
-                                            <textarea id="txtResp" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu respuesta" style="height:5em; width: 100%; padding: 1em; resize:none; margin: 1em 0"></textarea>
-                                            <button class="btn btn-comprar crearRespuesta" style=" width: 10%;"> Enviar </button>
+                                            }
                                         </div>
                                     </div>
-
-                                    }
+                                    <div class="col-10">
+                                        <h6 style="margin-bottom: 1px">
+                                            <span>@r.Usuario.Nombre  @r.Usuario.Apellido1 @r.Usuario.Apellido2</span> respondió:
+                                        </h6>
+                                        <p style="letter-spacing: 0px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ">
+                                            @r.Respuesta1
+                                        </p>
+                                    </div>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="com-text text-center" style="padding-top:2em;">
-                    <p>
-                        Parece que no hay comentarios. ¡Sé el primero!
-                    </p>
-                </div>
 
-            }
+                            }
+                        }
+                        else
+                        {
+
+
+                            var idUsuario = 0;
+                            Infraestructure.Models.Usuario oUsuario;
+                            //Validar si existe en la sesión
+                            if (Session["User"] != null)
+                            {
+                                oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                                if (oUsuario != null)
+                                {
+                                    idUsuario = oUsuario.Id;
+                                }
+                            }
+
+
+
+                            if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Proveedor" }) && Model.IdProveedor == idUsuario)
+                            {
+
+                                <h6 id="objProd" style="margin:-4px 0; opacity: 0">@c.IdProducto</h6>
+
+                                <div style="height: auto;">
+                                    <div class="row com-text respuesta">
+                                        <textarea id="txtResp" class="form-text" draggable="false" maxlength="480" placeholder="Deja tu respuesta" style="height:5em; width: 100%; padding: 1em; resize:none; margin: 1em 0"></textarea>
+                                        <button class="btn btn-comprar crearRespuesta" data-id="@c.Id" style=" width: 10%;"> Enviar </button>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="com-text text-center" style="padding-top:2em;">
+        <p>
+            Parece que no hay comentarios. ¡Sé el primero!
+        </p>
+    </div>
+
+}
