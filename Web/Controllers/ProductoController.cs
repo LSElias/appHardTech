@@ -62,7 +62,6 @@ namespace Web.Controllers
             return PartialView("_PartialViewProducto", lista);
         }
 
-
         // GET: Producto
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult IndexAdmin()

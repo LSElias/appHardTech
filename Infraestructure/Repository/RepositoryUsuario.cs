@@ -164,7 +164,7 @@ namespace Infraestructure.Repository
                             foreach (var tipoUser in selectedTipoUsuario)
                             {
                                 var tipoUserAdd = _RepositoryTipoUsuario.GetTipoUsuarioByID(int.Parse(tipoUser));
-                                ctx.TipoUsuario.Add(tipoUserAdd);
+                                ctx.TipoUsuario.Attach(tipoUserAdd);
                                 usuario.TipoUsuario.Add(tipoUserAdd);
                             }
                         }
