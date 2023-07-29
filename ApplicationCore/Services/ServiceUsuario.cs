@@ -14,8 +14,8 @@ namespace ApplicationCore.Services
         public Usuario GetUsuario(string oCorreo, string oClave)
         {
            IRepositoryUsuario oRep = new RepositoryUsuario();
-         //   string crytpPasswd = Cryptography.EncrypthAES(oClave);
-            return oRep.GetUsuario(oCorreo, oClave);
+            string crytpPasswd = Cryptography.EncrypthAES(oClave);
+            return oRep.GetUsuario(oCorreo, crytpPasswd);
         }
 
         public Usuario GetUsuarioByID(int Id)

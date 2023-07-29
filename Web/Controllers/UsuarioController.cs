@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using Web.Models;
+using Web.Utils;
 using static System.Net.WebRequestMethods;
 
 namespace Web.Controllers
@@ -36,25 +38,11 @@ namespace Web.Controllers
         {
 
 
-            ViewBag.IdTipoUsuario = ListaTipoUsuario();
             ViewBag.IdProvincia = ListaProvincias();
             ViewBag.IdCanton = ListaCanton();
             ViewBag.IdDistrito = ListaDistritos();
 
             return View();
-        }
-        public MultiSelectList ListaTipoUsuario(ICollection<TipoUsuario> categorias = null)
-        {
-            IServiceTipoUsuario _Service = new ServiceTipoUsuario();
-            IEnumerable<TipoUsuario> lista = _Service.GetTipoUsuario();
-            //Seleccionar las categorías para modificar
-            int[] TipoUsuarioSelect = null;
-            if (categorias != null)
-            {
-                TipoUsuarioSelect = categorias.Where(c => c.Id != 1).Select(c => c.Id).ToArray();
-            }
-
-            return new MultiSelectList(lista, "IdTipoUsuario", "Nombre", TipoUsuarioSelect);
         }
 
         public SelectList ListaProvincias(int idProvincia = 0)
@@ -89,7 +77,7 @@ namespace Web.Controllers
             IEnumerable<Provincia> provincias = ts;
 
 
-            return new SelectList(provincias, "Id", "Nombre", idProvincia);
+            return new SelectList(provincias, "Nombre", "Nombre", idProvincia);
         }
 
         public SelectList ListaCanton(string idProvincia = "1", int idCanton = 0)
@@ -125,7 +113,7 @@ namespace Web.Controllers
             }
             IEnumerable<Canton> cantones = ts;
 
-            return new SelectList(cantones, "Id", "Nombre", idCanton);
+            return new SelectList(cantones, "Nombre", "Nombre", idCanton);
         }
 
         public string RefreshCanton(string idProvincia = "1")
@@ -189,7 +177,7 @@ namespace Web.Controllers
             IEnumerable<Distrito> distritos = ts;
 
 
-            return new SelectList(distritos, "Id", "Nombre", idDistrito);
+            return new SelectList(distritos, "Nombre", "Nombre", idDistrito);
         }
 
         public string RefreshDistritos(string idProvincia = "1", string idCanton = "1")
@@ -219,45 +207,12 @@ namespace Web.Controllers
             return text;
         }
 
-
-
-        // POST: Usuario/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         // GET: Usuario/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Usuario/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         // GET: Usuario/Delete/5
         public ActionResult Delete(int id)
@@ -280,5 +235,73 @@ namespace Web.Controllers
                 return View();
             }
         }
+
+        [HttpPost]
+        public ActionResult Save(Usuario usuario, string IdProvincia, string IdCanton, string IdDistrito, HttpPostedFileBase ImageFile, string cliente, string proveedor, string senas)
+        {
+
+            MemoryStream target = new MemoryStream();
+            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
+            IServiceDireccion _ServiceDireccion = new ServiceDireccion();
+            string[] selectedTipos = new string[] { };
+            if (proveedor != null)
+            {
+                selectedTipos = selectedTipos.Append("2").ToArray();
+            }
+            if (cliente != null)
+            {
+                selectedTipos = selectedTipos.Append("3").ToArray();
+            }
+            try
+            {
+                if (usuario.Foto == null)
+                {
+                    if (ImageFile != null)
+                    {
+                        ImageFile.InputStream.CopyTo(target);
+                        usuario.Foto = target.ToArray();
+                        ModelState.Remove("Foto");
+                    }
+
+                }
+                if(usuario.IdEstado == null)
+                {
+                    usuario.IdEstado = 1;
+                }
+                Direccion direccion = new Direccion();
+                direccion.Provincia = IdProvincia;
+                direccion.Canton = IdCanton;
+                direccion.Distrito = IdDistrito;
+                direccion.DireccionExacta = senas;
+                Direccion oDireccion = _ServiceDireccion.Save(direccion);
+                usuario.IdDireccion = oDireccion.Id;
+                if (ModelState.IsValid)
+                {
+                    Usuario oUsuario = _ServiceUsuario.Save(usuario, selectedTipos);
+                }
+                else
+                {
+                    // Valida Errores si Javascript está deshabilitado
+                    Utils.Util.ValidateErrors(this);
+                    //Recurso a cargar en la vista
+
+                    //Debe funcionar para crear y modificar
+                    return View("Registrar", "Usuario");
+                }
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Libro";
+                TempData["Redirect-Action"] = "IndexProveedor";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+
     }
 }

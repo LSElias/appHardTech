@@ -30,7 +30,7 @@
             <div class="form-group mb-3">
                 @Html.LabelFor(model => model.Foto, "Agregar Imagen", htmlAttributes: new { @class = "control-label col-md-12 mb-2", })
                 <div class="col-md-10">
-                    <input type="file" name="images" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control lmao">
+                    <input type="file" name="images" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control fotoL">
                 </div>
             </div>
         </div>
@@ -147,7 +147,7 @@
 
     <script>
         const output = document.querySelector("output")
-        const input = document.querySelector(".lmao")
+        const input = document.querySelector(".fotoL")
         const dt = new DataTransfer()
         let imagesArray = []
         var doneOnce = false;
