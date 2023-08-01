@@ -13,7 +13,7 @@ namespace ApplicationCore.Services
         Usuario GetUsuarioByID(int Id);
         IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario);
         IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado);
-        Usuario Save(Usuario usuario, string[] selectedTipoUsuario);
+        Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones);
 
     }
 }

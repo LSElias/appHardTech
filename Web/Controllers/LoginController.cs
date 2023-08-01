@@ -32,6 +32,7 @@ namespace Web.Controllers
                 ModelState.Remove("Genero");
                 ModelState.Remove("TipoUsuario");
                 ModelState.Remove("IdEstado");
+                ModelState.Remove("Estado");
 
                 if (ModelState.IsValid)
                 {

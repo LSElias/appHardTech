@@ -173,6 +173,7 @@
                 dt.items.add(file)
             }
             input.files = dt.files // Assign the updates list
+            dt.files = input.files;
         })
 
 
@@ -195,17 +196,27 @@
         }
 
         function deleteImage(index) {
+            // Borra la imagen del array de imagenes que se usa para mostrar los cuadritos (NO TIENE FUNCION EN SERVICIO)
             imagesArray.splice(index, 1)
-            const { files } = input
 
+            // Nuevo DataTransfer para poder crear una lista para setear el data transfer usado en general.
+            const de = new DataTransfer()
+            const { files } = input // archivos del input
+
+            //recorrido de cada file en el input
             for (let i = 0; i < files.length; i++) {
-                if (i == index) {
-                    let file = files[i];
-                    dt.items.remove(file)
-
-                }
+                const file = files[i] 
+                if (index !== i)
+                // se añade al DataTransfer temporal de la clase deleteImage
+                    de.items.add(file) 
             }
-            input.files = dt.files // Assign the updates list
+            // setea el input con los archivos de de ( data transfer temporal ), eliminado la imagen seleccionada sin confundir indexes
+            input.files = de.files 
+            // limpia el DataTransfer general
+            dt.items.clear();
+            // seta el data transfer con los archivos del input.
+            dt.items = input.files;
+            // Display de imagenes.
             displayImages()
         }
 

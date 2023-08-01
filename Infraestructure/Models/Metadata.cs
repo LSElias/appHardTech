@@ -75,8 +75,6 @@ namespace Infraestructure.Models
         [Display(Name = "Dirección exacta")]
         public string DireccionExacta { get; set; }
 
-        [Display(Name = "Usuario")]
-        public virtual Usuario Usuario { get; set; }
     }
 
     internal partial class EstadoMetadata
@@ -299,7 +297,6 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
-        public Nullable<int> IdDireccion { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
@@ -343,14 +340,8 @@ namespace Infraestructure.Models
         [Display(Name = "Género")]
         public string Genero { get; set; }
 
-        [Display(Name = "Cuenta de pago")]
-        public virtual ICollection<CuentaPago> CuentaPago { get; set; }
-
-        [Display(Name = "Dirección")]
-        public virtual ICollection<Direccion> Direccion { get; set; }
-
-      //  [Required(ErrorMessage = "El estado es requerido")]
-      //  [Display(Name = "Estado")]
+        [Required(ErrorMessage = "El estado es requerido")]
+        [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
         [Required(ErrorMessage = "El tipo de usuario es requerido")]
