@@ -6,11 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="ffc58294d1fe423788cc489b3078080c" Name="Diagram1">
         <EntityTypeShape EntityType="DBHardTechModel.Categoria" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.CuentaPago" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.Direccion" Width="1.5" PointX="0.75" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.CuentaPago" Width="1.5" PointX="7.875" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.Direccion" Width="1.5" PointX="0.5" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Escala" Width="1.5" PointX="6" PointY="22.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Estado" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.Evaluacion" Width="1.5" PointX="8.25" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.Evaluacion" Width="1.5" PointX="9.125" PointY="15.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Factura" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Foto" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Mensaje" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
@@ -20,12 +20,10 @@
         <EntityTypeShape EntityType="DBHardTechModel.Respuesta" Width="1.5" PointX="10.5" PointY="15" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.TipoPago" Width="1.5" PointX="3" PointY="20.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.TipoUsuario" Width="1.5" PointX="0.75" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.Usuario" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.Usuario" Width="1.5" PointX="2.75" PointY="13.125" IsExpanded="true" />
         <AssociationConnector Association="DBHardTechModel.FK_Producto_Categoria" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_CuentaPago_TipoPago" ManuallyRouted="false" />
-        <AssociationConnector Association="DBHardTechModel.FK_CuentaPago_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_Factura_CuentaPago" ManuallyRouted="false" />
-        <AssociationConnector Association="DBHardTechModel.FK_Usuario_Direccion" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_Evaluacion_Escala" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_Orden_Estado" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_OrdenDetalle_Estado" ManuallyRouted="false" />
@@ -44,6 +42,9 @@
         <AssociationConnector Association="DBHardTechModel.FK_Producto_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.FK_Respuesta_Usuario" ManuallyRouted="false" />
         <AssociationConnector Association="DBHardTechModel.Usuario_Tipo" ManuallyRouted="false" />
+        <AssociationConnector Association="DBHardTechModel.FK_Factura_Direccion" />
+        <AssociationConnector Association="DBHardTechModel.Usuario_Cuenta" />
+        <AssociationConnector Association="DBHardTechModel.Usuario_Direccion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

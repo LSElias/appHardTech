@@ -27,11 +27,11 @@ namespace ApplicationCore.Services
             return oUsuario;
         }
 
-        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             usuario.Clave = Cryptography.EncrypthAES(usuario.Clave);
-            return oRep.Save(usuario, selectedTipoUsuario);
+            return oRep.Save(usuario, selectedTipoUsuario, arrayDirecciones);
         }
 
         //No se encriptó porque es el Admin que usará los usuarios

@@ -14,13 +14,11 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(UsuarioMetadata))]
-
     public partial class Usuario
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Usuario()
         {
-            this.CuentaPago = new HashSet<CuentaPago>();
             this.Evaluacion = new HashSet<Evaluacion>();
             this.Evaluacion1 = new HashSet<Evaluacion>();
             this.Factura = new HashSet<Factura>();
@@ -28,6 +26,8 @@ namespace Infraestructure.Models
             this.Producto = new HashSet<Producto>();
             this.Respuesta = new HashSet<Respuesta>();
             this.TipoUsuario = new HashSet<TipoUsuario>();
+            this.CuentaPago1 = new HashSet<CuentaPago>();
+            this.Direccion1 = new HashSet<Direccion>();
         }
     
         public int Id { get; set; }
@@ -41,11 +41,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdEstado { get; set; }
         public byte[] Foto { get; set; }
         public string Genero { get; set; }
-        public Nullable<int> IdDireccion { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CuentaPago> CuentaPago { get; set; }
-        public virtual Direccion Direccion { get; set; }
         public virtual Estado Estado { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Evaluacion> Evaluacion { get; set; }
@@ -61,5 +57,9 @@ namespace Infraestructure.Models
         public virtual ICollection<Respuesta> Respuesta { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CuentaPago> CuentaPago1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Direccion> Direccion1 { get; set; }
     }
 }

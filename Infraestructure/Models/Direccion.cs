@@ -14,13 +14,13 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(DireccionMetadata))]
-
     public partial class Direccion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Direccion()
         {
-            this.Usuario = new HashSet<Usuario>();
+            this.Factura = new HashSet<Factura>();
+            this.Usuario1 = new HashSet<Usuario>();
         }
     
         public int Id { get; set; }
@@ -30,6 +30,8 @@ namespace Infraestructure.Models
         public string DireccionExacta { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Usuario> Usuario { get; set; }
+        public virtual ICollection<Factura> Factura { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Usuario> Usuario1 { get; set; }
     }
 }

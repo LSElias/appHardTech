@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Services;
+﻿using Antlr.Runtime.Tree;
+using ApplicationCore.Services;
 using Infraestructure.Models;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
@@ -239,7 +240,7 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult Save(Usuario usuario, string IdProvincia, string IdCanton, string IdDistrito, HttpPostedFileBase ImageFile, string cliente, string proveedor, string senas)
         {
-
+            int[] arrayDirecciones = { };
             MemoryStream target = new MemoryStream();
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
             IServiceDireccion _ServiceDireccion = new ServiceDireccion();
@@ -274,10 +275,10 @@ namespace Web.Controllers
                 direccion.Distrito = IdDistrito;
                 direccion.DireccionExacta = senas;
                 Direccion oDireccion = _ServiceDireccion.Save(direccion);
-                usuario.IdDireccion = oDireccion.Id;
+                arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
                 if (ModelState.IsValid)
                 {
-                    Usuario oUsuario = _ServiceUsuario.Save(usuario, selectedTipos);
+                    Usuario oUsuario = _ServiceUsuario.Save(usuario, selectedTipos, arrayDirecciones);
                 }
                 else
                 {

@@ -143,7 +143,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones)
         {
             int retorno = 0;
             Usuario oUsuario = null;
