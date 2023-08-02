@@ -22,7 +22,6 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .Include("Usuario")
                         .Where(x=>x.Id == Id)
                         .FirstOrDefault();
                 }
@@ -51,7 +50,6 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .Include("Usuario")
                         .FirstOrDefault();
 
                 }
@@ -79,7 +77,7 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Direccion.Include("Usuario").
+                    list = ctx.Direccion.
                         ToList<Direccion>();
                 }
                 return list;

@@ -276,6 +276,9 @@ namespace Web.Controllers
                 direccion.DireccionExacta = senas;
                 Direccion oDireccion = _ServiceDireccion.Save(direccion);
                 arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
+
+
+                ModelState.Remove("Estado");
                 if (ModelState.IsValid)
                 {
                     Usuario oUsuario = _ServiceUsuario.Save(usuario, selectedTipos, arrayDirecciones);
@@ -287,7 +290,7 @@ namespace Web.Controllers
                     //Recurso a cargar en la vista
 
                     //Debe funcionar para crear y modificar
-                    return View("Registrar", "Usuario");
+                    return View("Registro", "Usuario");
                 }
 
                 return RedirectToAction("Index", "Home");
