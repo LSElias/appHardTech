@@ -16,6 +16,7 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using Web.Models;
 using Web.Utils;
+using Web.ViewModel;
 using static System.Net.WebRequestMethods;
 
 namespace Web.Controllers
@@ -238,8 +239,21 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Usuario usuario, string IdProvincia, string IdCanton, string IdDistrito, HttpPostedFileBase ImageFile, string cliente, string proveedor, string senas)
+        public ActionResult Save(Registro registro, string IdProvincia, string IdCanton, string IdDistrito, HttpPostedFileBase ImageFile, string cliente, string proveedor, string senas)
         {
+            Usuario _Usuario = new Usuario
+            {
+                Apellido1 = registro.Apellido1,
+                Apellido2 = registro.Apellido2,
+                Cedula = registro.Cedula,
+                Clave = registro.Clave,
+                Correo = registro.Correo,
+                Genero = registro.Genero,
+                IdEstado = 1,
+                Nombre = registro.Nombre,
+                Telefono = registro.Telefono
+            };
+
             int[] arrayDirecciones = { };
             MemoryStream target = new MemoryStream();
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
@@ -255,20 +269,18 @@ namespace Web.Controllers
             }
             try
             {
-                if (usuario.Foto == null)
+                if (registro.Foto == null)
                 {
                     if (ImageFile != null)
                     {
                         ImageFile.InputStream.CopyTo(target);
-                        usuario.Foto = target.ToArray();
+                        registro.Foto = target.ToArray();
+                        _Usuario.Foto = registro.Foto;
                         ModelState.Remove("Foto");
                     }
 
                 }
-                if(usuario.IdEstado == null)
-                {
-                    usuario.IdEstado = 1;
-                }
+
                 Direccion direccion = new Direccion();
                 direccion.Provincia = IdProvincia;
                 direccion.Canton = IdCanton;
@@ -281,7 +293,7 @@ namespace Web.Controllers
                 ModelState.Remove("Estado");
                 if (ModelState.IsValid)
                 {
-                    Usuario oUsuario = _ServiceUsuario.Save(usuario, selectedTipos, arrayDirecciones);
+                    Usuario oUsuario = _ServiceUsuario.Save(_Usuario, selectedTipos, arrayDirecciones);
                 }
                 else
                 {
