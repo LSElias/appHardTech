@@ -1,0 +1,137 @@
+﻿@model Infraestructure.Models.Orden
+
+@{
+    ViewBag.Title = "Carrito";
+}
+
+<h2 style="color: white">Carrito</h2>
+@using (Html.BeginForm("Save", "Orden", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="orden-container row py-3" style=" background-color: #ffffffd8; ">
+        <div class="form-horizontal">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-10 opacity-75">
+
+                        @if (Session["User"] != null)
+                        {
+                            // var idUsuario = "";
+                            Infraestructure.Models.Usuario oUsuario;
+
+                            oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                            if (oUsuario != null)
+                            {
+                                <h5 style="color: #161616">
+                                    @Html.Label(oUsuario.Nombre + " " + oUsuario.Apellido1 + " " + oUsuario.Apellido2)
+                                </h5>
+                            }
+                        }
+                        else
+                        {
+                            <h5 style="color: #161616">
+                                @Html.Label("Inicie sesion antes de formalizar")
+                            </h5>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-md-6 opacity-75" style="color: #161616; margin: -10px 0 10px 0;">
+                    @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "col-form-label" })
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(model => model.FechaInicio, htmlAttributes: new { @class = "form-control", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @readonly = "readonly" })
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="
+       border-width: 2px;
+       border-style: solid;
+       border-image: linear-gradient(90deg, rgba(213,0,255,1) 0%, rgba(255,156,0,1) 100%) 1;
+       padding: 10px 0 -10px 0;
+       " />
+
+        <div id="resultadoDetalle">
+            @if (Web.Utils.Carrito.Instancia.Items.Count() > 0)
+            {
+                @Html.Partial("~/Views/Orden/_DetalleOrden.cshtml",
+                     (List<Web.ViewModel.ViewModelOrdenDetalle>)ViewBag.DetalleOrden
+                    )
+            }
+            else
+            {
+                <div class="alert alert-warning d-flex align-items-center" role="alert">
+                    La orden no tiene productos seleccionados.
+
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+    <!-- Submit -->
+    <button type="submit" class="btn btn-comprar float-right" id="btnOrdenar">
+        <span class="glyphicon  glyphicon-floppy-save"></span>
+        Formalizar orden
+    </button>
+
+}
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script type="text/javascript">//Actualizar cantidad de libros en el menú
+        function updateCantProductos() {
+            $.ajax({
+                type: "GET",
+                dataType: 'text',
+                url: "/Orden/actualizarOrdenCantidad",
+                success: function (data) {
+                    $("#cantProductos").html('');
+                    $("#cantProductos").html(data);
+                }, error: function (xhr, status, error) {
+                    console.log("Error: " + error + ", No Error: " + xhr.status);
+                },
+            });
+        }
+
+        //Cambio en la cantidad a comprar
+        $(document).on('change', '.changeCantidad',
+            function () {
+                var txtCantidad = $(this);
+                var cantidad = txtCantidad.val();
+                var id = txtCantidad.data("productId");
+                $.ajax({
+                    type: "GET",
+                    dataType: 'text',
+                    url: "/Orden/actualizarCantidad",
+                    data: { "idProducto": id, "cantidad": cantidad },
+                    success: function (data) {
+                        $("#resultadoDetalle").html('');
+                        $("#resultadoDetalle").html(data);
+                        updateCantLibros();
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
+            });
+        //Eliminar libro
+        $(document).on('click', '.eliminar',
+            function () {
+                var ctr = $(this);
+                var id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    dataType: 'text',
+                    url: "/Orden/eliminarProducto",
+                    data: { "idProducto": id },
+                    success: function (data) {
+                        $("#resultadoDetalle").html('');
+                        $("#resultadoDetalle").html(data);
+                        updateCantLibros();
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
+            });</script>
+}

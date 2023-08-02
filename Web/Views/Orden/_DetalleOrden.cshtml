@@ -1,0 +1,69 @@
+﻿@model List<Web.ViewModel.ViewModelOrdenDetalle>
+
+<div class="table-responsive-sm" style=" width: 101%; margin: 0 auto;">
+    @*Accion, nombre de controlador*@
+
+    <table class="table table-striped table-bordered dt-responsive nowrap overflow-x-scroll" width="100%" cellspacing="0">
+        <tr>
+            <th style=" background-color: #ffffffd8; ">
+                Producto
+            </th>
+            <th class="center" style=" background-color: #ffffffd8; ">
+                Cantidad
+            </th>
+            <th class="right" style=" background-color: #ffffffd8; ">
+                Precio
+            </th>
+
+            <th class="right" style=" background-color: #ffffffd8; ">
+                SubTotal
+            </th>
+            <th style=" background-color: #ffffffd8; "></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style=" background-color: #ffffffd8; ">
+                    @Html.HiddenFor(modelItem => item.Producto.IdProducto)
+                    @Html.DisplayFor(modelItem => item.Producto.Nombre)
+                </td>
+                <td class="center" style="width: 1.5em; background-color: #ffffffd8; ">
+                    @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class = "form-control changeCantidad", data_productId = item.Producto.IdProducto } })
+                </td>
+                <td class="right" style=" background-color: #ffffffd8; ">
+
+                    @Html.DisplayFor(modelItem => item.ProdPrecio)
+                </td>
+
+                <td class="right" style=" background-color: #ffffffd8; ">
+                    @Html.DisplayFor(modelItem => item.SubTot)
+                </td>
+                <td style=" background-color: #ffffffd8; ">
+                    <button type="button" class="btn btn-comprar eliminar" data-id=@item.Producto.IdProducto> <i class="fa-solid fa-trash"></i></button>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<div class="row">
+    <div class="col-lg-4 col-sm-5"></div>
+    <div class="col-lg-8 col-sm-5 ml-auto">
+        <table class="table table-clear">
+            <tbody>
+                <tr>
+                    <td class="right" style=" background-color: #ffffffd8; ">
+                        <strong style=" background-color: #ffffffd8; ">Total</strong>
+                    </td>
+                    <td class="right" style=" background-color: #ffffffd8; ">
+                        <strong style=" background-color: #ffffffd8; ">@(((decimal)Web.Utils.Carrito.Instancia.GetTotal()).ToString("C2"))</strong>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
