@@ -155,6 +155,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = GetUsuarioByID((int)usuario.Id);
                     IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
+                    IRepositoryDireccion _RepositoryDireccion = new RepositoryDireccion();
 
                     if (oUsuario == null)
                     {
@@ -168,7 +169,16 @@ namespace Infraestructure.Repository
                                 usuario.TipoUsuario.Add(tipoUserAdd);
                             }
                         }
-
+                        if (arrayDirecciones != null)
+                        {
+                            usuario.Direccion1 = new List<Direccion>();
+                            foreach (var dirId in arrayDirecciones)
+                            {
+                                var dirAdd = _RepositoryDireccion.GetDireccionByID(dirId);
+                                ctx.Direccion.Attach(dirAdd);
+                                usuario.Direccion1.Add(dirAdd);
+                            }
+                        }
                         //Insertar
                         ctx.Usuario.Add(usuario);
                         retorno = ctx.SaveChanges();
