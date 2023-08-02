@@ -1,4 +1,5 @@
-﻿using ApplicationCore.Services;
+﻿using Antlr.Runtime.Misc;
+using ApplicationCore.Services;
 using Infraestructure.Models;
 using Infraestructure.Utils;
 using System;
@@ -7,6 +8,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Web.Security;
+using Web.Utils;
 
 namespace Web.Controllers
 {
@@ -15,8 +18,86 @@ namespace Web.Controllers
         // GET: Orden
         public ActionResult Index()
         {
+            //Recibir Mensaje de notificación
+            if (TempData.ContainsKey("NotificationMessage"))
+            {
+                ViewBag.NotificationMessage = TempData["NotificationMessage"];
+            }
+
+            //Carrito de Compras
+            ViewBag.DetalleOrden = Carrito.Instancia.Items;
+
             return View();
         }
+
+        private ActionResult DetalleCarrito()
+        {
+            return PartialView("_DetalleOrden", Carrito.Instancia.Items);
+        }
+
+        //Ordena el producto 
+        public ActionResult ordenProducto(int? idProducto)
+        {
+            ViewBag.NotiCarrito = Carrito.Instancia.AgregarItem((int)idProducto);
+            return PartialView("_OrdenCantidad");
+        }
+
+        //Actualiza Cantidad 
+        public ActionResult actualizarCantidad(int idProducto, int cantidad)
+        {
+
+            ViewBag.DetalleOrden = Carrito.Instancia.Items;
+            TempData["NotiCarrito"] = Carrito.Instancia.SetItemCantidad(idProducto, cantidad);
+            TempData.Keep();
+            return PartialView("_DetalleOrden", Carrito.Instancia.Items);
+
+        }
+
+        //Actualiza 
+        public ActionResult actualizarOrdenCantidad()
+        {
+            if (TempData.ContainsKey("NotiCarrito"))
+            {
+                ViewBag.NotiCarrito = TempData["NotiCarrito"];
+            }
+            int cantProductos = Carrito.Instancia.Items.Count();
+            return PartialView("_OrdenCantidad");
+
+        }
+        //Eliminar libro del carrito
+        public ActionResult eliminarProducto(int? idProducto)
+        {
+            TempData["NotiCarrito"] = Carrito.Instancia.EliminarItem((int)idProducto);
+            TempData.Keep();
+            return PartialView("_DetalleOrden", Carrito.Instancia.Items);
+        }
+
+        //Admin Orden 
+        [CustomAuthorize((int)Roles.Administrador)]
+        public ActionResult IndexAdmin()
+        {
+            IEnumerable<Orden> lista = null;
+
+            try
+            {
+                IServiceOrden _ServiceOrden = new ServiceOrden();
+                lista = _ServiceOrden.GetOrden();
+                return View(lista);
+            }
+            catch (Exception ex)
+            {
+                // Salvar el error en un archivo 
+                Infraestructure.Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Orden";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+        //Orden por proveedor 
+        //Agregar en Service y Repository, buscar las orden por proveeedor
 
         // GET: Orden/Details/5
         public ActionResult Detalle(int? id)
@@ -46,7 +127,7 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 // Salvar el error en un archivo 
-                Log.Error(ex, MethodBase.GetCurrentMethod());
+                Infraestructure.Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos! " + ex.Message;
                 TempData["Redirect"] = "Orden";
                 TempData["Redirect-Action"] = "IndexAdmin";

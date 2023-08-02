@@ -162,9 +162,11 @@
     <Compile Include="Security\AutorizeView.cs" />
     <Compile Include="Security\CustomAuthenticationFilter.cs" />
     <Compile Include="Security\CustomAuthorizeAttribute.cs" />
+    <Compile Include="Utils\Carrito.cs" />
     <Compile Include="Utils\Log.cs" />
     <Compile Include="Utils\SweetAlertHelper.cs" />
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="ViewModel\ViewModelOrdenDetalle.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\HardtechDB.sql" />
@@ -276,6 +278,9 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Login\UnAuthorized.cshtml" />
     <Content Include="Views\Usuario\Registro.cshtml" />
+    <Content Include="Views\Orden\Index.cshtml" />
+    <Content Include="Views\Orden\_DetalleOrden.cshtml" />
+    <Content Include="Views\Shared\_OrdenCantidad.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

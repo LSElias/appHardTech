@@ -56,8 +56,7 @@
                                     <a href="/Producto/Detalle/@item.IdProducto" class="btn btn-large btn-detalle">Detalle</a>
                                 </div>
                                 <div class="col-md-12">
-                                    <button class="btn btn-large btn-comprar">Comprar</button>
-                                </div>
+                                    <button id="comprar" class="btn btn-large btn-comprar" data-id="@item.IdProducto">Comprar</button>                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,6 +88,22 @@
 
                 });
 
+            });
+        $(document).on('click', '#comprar',
+            function () {
+                var ctr = $(this);
+                var idProducto = $(this).data('id');
+                $.ajax({
+                    method: "GET",
+                    url: "/Orden/ordenProducto",
+                    data: { "idProducto": idProducto },
+                    success: function (data) {
+                        $("#cantProductos").html('');
+                        $("#cantProductos").html(data);
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
             });
     </script>
 
