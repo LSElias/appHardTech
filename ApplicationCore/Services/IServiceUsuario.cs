@@ -14,7 +14,7 @@ namespace ApplicationCore.Services
         IEnumerable<Usuario> GetUsuarioByIDTipoUsuario(int IdTipoUsuario);
         IEnumerable<Usuario> GetUsuarioByEstado(int IdEstado);
         Usuario GetUsuarioByEmail(string correo);
-        Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones);
+        Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones, int[] arrayCuentas);
 
     }
 }

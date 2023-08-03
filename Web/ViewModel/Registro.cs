@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
+using Web.Utils;
 
 namespace Web.ViewModel
 {
@@ -81,8 +82,9 @@ namespace Web.ViewModel
         [RegularExpression(@"^\d+$", ErrorMessage = "Solo se acepta números")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "El número de tarjeta es requerida")]
         [StringLength(16, MinimumLength = 14, ErrorMessage = "La cantidad de dígitos no es válida")]
+        [CreditCard]
         [DataType(DataType.CreditCard)]
-        [Display(Name = "Número de cuenta")]
+        [Display(Name = "Número de Tarjeta")]
         public string NumCuenta { get; set; }
 
         [RegularExpression(@"^\d+$", ErrorMessage = "Digite el mes en números. Ej: 01")]
