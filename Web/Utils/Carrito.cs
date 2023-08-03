@@ -57,14 +57,14 @@ namespace Web.Utils
             return mensaje;
         }
 
-        public String SetItemCantidad(int productId, int cantidad)
+        public String SetItemCantidad(int productId, int Cantidad)
         {
             String mensaje = "";
 
-            if (cantidad == 0)
+            if (Cantidad == 0)
             {
                 EliminarItem(productId);
-                mensaje = SweetAlertHelper.Mensaje("Producto", "Producto eliminado correctamente", SweetAlertMessageType.success);
+                mensaje = SweetAlertHelper.Mensaje("Producto", "Producto eliminado", SweetAlertMessageType.success);
 
             }
             else
@@ -74,8 +74,8 @@ namespace Web.Utils
                 if (Items.Exists(x => x.IdProducto == productId))
                 {
                     ViewModelOrdenDetalle item = Items.Find(x => x.IdProducto == productId);
-                    item.Cantidad = cantidad;
-                    mensaje = SweetAlertHelper.Mensaje("Producto", "La cantidad fue actualizada correctamente", SweetAlertMessageType.success);
+                    item.Cantidad = Cantidad;
+                    mensaje = SweetAlertHelper.Mensaje("Producto", "La cantidad fue actualizada", SweetAlertMessageType.success);
 
                 }
             }

@@ -4,21 +4,21 @@
     @*Accion, nombre de controlador*@
 
     <table class="table table-striped table-bordered dt-responsive nowrap overflow-x-scroll" width="100%" cellspacing="0">
-        <tr>
-            <th style=" background-color: #ffffffd8; ">
+        <tr >
+            <th style="background-color: black; color: white; text-align: center;">
                 Producto
             </th>
-            <th class="center" style=" background-color: #ffffffd8; ">
+            <th style="background-color: black; color: white; text-align: center;">
                 Cantidad
             </th>
-            <th class="right" style=" background-color: #ffffffd8; ">
+            <th style="background-color: black; color: white; text-align: center;">
                 Precio
             </th>
 
-            <th class="right" style=" background-color: #ffffffd8; ">
+            <th style="background-color: black; color: white; text-align: center;">
                 SubTotal
             </th>
-            <th style=" background-color: #ffffffd8; "></th>
+            <th ></th>
         </tr>
 
         @foreach (var item in Model)
@@ -29,7 +29,7 @@
                     @Html.DisplayFor(modelItem => item.Producto.Nombre)
                 </td>
                 <td class="center" style="width: 1.5em; background-color: #ffffffd8; ">
-                    @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class = "form-control changeCantidad", data_productId = item.Producto.IdProducto } })
+                    @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class="form-control changeCantidad", data_productid= item.Producto.IdProducto } })
                 </td>
                 <td class="right" style=" background-color: #ffffffd8; ">
 

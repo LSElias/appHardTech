@@ -81,6 +81,7 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
+        [Display(Name = "Estado")]
         public string Nombre { get; set; }
 
         [Display(Name = "Orden")]
@@ -158,6 +159,7 @@ namespace Infraestructure.Models
 
     internal partial class OrdenMetadata
     {
+        [Display(Name = "Número de orden")]
         public int IdOrden { get; set; }
 
         public Nullable<int> IdEstado { get; set; }
