@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using System.Web.Services.Description;
 using Web.Models;
 using Web.Utils;
 using Web.ViewModel;
@@ -38,8 +39,6 @@ namespace Web.Controllers
         // GET: Usuario/Create
         public ActionResult Registro()
         {
-
-
             ViewBag.IdProvincia = ListaProvincias();
             ViewBag.IdCanton = ListaCanton();
             ViewBag.IdDistrito = ListaDistritos();
@@ -239,8 +238,14 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Registro registro, string IdProvincia, string IdCanton, string IdDistrito, HttpPostedFileBase ImageFile, string cliente, string proveedor, string senas)
+        public ActionResult SaveRegistro(Registro registro, HttpPostedFileBase ImageFile)
         {
+            int[] arrayDirecciones = { };
+            MemoryStream target = new MemoryStream();
+            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
+            IServiceDireccion _ServiceDireccion = new ServiceDireccion();
+            string[] selectedTipos = new string[] { };
+
             Usuario _Usuario = new Usuario
             {
                 Apellido1 = registro.Apellido1,
@@ -254,67 +259,100 @@ namespace Web.Controllers
                 Telefono = registro.Telefono
             };
 
-            int[] arrayDirecciones = { };
-            MemoryStream target = new MemoryStream();
-            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
-            IServiceDireccion _ServiceDireccion = new ServiceDireccion();
-            string[] selectedTipos = new string[] { };
-            if (proveedor != null)
+            Direccion direccion = new Direccion
             {
-                selectedTipos = selectedTipos.Append("2").ToArray();
-            }
-            if (cliente != null)
+                Provincia = registro.Provincia,
+                Canton = registro.Canton,
+                Distrito = registro.Distrito,
+                DireccionExacta = registro.Senas
+            };
+
+            Usuario vUsuario = _ServiceUsuario.GetUsuarioByEmail(_Usuario.Correo);
+            if(vUsuario != null)
             {
-                selectedTipos = selectedTipos.Append("3").ToArray();
-            }
-            try
+                ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+    "Ya existe una cuenta vinculada a este correo.", SweetAlertMessageType.error);
+                ViewBag.IdProvincia = ListaProvincias();
+                ViewBag.IdCanton = ListaCanton();
+                ViewBag.IdDistrito = ListaDistritos();
+                return View("Registro");
+            } 
+
+            if (registro.Cliente == true || registro.Proveedor == true)
             {
-                if (registro.Foto == null)
+
+                if (registro.Cliente != false)
                 {
-                    if (ImageFile != null)
+                    selectedTipos = selectedTipos.Append("2").ToArray();
+                }
+                if (registro.Proveedor != false)
+                {
+                    selectedTipos = selectedTipos.Append("3").ToArray();
+                }
+
+
+
+                try
+                {
+                    if (registro.Foto == null)
                     {
-                        ImageFile.InputStream.CopyTo(target);
-                        registro.Foto = target.ToArray();
-                        _Usuario.Foto = registro.Foto;
-                        ModelState.Remove("Foto");
+                        if (ImageFile != null)
+                        {
+                            ImageFile.InputStream.CopyTo(target);
+                            registro.Foto = target.ToArray();
+                            _Usuario.Foto = registro.Foto;
+                            ModelState.Remove("Foto");
+                        }
+                        else
+                        {
+                            ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+                                "Es necesario seleccionar una foto.", SweetAlertMessageType.error);
+                            ViewBag.IdProvincia = ListaProvincias();
+                            ViewBag.IdCanton = ListaCanton();
+                            ViewBag.IdDistrito = ListaDistritos();
+                            return View("Registro");
+                        }
                     }
 
+                    //       Direccion oDireccion = _ServiceDireccion.Save(direccion);
+                    //     arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
+
+                    ModelState.Remove("Estado");
+                    if (ModelState.IsValid)
+                    {
+                        //       Usuario oUsuario = _ServiceUsuario.Save(_Usuario, selectedTipos, arrayDirecciones);
+                    }
+                    else
+                    {
+                        // Valida Errores si Javascript está deshabilitado
+                        Utils.Util.ValidateErrors(this);
+                        //Recurso a cargar en la vista
+
+                        //Debe funcionar para crear y modificar
+                        return View("Registro");
+                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
 
-                Direccion direccion = new Direccion();
-                direccion.Provincia = IdProvincia;
-                direccion.Canton = IdCanton;
-                direccion.Distrito = IdDistrito;
-                direccion.DireccionExacta = senas;
-                Direccion oDireccion = _ServiceDireccion.Save(direccion);
-                arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
-
-
-                ModelState.Remove("Estado");
-                if (ModelState.IsValid)
+                catch (Exception ex)
                 {
-                    Usuario oUsuario = _ServiceUsuario.Save(_Usuario, selectedTipos, arrayDirecciones);
+                    Log.Error(ex, MethodBase.GetCurrentMethod());
+                    TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                    TempData["Redirect"] = "Libro";
+                    TempData["Redirect-Action"] = "IndexProveedor";
+                    // Redireccion a la captura del Error
+                    return RedirectToAction("Default", "Error");
                 }
-                else
-                {
-                    // Valida Errores si Javascript está deshabilitado
-                    Utils.Util.ValidateErrors(this);
-                    //Recurso a cargar en la vista
-
-                    //Debe funcionar para crear y modificar
-                    return View("Registro", "Usuario");
-                }
-
-                return RedirectToAction("Index", "Home");
             }
-            catch (Exception ex)
-            {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
-                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
-                TempData["Redirect"] = "Libro";
-                TempData["Redirect-Action"] = "IndexProveedor";
-                // Redireccion a la captura del Error
-                return RedirectToAction("Default", "Error");
+            else {
+                ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+                    "Debes de seleccionar un tipo de cuenta, sea cliente o proveedor, o ambos.", SweetAlertMessageType.error);
+                ViewBag.IdProvincia = ListaProvincias();
+                ViewBag.IdCanton = ListaCanton();
+                ViewBag.IdDistrito = ListaDistritos();
+                return View("Registro");
+
             }
         }
 

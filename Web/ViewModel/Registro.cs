@@ -61,11 +61,16 @@ namespace Web.ViewModel
         [Display(Name = "Cuenta de Proveedor")]
         public bool Proveedor { get; set; }
 
+        [Required(ErrorMessage = "La provincia es requerida")]
         public string Provincia { get; set; }
+
+        [Required(ErrorMessage = "El cantón es requerido")]
         public string Canton { get; set; }
+
+        [Required(ErrorMessage = "El distrito es requerido")]
         public string Distrito { get; set; }
 
-        [Required(ErrorMessage = "La dirección exacta es requerida requerido")]
+        [Required(ErrorMessage = "La dirección exacta es requerida ")]
         [Display(Name = "Dirección Exacta")]
         public string Senas { get; set; }
     }
