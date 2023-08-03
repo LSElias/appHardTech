@@ -146,16 +146,60 @@
                             @Html.DropDownListFor(model => model.Distrito,
                             (SelectList)ViewBag.IdDistrito, null,
                             htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Distrito, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.Distrito, "", new { @class = "text-danger" }) 
                         </div>
                     </div>
                     <div class="form-group col-md-12 ">
                         <div class="col-md-12 my-3">
-                            <h6 style="color: #ffffff8c"> Señas </h6>
+                            @Html.LabelFor(model => model.NumCuenta, htmlAttributes: new { @style = "color: #ffffff8c;" })
                             @Html.TextBoxFor(model => model.Senas, null, htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.Senas, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <hr />
+                </div>
+                <div class="col-md-12 login-label row my-3">
+                    <h5 class="login-label">
+                        Método de Pago
+                    </h5>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.NumCuenta, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.NumCuenta, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NumCuenta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.CodSeguridad, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.CodSeguridad, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CodSeguridad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Mes, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Mes, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Mes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Anio, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Anio, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 mb-3 ">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.IdTipoPago, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.DropDownListFor(model => model.IdTipoPago,
+                            (SelectList)ViewBag.IdTipoPago, null,
+                            htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdTipoPago, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
                 </div>
                 <div class="col-md-12 row my-3">
                     <div class="form-group my-2 col-md-12">

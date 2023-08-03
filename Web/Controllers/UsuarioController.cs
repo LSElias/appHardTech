@@ -42,8 +42,15 @@ namespace Web.Controllers
             ViewBag.IdProvincia = ListaProvincias();
             ViewBag.IdCanton = ListaCanton();
             ViewBag.IdDistrito = ListaDistritos();
-
+            ViewBag.IdTipoPago = ListaPago();
             return View();
+        }
+
+        private SelectList ListaPago(int idTipo = 0)
+        {
+            IServiceTipoPago _service = new ServiceTipoPago();
+            IEnumerable<TipoPago> lista = _service.GetTipoPago();
+            return new SelectList(lista, "Id", "Nombre", idTipo);
         }
 
         public SelectList ListaProvincias(int idProvincia = 0)
@@ -275,6 +282,7 @@ namespace Web.Controllers
                 ViewBag.IdProvincia = ListaProvincias();
                 ViewBag.IdCanton = ListaCanton();
                 ViewBag.IdDistrito = ListaDistritos();
+                ViewBag.IdTipoPago = ListaPago();
                 return View("Registro");
             } 
 
@@ -310,6 +318,7 @@ namespace Web.Controllers
                             ViewBag.IdProvincia = ListaProvincias();
                             ViewBag.IdCanton = ListaCanton();
                             ViewBag.IdDistrito = ListaDistritos();
+                            ViewBag.IdTipoPago = ListaPago();
                             return View("Registro");
                         }
                     }
@@ -351,6 +360,7 @@ namespace Web.Controllers
                 ViewBag.IdProvincia = ListaProvincias();
                 ViewBag.IdCanton = ListaCanton();
                 ViewBag.IdDistrito = ListaDistritos();
+                ViewBag.IdTipoPago = ListaPago();
                 return View("Registro");
 
             }
