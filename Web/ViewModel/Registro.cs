@@ -73,5 +73,36 @@ namespace Web.ViewModel
         [Required(ErrorMessage = "La dirección exacta es requerida ")]
         [Display(Name = "Dirección Exacta")]
         public string Senas { get; set; }
+
+        [Required(ErrorMessage = "El tipo de tarjeta es requerido.")]
+        [Display(Name = "Tipo de Tarjeta")]
+        public int IdTipoPago { get; set; }
+
+        [RegularExpression(@"^\d+$", ErrorMessage = "Solo se acepta números")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El número de tarjeta es requerida")]
+        [StringLength(16, MinimumLength = 14, ErrorMessage = "La cantidad de dígitos no es válida")]
+        [DataType(DataType.CreditCard)]
+        [Display(Name = "Número de cuenta")]
+        public string NumCuenta { get; set; }
+
+        [RegularExpression(@"^\d+$", ErrorMessage = "Digite el mes en números. Ej: 01")]
+        [StringLength(2, MinimumLength = 2, ErrorMessage = "Digite el mes en números. Ej: 01")]
+        [Required(ErrorMessage = "El mes es requerido")]
+        [Display(Name = "Mes")]
+        public string Mes { get; set; }
+
+        [RegularExpression(@"^\d+$", ErrorMessage = "Digite el año en números. Ej: 2012")]
+        [StringLength(4, MinimumLength = 4, ErrorMessage = "Digite el año en números. Ej: 2012")]
+        [Required(ErrorMessage = "El año es requerido")]
+        
+        [Display(Name = "Año")]
+        public string Anio { get; set; }
+
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El código de seguridad es requerido")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "El código de seguridad solo acepta números")]
+        [StringLength(3, MinimumLength = 3, ErrorMessage = "La cantidad de dígitos no es válida")]
+        [Display(Name = "Código de seguridad")]
+        public string CodSeguridad { get; set; }
+
     }
 }
