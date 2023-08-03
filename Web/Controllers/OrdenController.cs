@@ -35,13 +35,6 @@ namespace Web.Controllers
             return PartialView("_DetalleOrden", Carrito.Instancia.Items);
         }
 
-        //Ordena el producto 
-        public ActionResult ordenProducto(int? idProducto)
-        {
-            ViewBag.NotiCarrito = Carrito.Instancia.AgregarItem((int)idProducto);
-            return PartialView("_OrdenCantidad");
-        }
-
         //Actualiza Cantidad 
         public ActionResult actualizarCantidad(int idProducto, int cantidad)
         {
@@ -51,6 +44,13 @@ namespace Web.Controllers
             TempData.Keep();
             return PartialView("_DetalleOrden", Carrito.Instancia.Items);
 
+        }
+
+        //Ordena el producto 
+        public ActionResult ordenProducto(int? idProducto)
+        {
+            ViewBag.NotiCarrito = Carrito.Instancia.AgregarItem((int)idProducto);
+            return PartialView("_OrdenCantidad");
         }
 
         //Actualiza 
@@ -94,6 +94,7 @@ namespace Web.Controllers
                 // Redireccion a la captura del Error
                 return RedirectToAction("Default", "Error");
             }
+
         }
 
         //Orden por proveedor 
@@ -110,10 +111,11 @@ namespace Web.Controllers
 
                 if (id == null)
                 {
-                    return RedirectToAction("MisOrdenes", "Factura");
+                    return RedirectToAction("IndexAdmin");
                 }
 
                 orden = _ServiceOrden.GetOrdenById(id.Value);
+
                 if (orden == null)
                 {
                     TempData["Message"] = "No existe la orden solicitado";
@@ -180,26 +182,6 @@ namespace Web.Controllers
             }
         }
 
-        // GET: Orden/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Orden/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

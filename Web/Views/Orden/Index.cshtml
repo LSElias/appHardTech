@@ -4,7 +4,11 @@
     ViewBag.Title = "Carrito";
 }
 
-<h2 style="color: white">Carrito</h2>
+<div class="container-fluid m-auto text-center pt-3">
+    <h1 class="page-title">Carrito</h1>
+</div>
+
+
 @using (Html.BeginForm("Save", "Orden", FormMethod.Post))
 {
     @Html.AntiForgeryToken()
@@ -56,8 +60,8 @@
             @if (Web.Utils.Carrito.Instancia.Items.Count() > 0)
             {
                 @Html.Partial("~/Views/Orden/_DetalleOrden.cshtml",
-                     (List<Web.ViewModel.ViewModelOrdenDetalle>)ViewBag.DetalleOrden
-                    )
+                            (List<Web.ViewModel.ViewModelOrdenDetalle>)ViewBag.DetalleOrden
+                           )
             }
             else
             {
@@ -70,68 +74,78 @@
     </div>
     <hr />
     <!-- Submit -->
-    <button type="submit" class="btn btn-comprar float-right" id="btnOrdenar">
-        <span class="glyphicon  glyphicon-floppy-save"></span>
-        Formalizar orden
-    </button>
-
+    if (Session["User"] != null)
+    {
+        <button type="submit" class="btn btn-comprar float-right" id="btnOrdenar">
+            <span class="glyphicon  glyphicon-floppy-save"></span>
+            Formalizar orden
+        </button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-comprar float-right" id="btnOrdenar" disabled="" style="background-color:dimgray">
+            <span class="glyphicon  glyphicon-floppy-save"></span>
+            Formalizar orden
+        </button>
+    }
 }
-@section Scripts {
+    @section Scripts {
 
-    @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryval")
 
-    <script type="text/javascript">//Actualizar cantidad de libros en el menú
-        function updateCantProductos() {
-            $.ajax({
-                type: "GET",
-                dataType: 'text',
-                url: "/Orden/actualizarOrdenCantidad",
-                success: function (data) {
-                    $("#cantProductos").html('');
-                    $("#cantProductos").html(data);
-                }, error: function (xhr, status, error) {
-                    console.log("Error: " + error + ", No Error: " + xhr.status);
-                },
-            });
-        }
-
-        //Cambio en la cantidad a comprar
-        $(document).on('change', '.changeCantidad',
-            function () {
-                var txtCantidad = $(this);
-                var cantidad = txtCantidad.val();
-                var id = txtCantidad.data("productId");
+        <script type="text/javascript">
+            //Actualizar cantidad de libros en el menú
+            function updateCantProductos() {
                 $.ajax({
                     type: "GET",
                     dataType: 'text',
-                    url: "/Orden/actualizarCantidad",
-                    data: { "idProducto": id, "cantidad": cantidad },
+                    url: "/Orden/actualizarOrdenCantidad",
                     success: function (data) {
-                        $("#resultadoDetalle").html('');
-                        $("#resultadoDetalle").html(data);
-                        updateCantLibros();
+                        $("#cantProductos").html('');
+                        $("#cantProductos").html(data);
                     }, error: function (xhr, status, error) {
                         console.log("Error: " + error + ", No Error: " + xhr.status);
                     },
                 });
-            });
-        //Eliminar libro
-        $(document).on('click', '.eliminar',
-            function () {
-                var ctr = $(this);
-                var id = $(this).data('id');
-                $.ajax({
-                    type: "GET",
-                    dataType: 'text',
-                    url: "/Orden/eliminarProducto",
-                    data: { "idProducto": id },
-                    success: function (data) {
-                        $("#resultadoDetalle").html('');
-                        $("#resultadoDetalle").html(data);
-                        updateCantLibros();
-                    }, error: function (xhr, status, error) {
-                        console.log("Error: " + error + ", No Error: " + xhr.status);
-                    },
+            }
+
+            //Cambio en la cantidad a comprar
+            $(document).on('change', '.changeCantidad',
+                function () {
+                    var txtCantidad = $(this);
+                    var cantidad = txtCantidad.val();
+                    var id = txtCantidad.data('productid');
+                    $.ajax({
+                        type: "GET",
+                        dataType: 'text',
+                        url: "/Orden/actualizarCantidad",
+                        data: { "idProducto": id, "cantidad": cantidad },
+                        success: function (data) {
+                            $("#resultadoDetalle").html('');
+                            $("#resultadoDetalle").html(data);
+                            updateCantLibros();
+                        }, error: function (xhr, status, error) {
+                            console.log("Error: " + error + ", No Error: " + xhr.status);
+                        },
+                    });
                 });
-            });</script>
-}
+            //Eliminar libro
+            $(document).on('click', '.eliminar',
+                function () {
+                    var ctr = $(this);
+                    var id = $(this).data('id');
+                    $.ajax({
+                        type: "GET",
+                        dataType: 'text',
+                        url: "/Orden/eliminarProducto",
+                        data: { "idProducto": id },
+                        success: function (data) {
+                            $("#resultadoDetalle").html('');
+                            $("#resultadoDetalle").html(data);
+                            updateCantLibros();
+                        }, error: function (xhr, status, error) {
+                            console.log("Error: " + error + ", No Error: " + xhr.status);
+                        },
+                    });
+                });</script>
+    }
