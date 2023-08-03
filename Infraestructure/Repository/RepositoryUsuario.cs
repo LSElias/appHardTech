@@ -143,6 +143,34 @@ namespace Infraestructure.Repository
             }
         }
 
+        public Usuario GetUsuarioByEmail(string correo)
+        {
+            try
+            {
+                Usuario oUsuario = null;
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oUsuario = ctx.Usuario
+                        .Where(u => u.Correo == correo)
+                        .FirstOrDefault<Usuario>();
+                }
+                return oUsuario;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
+
         public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones)
         {
             int retorno = 0;
@@ -155,6 +183,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oUsuario = GetUsuarioByID((int)usuario.Id);
                     IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
+                    IRepositoryDireccion _RepositoryDireccion = new RepositoryDireccion();
 
                     if (oUsuario == null)
                     {
@@ -168,7 +197,16 @@ namespace Infraestructure.Repository
                                 usuario.TipoUsuario.Add(tipoUserAdd);
                             }
                         }
-
+                        if (arrayDirecciones != null)
+                        {
+                            usuario.Direccion1 = new List<Direccion>();
+                            foreach (var dirId in arrayDirecciones)
+                            {
+                                var dirAdd = _RepositoryDireccion.GetDireccionByID(dirId);
+                                ctx.Direccion.Attach(dirAdd);
+                                usuario.Direccion1.Add(dirAdd);
+                            }
+                        }
                         //Insertar
                         ctx.Usuario.Add(usuario);
                         retorno = ctx.SaveChanges();

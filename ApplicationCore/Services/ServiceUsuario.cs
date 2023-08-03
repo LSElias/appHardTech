@@ -46,5 +46,11 @@ namespace ApplicationCore.Services
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByIDTipoUsuario(IdTipoUsuario);
         }
+
+        public Usuario GetUsuarioByEmail(string correo)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            return oRep.GetUsuarioByEmail(correo);
+        }
     }
 }
