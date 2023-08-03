@@ -6,7 +6,7 @@
 
 
 
-@using (Html.BeginForm("Save", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("SaveRegistro", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -111,10 +111,10 @@
                     <hr />
                     <h5 class="login-label"> ¿Que tipo de cuenta deseas tener?</h5>
                     <div class="form-group ">
-                        <input style="accent-color: #9b59b6;" type="checkbox" id="cliente" name="cliente" />
-                        <label style="color: #ffffff8c" for="cliente"> Cuenta de Cliente </label>
-                        <input style="accent-color: #9b59b6;" type="checkbox" id="proveedor" name="proveedor" />
-                        <label style="color: #ffffff8c " for="proveedor"> Cuenta de Proveedor </label>
+                        @Html.CheckBoxFor(model => model.Cliente, htmlAttributes: new { @style = "accent-color: #9b59b6;" })
+                        @Html.LabelFor(model => model.Cliente, htmlAttributes: new { @style = "color: #ffffff8c" })
+                        @Html.CheckBoxFor(model => model.Proveedor, htmlAttributes: new { @style = "accent-color: #9b59b6;" })
+                        @Html.LabelFor(model => model.Proveedor, htmlAttributes: new { @style = "color: #ffffff8c" })
                     </div>
                     <hr />
                 </div>
@@ -125,29 +125,35 @@
                     <div class="form-group col-md-4 ">
                         <div class="col-md-12">
                             <h6 style="color: #ffffff8c"> Provincia </h6>
-                            @Html.DropDownList("IdProvincia", null, htmlAttributes: new { @id = "DDprovin", @class = "form-control" })
-                            @Html.ValidationMessage("IdProvincia", "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.Provincia,
+                            (SelectList)ViewBag.IdProvincia, null,
+                            htmlAttributes: new { @id = "DDprovin", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Provincia, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col-md-4 ">
                         <div class="col-md-12">
                             <h6 style="color: #ffffff8c"> Canton </h6>
-                            @Html.DropDownList("IdCanton", null, htmlAttributes: new { @id = "DDcanton", @class = "form-control" })
-                            @Html.ValidationMessage("IdCanton", "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.Canton,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDcanton", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Canton, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col-md-4 ">
                         <div class="col-md-12">
                             <h6 style="color: #ffffff8c"> Distrito </h6>
-                            @Html.DropDownList("IdDistrito", null, htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
-                            @Html.ValidationMessage("IdDistrito", "", new { @class = "text-danger" })
+                            @Html.DropDownListFor(model => model.Distrito,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Distrito, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group col-md-12 ">
                         <div class="col-md-12 my-3">
                             <h6 style="color: #ffffff8c"> Señas </h6>
-                            @Html.TextBox("senas", null, htmlAttributes: new { @class = "form-control" })
-                            @Html.ValidationMessage("senas", "*")
+                            @Html.TextBoxFor(model => model.Senas, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Senas, "", new { @class = "text-danger" })
                         </div>
                     </div>
                 </div>
