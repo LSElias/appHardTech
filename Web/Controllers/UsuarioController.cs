@@ -18,6 +18,7 @@ using System.Web.Services.Description;
 using Web.Models;
 using Web.Utils;
 using Web.ViewModel;
+using static log4net.Appender.RollingFileAppender;
 using static System.Net.WebRequestMethods;
 
 namespace Web.Controllers
@@ -42,8 +43,15 @@ namespace Web.Controllers
             ViewBag.IdProvincia = ListaProvincias();
             ViewBag.IdCanton = ListaCanton();
             ViewBag.IdDistrito = ListaDistritos();
-
+            ViewBag.IdTipoPago = ListaPago();
             return View();
+        }
+
+        private SelectList ListaPago(int idTipo = 0)
+        {
+            IServiceTipoPago _service = new ServiceTipoPago();
+            IEnumerable<TipoPago> lista = _service.GetTipoPago();
+            return new SelectList(lista, "Id", "Nombre", idTipo);
         }
 
         public SelectList ListaProvincias(int idProvincia = 0)
@@ -240,13 +248,69 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult SaveRegistro(Registro registro, HttpPostedFileBase ImageFile)
         {
+
+
             int[] arrayDirecciones = { };
+            int[] arrayCuentas = { };
             MemoryStream target = new MemoryStream();
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
             IServiceDireccion _ServiceDireccion = new ServiceDireccion();
+            IServiceCuentaPago _ServiceCuenta = new ServiceCuentaPago();
             string[] selectedTipos = new string[] { };
 
-            Usuario _Usuario = new Usuario
+            if (registro.Foto == null)
+            {
+                if (ImageFile != null)
+                {
+                    ImageFile.InputStream.CopyTo(target);
+                    registro.Foto = target.ToArray();
+                    ModelState.Remove("Foto");
+                }
+                else
+                {
+                    ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+                        "Es necesario seleccionar una foto.", SweetAlertMessageType.error);
+                    ViewBag.IdProvincia = ListaProvincias();
+                    ViewBag.IdCanton = ListaCanton();
+                    ViewBag.IdDistrito = ListaDistritos();
+                    ViewBag.IdTipoPago = ListaPago();
+                    return View("Registro");
+                }
+            }
+
+            ModelState.Remove("Estado");
+            if (ModelState.IsValid)
+            {
+
+                if(DateTime.Now.Year > int.Parse(registro.Anio))
+                {
+                    if(DateTime.Now.Year == int.Parse(registro.Anio))
+                    {
+                        if (DateTime.Now.Month > int.Parse(registro.Mes))
+                        {
+                            ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+            "La tarjeta que ingreso esta vencida correspondiendo a la fecha de expiración", SweetAlertMessageType.error);
+                            ViewBag.IdProvincia = ListaProvincias();
+                            ViewBag.IdCanton = ListaCanton();
+                            ViewBag.IdDistrito = ListaDistritos();
+                            ViewBag.IdTipoPago = ListaPago();
+                            return View("Registro");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+"La tarjeta que ingreso esta vencida correspondiendo a la fecha de expiración", SweetAlertMessageType.error);
+                        ViewBag.IdProvincia = ListaProvincias();
+                        ViewBag.IdCanton = ListaCanton();
+                        ViewBag.IdDistrito = ListaDistritos();
+                        ViewBag.IdTipoPago = ListaPago();
+                        return View("Registro");
+                    }
+
+                }
+
+                Usuario _Usuario = new Usuario
             {
                 Apellido1 = registro.Apellido1,
                 Apellido2 = registro.Apellido2,
@@ -256,10 +320,10 @@ namespace Web.Controllers
                 Genero = registro.Genero,
                 IdEstado = 1,
                 Nombre = registro.Nombre,
+                Foto = registro.Foto,
                 Telefono = registro.Telefono
             };
-
-            Direccion direccion = new Direccion
+                Direccion direccion = new Direccion
             {
                 Provincia = registro.Provincia,
                 Canton = registro.Canton,
@@ -267,70 +331,52 @@ namespace Web.Controllers
                 DireccionExacta = registro.Senas
             };
 
-            Usuario vUsuario = _ServiceUsuario.GetUsuarioByEmail(_Usuario.Correo);
-            if(vUsuario != null)
+                DateTime fecha = DateTime.Parse(registro.Anio + "-" + registro.Mes + "-01");
+                DateTime lastDate = new DateTime(fecha.Year, fecha.Month, DateTime.DaysInMonth(fecha.Year, fecha.Month));
+
+                CuentaPago cuentaPago = new CuentaPago
+                {
+                    CodSeguridad = registro.CodSeguridad,
+                    FechaExp = lastDate,
+                    IdTipoPago = registro.IdTipoPago,
+                    NumCuenta = registro.NumCuenta,
+                    
+                };
+
+                Usuario vUsuario = _ServiceUsuario.GetUsuarioByEmail(_Usuario.Correo);
+                if(vUsuario != null)
             {
                 ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
     "Ya existe una cuenta vinculada a este correo.", SweetAlertMessageType.error);
                 ViewBag.IdProvincia = ListaProvincias();
                 ViewBag.IdCanton = ListaCanton();
                 ViewBag.IdDistrito = ListaDistritos();
+                ViewBag.IdTipoPago = ListaPago();
                 return View("Registro");
             } 
 
-            if (registro.Cliente == true || registro.Proveedor == true)
-            {
+                if (registro.Cliente == true || registro.Proveedor == true)
+                {
 
-                if (registro.Cliente != false)
-                {
-                    selectedTipos = selectedTipos.Append("2").ToArray();
-                }
-                if (registro.Proveedor != false)
-                {
-                    selectedTipos = selectedTipos.Append("3").ToArray();
-                }
+                    if (registro.Cliente != false)
+                    {
+                        selectedTipos = selectedTipos.Append("2").ToArray();
+                    }
+                    if (registro.Proveedor != false)
+                    {
+                        selectedTipos = selectedTipos.Append("3").ToArray();
+                    }
 
 
 
                 try
                 {
-                    if (registro.Foto == null)
-                    {
-                        if (ImageFile != null)
-                        {
-                            ImageFile.InputStream.CopyTo(target);
-                            registro.Foto = target.ToArray();
-                            _Usuario.Foto = registro.Foto;
-                            ModelState.Remove("Foto");
-                        }
-                        else
-                        {
-                            ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
-                                "Es necesario seleccionar una foto.", SweetAlertMessageType.error);
-                            ViewBag.IdProvincia = ListaProvincias();
-                            ViewBag.IdCanton = ListaCanton();
-                            ViewBag.IdDistrito = ListaDistritos();
-                            return View("Registro");
-                        }
-                    }
+                        CuentaPago oCuenPago = _ServiceCuenta.Save(cuentaPago);
+                        arrayCuentas = arrayCuentas.Append(oCuenPago.Id).ToArray();
+                        Direccion oDireccion = _ServiceDireccion.Save(direccion);
+                        arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
 
-                    //       Direccion oDireccion = _ServiceDireccion.Save(direccion);
-                    //     arrayDirecciones = arrayDirecciones.Append(oDireccion.Id).ToArray();
-
-                    ModelState.Remove("Estado");
-                    if (ModelState.IsValid)
-                    {
-                        //       Usuario oUsuario = _ServiceUsuario.Save(_Usuario, selectedTipos, arrayDirecciones);
-                    }
-                    else
-                    {
-                        // Valida Errores si Javascript está deshabilitado
-                        Utils.Util.ValidateErrors(this);
-                        //Recurso a cargar en la vista
-
-                        //Debe funcionar para crear y modificar
-                        return View("Registro");
-                    }
+                        Usuario oUsuario = _ServiceUsuario.Save(_Usuario, selectedTipos, arrayDirecciones, arrayCuentas);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -345,14 +391,30 @@ namespace Web.Controllers
                     return RedirectToAction("Default", "Error");
                 }
             }
-            else {
+                else {
                 ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
                     "Debes de seleccionar un tipo de cuenta, sea cliente o proveedor, o ambos.", SweetAlertMessageType.error);
                 ViewBag.IdProvincia = ListaProvincias();
                 ViewBag.IdCanton = ListaCanton();
                 ViewBag.IdDistrito = ListaDistritos();
+                ViewBag.IdTipoPago = ListaPago();
                 return View("Registro");
 
+            }
+            }
+            else
+            {
+                // Valida Errores si Javascript está deshabilitado
+                Utils.Util.ValidateErrors(this);
+                //Recurso a cargar en la vista
+
+                //Debe funcionar para crear y modificar
+
+                ViewBag.IdProvincia = ListaProvincias();
+                ViewBag.IdCanton = ListaCanton();
+                ViewBag.IdDistrito = ListaDistritos();
+                ViewBag.IdTipoPago = ListaPago();
+                return View("Registro");
             }
         }
 

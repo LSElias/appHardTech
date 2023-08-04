@@ -23,8 +23,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.CuentaPago
                         .Where(t => t.TipoPago.Id == IdTipoPago)
-                        .Include("TipoPago").
-                        Include("Usuario")
+                        .Include("TipoPago")
                         .ToList();
                 }
                 return list;
@@ -85,8 +84,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oCuenta = ctx.CuentaPago.
-                        Include("TipoPago").
-                        Include("Usuario")
+                        Include("TipoPago")
                         .Where(t => t.Id == Id)
                         .FirstOrDefault();
                 }
@@ -116,7 +114,6 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.CuentaPago.
                         Include("TipoPago").
-                        Include("Usuario").
                         ToList<CuentaPago>();
                 }
                 return list;
