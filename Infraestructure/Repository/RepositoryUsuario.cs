@@ -171,7 +171,7 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones)
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones, int[] arrayCuentas)
         {
             int retorno = 0;
             Usuario oUsuario = null;
@@ -184,6 +184,7 @@ namespace Infraestructure.Repository
                     oUsuario = GetUsuarioByID((int)usuario.Id);
                     IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
                     IRepositoryDireccion _RepositoryDireccion = new RepositoryDireccion();
+                    IRepositoryCuentaPago _RepositoryCuentaPago = new RepositoryCuentaPago();
 
                     if (oUsuario == null)
                     {
@@ -207,6 +208,19 @@ namespace Infraestructure.Repository
                                 usuario.Direccion1.Add(dirAdd);
                             }
                         }
+
+                        if (arrayCuentas != null)
+                        {
+                            usuario.CuentaPago1 = new List<CuentaPago>();
+                            foreach (var cId in arrayCuentas)
+                            {
+                                var dirAdd = _RepositoryCuentaPago.GetCuentaPagoByID(cId);
+                                ctx.CuentaPago.Attach(dirAdd);
+                                usuario.CuentaPago1.Add(dirAdd);
+                            }
+                        }
+
+
                         //Insertar
                         ctx.Usuario.Add(usuario);
                         retorno = ctx.SaveChanges();

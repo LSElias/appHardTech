@@ -342,7 +342,6 @@ namespace Infraestructure.Models
         [Display(Name = "Género")]
         public string Genero { get; set; }
 
-        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
