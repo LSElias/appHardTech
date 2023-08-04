@@ -19,7 +19,7 @@ namespace Web.ViewModel
         public virtual Orden Orden { get; set; }
         public virtual Producto Producto { get; set; }
 
-        //Method SubTot
+        //Method SubTot Precio Acumulado
         public double SubTot
         {
             get { return calcSubTot(); }
@@ -34,6 +34,9 @@ namespace Web.ViewModel
         {
             get { return (double)Producto.Precio; }
         }
+
+        public int direccion { get; set; }
+        public int cuentaPago { get; set; }
 
         /*Traer el ObjetoProducto*/
         public ViewModelOrdenDetalle(int IdProducto)

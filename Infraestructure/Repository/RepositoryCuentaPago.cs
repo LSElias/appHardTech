@@ -43,6 +43,37 @@ namespace Infraestructure.Repository
             }
         }
 
+        public IEnumerable<CuentaPago> GetCuentaByIdUsuario(int IdUsuario)
+        {
+
+            try
+            {
+                IEnumerable<CuentaPago> oPago = null;
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oPago = ctx.CuentaPago
+                         .Where(x => x.Usuario1.All(y => y.Id == IdUsuario))
+                         .ToList();
+                }
+                return oPago;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+
+
+        }
+
         public CuentaPago GetCuentaPagoByID(int Id)
         {
             CuentaPago oCuenta = null;

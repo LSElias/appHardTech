@@ -30,6 +30,23 @@
                                     @Html.Label(oUsuario.Nombre + " " + oUsuario.Apellido1 + " " + oUsuario.Apellido2)
                                 </h5>
                             }
+
+
+                            @* ComboBox *@
+                            <div class="col-md-12">
+                                <h6 style="color: #ffffff8c"> Direccion </h6>
+                                @Html.DropDownList("IdDireccion",
+                                     (SelectList)ViewBag.IdDireccion, null,
+                                     htmlAttributes: new { @class = "form-control" })
+                            </div>
+
+                            @* ComboBox *@
+                            <div class="col-md-12">
+                                <h6 style="color: #ffffff8c"> Cuenta Pago </h6>
+                                @Html.DropDownList("IdCuenta",
+                                     (SelectList)ViewBag.IdCuenta, null,
+                                     htmlAttributes: new { @class = "form-control" })
+                            </div>
                         }
                         else
                         {
@@ -88,64 +105,72 @@
             Formalizar orden
         </button>
     }
+
+    <div class="col-md-4">
+        @Html.LabelFor(model => model.SubTotal, htmlAttributes: new { @class = "form-control", @Value = (((decimal)Web.Utils.Carrito.Instancia.GetTotal())) }))
+
+    </div>
+
+
+
 }
-    @section Scripts {
+@section Scripts {
 
-        @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
 
-        <script type="text/javascript">
-            //Actualizar cantidad de libros en el menú
-            function updateCantProductos() {
+    <script type="text/javascript">
+        //Actualizar cantidad de libros en el menú
+        function updateCantProductos() {
+            $.ajax({
+                type: "GET",
+                dataType: 'text',
+                url: "/Orden/actualizarOrdenCantidad",
+                success: function (data) {
+                    $("#cantProductos").html('');
+                    $("#cantProductos").html(data);
+                }, error: function (xhr, status, error) {
+                    console.log("Error: " + error + ", No Error: " + xhr.status);
+                },
+            });
+        }
+
+        //Cambio en la cantidad a comprar
+        $(document).on('change', '.changeCantidad',
+            function () {
+                var txtCantidad = $(this);
+                var cantidad = txtCantidad.val();
+                var id = txtCantidad.data('productid');
                 $.ajax({
                     type: "GET",
                     dataType: 'text',
-                    url: "/Orden/actualizarOrdenCantidad",
+                    url: "/Orden/actualizarCantidad",
+                    data: { "idProducto": id, "cantidad": cantidad },
                     success: function (data) {
-                        $("#cantProductos").html('');
-                        $("#cantProductos").html(data);
+                        $("#resultadoDetalle").html('');
+                        $("#resultadoDetalle").html(data);
+                        updateCantLibros();
                     }, error: function (xhr, status, error) {
                         console.log("Error: " + error + ", No Error: " + xhr.status);
                     },
                 });
-            }
-
-            //Cambio en la cantidad a comprar
-            $(document).on('change', '.changeCantidad',
-                function () {
-                    var txtCantidad = $(this);
-                    var cantidad = txtCantidad.val();
-                    var id = txtCantidad.data('productid');
-                    $.ajax({
-                        type: "GET",
-                        dataType: 'text',
-                        url: "/Orden/actualizarCantidad",
-                        data: { "idProducto": id, "cantidad": cantidad },
-                        success: function (data) {
-                            $("#resultadoDetalle").html('');
-                            $("#resultadoDetalle").html(data);
-                            updateCantLibros();
-                        }, error: function (xhr, status, error) {
-                            console.log("Error: " + error + ", No Error: " + xhr.status);
-                        },
-                    });
+            });
+        //Eliminar libro
+        $(document).on('click', '.eliminar',
+            function () {
+                var ctr = $(this);
+                var id = $(this).data('id');
+                $.ajax({
+                    type: "GET",
+                    dataType: 'text',
+                    url: "/Orden/eliminarProducto",
+                    data: { "idProducto": id },
+                    success: function (data) {
+                        $("#resultadoDetalle").html('');
+                        $("#resultadoDetalle").html(data);
+                        updateCantLibros();
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
                 });
-            //Eliminar libro
-            $(document).on('click', '.eliminar',
-                function () {
-                    var ctr = $(this);
-                    var id = $(this).data('id');
-                    $.ajax({
-                        type: "GET",
-                        dataType: 'text',
-                        url: "/Orden/eliminarProducto",
-                        data: { "idProducto": id },
-                        success: function (data) {
-                            $("#resultadoDetalle").html('');
-                            $("#resultadoDetalle").html(data);
-                            updateCantLibros();
-                        }, error: function (xhr, status, error) {
-                            console.log("Error: " + error + ", No Error: " + xhr.status);
-                        },
-                    });
-                });</script>
-    }
+            });</script>
+}
