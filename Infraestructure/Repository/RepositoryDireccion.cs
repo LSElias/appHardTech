@@ -41,16 +41,18 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Direccion GetDireccionByIdUsuario(int IdUsuario)
+        public IEnumerable<Direccion> GetDireccionByIdUsuario(int IdUsuario)
         {
             try
             {
-                Direccion oDireccion = null;
+                IEnumerable<Direccion> oDireccion = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .FirstOrDefault();
+                         .Where(x => x.Usuario1.All(y => y.Id == IdUsuario))
+                         .ToList();
+
 
                 }
                 return oDireccion;
