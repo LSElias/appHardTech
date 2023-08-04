@@ -283,6 +283,7 @@
     <Content Include="Views\Orden\_DetalleOrden.cshtml" />
     <Content Include="Views\Shared\_OrdenCantidad.cshtml" />
     <Content Include="Views\Orden\IndexAdmin.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
