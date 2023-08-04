@@ -16,6 +16,7 @@ namespace Web.Controllers
     public class OrdenController : Controller
     {
         // GET: Orden
+        [CustomAuthorize((int)Roles.Cliente)]
         public ActionResult Index()
         {
             //Recibir Mensaje de notificación
@@ -26,6 +27,10 @@ namespace Web.Controllers
 
             //Carrito de Compras
             ViewBag.DetalleOrden = Carrito.Instancia.Items;
+
+            ViewBag.IdDireccion = listaDirecciones(); 
+
+            ViewBag.IdCuenta = listaCuentaPago();
 
             return View();
         }
@@ -138,25 +143,96 @@ namespace Web.Controllers
             }
         }
 
-        // GET: Orden/Create
-        public ActionResult Create()
+        private SelectList listaDirecciones(int? IdDireccion = 0)
         {
-            return View();
+            Usuario oUsuario = (Usuario)Session["User"];
+
+            IServiceDireccion _ServiceDirecc = new ServiceDireccion();
+            IEnumerable<Direccion> listaDirecc = (IEnumerable<Direccion>)_ServiceDirecc.GetDireccionByIdUsuario(oUsuario.Id);
+
+            return new SelectList(listaDirecc, "Id", "DireccionCompleta", IdDireccion);
+        }
+
+        private SelectList listaCuentaPago(int? IdCuenta = 0)
+        {
+            Usuario oUsuario = (Usuario)Session["User"];
+
+            IServiceCuentaPago _Servicepago = new ServiceCuentaPago();
+            IEnumerable<CuentaPago> listaDirecc = (IEnumerable<CuentaPago>)_Servicepago.GetCuentaByIdUsuario(oUsuario.Id);
+
+            return new SelectList(listaDirecc, "Id", "CuentaEncrp", IdCuenta);
         }
 
         // POST: Orden/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Save(Orden orden, int? IdDireccion, int? IdCuenta)
         {
+            Usuario oUsuario = (Usuario)Session["User"];
+            var listaDetalle = Carrito.Instancia.Items;
+            orden.SubTotal = Carrito.Instancia.GetTotal();  
+
             try
             {
-                // TODO: Add insert logic here
+                // Si no existe la sesión no hay nada
+                if (Carrito.Instancia.Items.Count() <= 0)
+                {
+                    // Validaciones de datos requeridos.
+                    TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Debe seleccionar los productos que desea ordenar", SweetAlertMessageType.warning);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    if (ModelState.IsValid)
+                    {
+                        
+                        //Agregar cada línea de detalle a la orden
+                        foreach (var item in listaDetalle)
+                        {
+                            OrdenDetalle ordenDetalle = new OrdenDetalle();
+                            ordenDetalle.IdProducto = item.IdProducto;
+                            ordenDetalle.Cantidad = item.Cantidad;
+                            ordenDetalle.IdEstado = 5; 
+                            
+                           
 
+                            orden.OrdenDetalle.Add(ordenDetalle);
+                        }
+                    }
+                    //Guardar la orden
+                    IServiceOrden _ServiceOrden = new ServiceOrden();
+                    Orden ordenSave = _ServiceOrden.Save(orden);
+
+                    //Factura
+                    Factura oFac = new Factura
+                    {
+                        IdUsuario = oUsuario.Id,
+                        Fecha = (DateTime)ordenSave.FechaInicio,
+                        IVA = 10,
+                        Total = (ordenSave.SubTotal * (10 / 100)) + ordenSave.SubTotal,
+                        IdOrden = ordenSave.IdOrden,
+                        IdDireccion = IdDireccion,
+                        IdCuentaPago = IdCuenta
+                    };
+
+                    IServiceFactura _ServiceFactura = new ServiceFactura();
+                    Factura factSave = _ServiceFactura.Save(oFac);
+
+                    // Limpia el Carrito de compras
+                    Carrito.Instancia.EliminarCarrito();
+                    TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Orden realizada correctamente", SweetAlertMessageType.success);
+                }
+                // Reporte orden
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                // Salvar el error  
+                Infraestructure.Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Orden";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
             }
         }
 

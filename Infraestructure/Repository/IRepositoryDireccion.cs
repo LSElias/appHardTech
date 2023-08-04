@@ -11,7 +11,7 @@ namespace Infraestructure.Repository
     {
         IEnumerable<Direccion> GetDirecciones();
         Direccion GetDireccionByID(int Id);
-        Direccion GetDireccionByIdUsuario(int IdUsuario);
+        IEnumerable<Direccion> GetDireccionByIdUsuario(int IdUsuario);
         Direccion Save(Direccion direccion);
     }
 }

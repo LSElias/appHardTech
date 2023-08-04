@@ -16,6 +16,12 @@ namespace ApplicationCore.Services
             return oRep.GetByTipoPago(IdTipoPago);
         }
 
+        public IEnumerable<CuentaPago> GetCuentaByIdUsuario(int IdUsuario)
+        {
+            IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
+            return oRep.GetCuentaByIdUsuario(IdUsuario);
+        }
+
         public CuentaPago GetCuentaPagoByID(int Id)
         {
             IRepositoryCuentaPago oRep = new RepositoryCuentaPago();
