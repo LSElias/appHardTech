@@ -139,7 +139,9 @@ else
                 </div>
 
                 <div class="col-md-11 justify-content-center">
-                    <a  id="comprar" class="btn btn-secondary btn-lg btn-comprar" data-idCompra= '' >
+                    <h6 id="compraObj" style="margin:-4px 0; opacity: 0">@Model.IdProducto</h6>
+
+                    <a id="comprar" class="btn btn-secondary btn-lg btn-comprar">
                         Comprar
                     </a>
                 </div>
@@ -334,11 +336,11 @@ else
      $(document).on('click', '#comprar',
          function () {
              var ctr = $(this);
-             var idProducto = $(this).data('idCompra');
+             var idProd = document.getElementById('compraObj').innerText
              $.ajax({
                  method: "GET",
                  url: "/Orden/ordenProducto",
-                 data: { "idProducto": idProducto },
+                 data: { "idProducto": idProd },
                  success: function (data) {
                      $("#cantProductos").html('');
                      $("#cantProductos").html(data);
