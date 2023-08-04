@@ -67,16 +67,16 @@
                 <th>
                     Nombre
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Cantidad
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Precio
                 </th>
-                <th>
-                    Acumulado
+                <th style="text-align: center;">
+                    Precio por volumen
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Estado
                 </th>
 
@@ -88,16 +88,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Producto.Nombre)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Cantidad)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Producto.Precio)
                     </td>
-                    <td>
-                        @calcularAcumulado(item.Cantidad, item.Producto.Precio)
+                    <td style="text-align: center;">
+                        ₡@calcularAcumulado(item.Cantidad, item.Producto.Precio)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Estado.Nombre)
                     </td>
                 </tr>

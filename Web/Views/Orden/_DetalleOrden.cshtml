@@ -24,22 +24,22 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td style=" background-color: #ffffffd8; ">
+                <td style=" background-color: #ffffffd8; text-align: center;">
                     @Html.HiddenFor(modelItem => item.Producto.IdProducto)
                     @Html.DisplayFor(modelItem => item.Producto.Nombre)
                 </td>
-                <td class="center" style="width: 1.5em; background-color: #ffffffd8; ">
+                <td class="center" style="width: 1.5em; background-color: #ffffffd8; text-align: center;">
                     @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class="form-control changeCantidad", data_productid= item.Producto.IdProducto } })
                 </td>
-                <td class="right" style=" background-color: #ffffffd8; ">
+                <td class="right" style=" background-color: #ffffffd8; text-align: center;">
 
-                    @Html.DisplayFor(modelItem => item.ProdPrecio)
+                    ₡@Html.DisplayFor(modelItem => item.ProdPrecio)
                 </td>
 
-                <td class="right" style=" background-color: #ffffffd8; ">
-                    @Html.DisplayFor(modelItem => item.SubTot)
+                <td class="right" style=" background-color: #ffffffd8; text-align: center;">
+                    ₡@Html.DisplayFor(modelItem => item.SubTot)
                 </td>
-                <td style=" background-color: #ffffffd8; ">
+                <td style=" background-color: #ffffffd8; text-align: center;">
                     <button type="button" class="btn btn-comprar eliminar" data-id=@item.Producto.IdProducto> <i class="fa-solid fa-trash"></i></button>
                 </td>
             </tr>
