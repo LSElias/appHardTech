@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Net;
 using System.Reflection;
 using System.Web;
@@ -16,9 +17,11 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Services.Description;
 using Web.Models;
+using Web.Security;
 using Web.Utils;
 using Web.ViewModel;
 using static log4net.Appender.RollingFileAppender;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Net.WebRequestMethods;
 
 namespace Web.Controllers
@@ -26,10 +29,76 @@ namespace Web.Controllers
     public class UsuarioController : Controller
     {
         // GET: Usuario
+        [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult Index()
         {
             return View();
         }
+
+        public ActionResult LoadUsuario()
+        {
+
+            try
+            {
+                using (MyContext _context = new MyContext())
+                {
+                    var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                    var start = Request.Form.GetValues("start").FirstOrDefault();
+                    var length = Request.Form.GetValues("length").FirstOrDefault();
+                    var sortColumn = Request.Form.GetValues("columns[" +
+                        Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                    var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+                    // Paginación (tamaño)
+                    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                    int skip = start != null ? Convert.ToInt32(start) : 0;
+                    int recordsTotal = 0;
+
+                    // Obtención de datos
+                    var productoData = (from u in _context.Usuario
+                                        from e in _context.Estado
+
+                                        where u.TipoUsuario.All(x => x.Id != 1)
+                                        where u.IdEstado == e.Id
+                                        
+                                        select new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, u.Correo, Estado = e.Nombre, eID = e.Id}
+
+
+                                      
+                                        );;
+                    // join u in _context.Usuario on f.IdUsuario equals u.Id
+                    //  join e in _context.Estado on o.Estado equals e.Id
+
+                    // Organización
+                    if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                    {
+                        productoData = productoData.OrderBy(sortColumn + " " + sortColumnDir);
+                    }
+                    // Buscar
+                    if (!string.IsNullOrEmpty(searchValue))
+                    {
+                        productoData = productoData.Where(m => m.Nombre.ToLower().Contains(searchValue.ToLower()));
+                    }
+
+                    // Numero total de columnas
+                    recordsTotal = productoData.Count();
+                    //Paginación
+                    var data = productoData.Skip(skip).Take(pageSize).ToList();
+                    // Retorno del JSON
+                    return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
 
         // GET: Usuario/Details/5
         public ActionResult Details(int id)
