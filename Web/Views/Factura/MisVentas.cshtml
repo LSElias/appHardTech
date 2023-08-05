@@ -70,15 +70,16 @@
                 { "data": "Producto", "name": "Producto", "autoWidth": true },
                 { "data": "Cantidad", "name": "Cantidad", "autoWidth": true },
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
-
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Factura/EditarEstado/'
-                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn Detalle"  href="/Factura/Detalle/'
+                            + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
+                    }
                 },
                 {
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn Detalle" href="/Factura/EditarEstado/'
-                            + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
+                        return '<a class="btn Editar" href="/Orden/Editar/'
+                            + full.IdOrden + '"><i class="fa-solid fa-pen fa-xl"></i></a>';
                     }
                 },
             ]
@@ -98,8 +99,8 @@
                     <th>Producto</th> @* 1 *@
                     <th>Cantidad</th> @* 2 *@
                     <th>Estado</th> @* 4 *@
-                    <th>En Progreso</th> @* 5 *@
-                    <th>Terminado</th> @* 5 *@
+                    <th>Detalle</th> @* 5 *@
+                    <th>Editar</th> @* 5 *@
                 </tr>
             </thead>
         </table>
