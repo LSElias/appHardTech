@@ -20,7 +20,7 @@
 
                         @if (Session["User"] != null)
                         {
-                            // var idUsuario = "";
+
                             Infraestructure.Models.Usuario oUsuario;
 
                             oUsuario = (Infraestructure.Models.Usuario)Session["User"];
@@ -29,24 +29,24 @@
                                 <h5 style="color: #161616">
                                     @Html.Label(oUsuario.Nombre + " " + oUsuario.Apellido1 + " " + oUsuario.Apellido2)
                                 </h5>
+
+                                @* ComboBox *@
+                                <div class="col-md-12">
+                                    <h6 style="color: #ffffff8c"> Direccion </h6>
+                                    @Html.DropDownList("IdDireccion",
+                                         (SelectList)ViewBag.IdDireccion, null,
+                                         htmlAttributes: new { @class = "form-control" })
+                                </div>
+
+                                @* ComboBox *@
+                                <div class="col-md-12">
+                                    <h6 style="color: #ffffff8c"> Cuenta Pago </h6>
+                                    @Html.DropDownList("IdCuenta",
+                                         (SelectList)ViewBag.IdCuenta, null,
+                                         htmlAttributes: new { @class = "form-control" })
+                                </div>
                             }
 
-
-                            @* ComboBox *@
-                            <div class="col-md-12">
-                                <h6 style="color: #ffffff8c"> Direccion </h6>
-                                @Html.DropDownList("IdDireccion",
-                                     (SelectList)ViewBag.IdDireccion, null,
-                                     htmlAttributes: new { @class = "form-control" })
-                            </div>
-
-                            @* ComboBox *@
-                            <div class="col-md-12">
-                                <h6 style="color: #ffffff8c"> Cuenta Pago </h6>
-                                @Html.DropDownList("IdCuenta",
-                                     (SelectList)ViewBag.IdCuenta, null,
-                                     htmlAttributes: new { @class = "form-control" })
-                            </div>
                         }
                         else
                         {
@@ -54,6 +54,7 @@
                                 @Html.Label("Inicie sesion antes de formalizar")
                             </h5>
                         }
+
                     </div>
                 </div>
 
@@ -106,10 +107,6 @@
         </button>
     }
 
-    <div class="col-md-4">
-        @Html.LabelFor(model => model.SubTotal, htmlAttributes: new { @class = "form-control", @Value = (((decimal)Web.Utils.Carrito.Instancia.GetTotal())) }))
-
-    </div>
 
 
 
