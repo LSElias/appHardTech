@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Xml.Linq;
 using Web.Utils;
 
@@ -40,6 +41,8 @@ namespace Web.ViewModel
         public string Correo { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "La contraseña es requerida")]
+        [StringLength(24, MinimumLength = 8, ErrorMessage = "La contraseña debe de estar entre 8 y 24 carácteres")]
+        [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,15}$", ErrorMessage = "La contraseña debe de tener mínimo una letra en minúscula, una en mayúscula, un número y un caracter especial.")]
         [Display(Name = "Contraseña")]
         public string Clave { get; set; }
 
