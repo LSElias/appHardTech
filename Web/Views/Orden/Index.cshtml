@@ -26,25 +26,18 @@
                             oUsuario = (Infraestructure.Models.Usuario)Session["User"];
                             if (oUsuario != null)
                             {
-                                <h5 style="color: #161616">
+                                <h5 style="color: #161616; margin: 20px 0 10px 0;">
                                     @Html.Label(oUsuario.Nombre + " " + oUsuario.Apellido1 + " " + oUsuario.Apellido2)
                                 </h5>
 
                                 @* ComboBox *@
-                                <div class="col-md-12">
-                                    <h6 style="color: #ffffff8c"> Direccion </h6>
+                                <div class="col-md-12" style="color: #161616; margin: 40px 0 10px 0;">
+                                    <h6> Direccion </h6>
                                     @Html.DropDownList("IdDireccion",
                                          (SelectList)ViewBag.IdDireccion, null,
                                          htmlAttributes: new { @class = "form-control" })
                                 </div>
 
-                                @* ComboBox *@
-                                <div class="col-md-12">
-                                    <h6 style="color: #ffffff8c"> Cuenta Pago </h6>
-                                    @Html.DropDownList("IdCuenta",
-                                         (SelectList)ViewBag.IdCuenta, null,
-                                         htmlAttributes: new { @class = "form-control" })
-                                </div>
                             }
 
                         }
@@ -59,12 +52,32 @@
                 </div>
 
                 <div class="col-md-6 opacity-75" style="color: #161616; margin: -10px 0 10px 0;">
-                    @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "col-form-label" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(model => model.FechaInicio, htmlAttributes: new { @class = "form-control", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @readonly = "readonly" })
-
+                    <div>
+                        @Html.LabelFor(model => model.FechaInicio, htmlAttributes: new { @class = "col-form-label" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(model => model.FechaInicio, htmlAttributes: new { @class = "form-control", @Value = DateTime.Now.ToString("yyyy-MM-dd"), @readonly = "readonly" })
+                        </div>
                     </div>
+
+                    @if (Session["User"] != null)
+                    {
+
+                        Infraestructure.Models.Usuario oUsuario;
+
+                        oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                        if (oUsuario != null)
+                        {
+                            @* ComboBox *@
+                            <div class="col-md-10" style="color: #161616; margin: 15px 0 10px 0;">
+                                <h6> Cuenta Pago </h6>
+                                @Html.DropDownList("IdCuenta",
+                                     (SelectList)ViewBag.IdCuenta, null,
+                                     htmlAttributes: new { @class = "form-control" })
+                            </div>
+                        }
+                    }
                 </div>
+                
             </div>
         </div>
         <hr style="

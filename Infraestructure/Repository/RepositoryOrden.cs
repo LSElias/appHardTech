@@ -84,12 +84,24 @@ namespace Infraestructure.Repository
             {
               using(MyContext ctx = new MyContext())
                 {
-                    //Guardar los datos en ambos tablas Orden y OrdenDet...
-                    using (var transaccion = ctx.Database.BeginTransaction())
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    pOrden = GetOrdenById((int)orden.IdOrden);
+
+                   if (pOrden == null)
+                    {
+                        //Guardar los datos en ambos tablas Orden y OrdenDet...
+                        using (var transaccion = ctx.Database.BeginTransaction())
+                        {
+                            ctx.Orden.Add(orden);
+                            retorno = ctx.SaveChanges();
+                            transaccion.Commit();
+                        }
+                    }
+                    else
                     {
                         ctx.Orden.Add(orden);
+                        ctx.Entry(orden).State = EntityState.Modified;
                         retorno = ctx.SaveChanges();
-                        transaccion.Commit();
                     }
                 }
 
