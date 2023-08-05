@@ -16,7 +16,6 @@ namespace Web.Controllers
     public class OrdenController : Controller
     {
         // GET: Orden
-        [CustomAuthorize((int)Roles.Cliente)]
         public ActionResult Index()
         {
             //Recibir Mensaje de notificación
@@ -28,10 +27,12 @@ namespace Web.Controllers
             //Carrito de Compras
             ViewBag.DetalleOrden = Carrito.Instancia.Items;
 
-            ViewBag.IdDireccion = listaDirecciones(); 
+            if (Session["User"] != null)
+            {
+                ViewBag.IdDireccion = listaDirecciones();
 
-            ViewBag.IdCuenta = listaCuentaPago();
-
+                ViewBag.IdCuenta = listaCuentaPago();
+            }
             return View();
         }
 
@@ -169,7 +170,8 @@ namespace Web.Controllers
         {
             Usuario oUsuario = (Usuario)Session["User"];
             var listaDetalle = Carrito.Instancia.Items;
-            orden.SubTotal = Carrito.Instancia.GetTotal();  
+            orden.SubTotal = Carrito.Instancia.GetTotal();
+            orden.IdEstado = 5; 
 
             try
             {
@@ -182,6 +184,9 @@ namespace Web.Controllers
                 }
                 else
                 {
+                    ModelState.Remove("Estado");
+                    ModelState.Remove("SubTotal");
+
                     if (ModelState.IsValid)
                     {
                         
@@ -192,8 +197,7 @@ namespace Web.Controllers
                             ordenDetalle.IdProducto = item.IdProducto;
                             ordenDetalle.Cantidad = item.Cantidad;
                             ordenDetalle.IdEstado = 5; 
-                            
-                           
+                            ordenDetalle.FechaEntrega = item.FechaEntrega;
 
                             orden.OrdenDetalle.Add(ordenDetalle);
                         }
@@ -208,7 +212,7 @@ namespace Web.Controllers
                         IdUsuario = oUsuario.Id,
                         Fecha = (DateTime)ordenSave.FechaInicio,
                         IVA = 10,
-                        Total = (ordenSave.SubTotal * (10 / 100)) + ordenSave.SubTotal,
+                        Total = (orden.SubTotal * 0.10) + orden.SubTotal,
                         IdOrden = ordenSave.IdOrden,
                         IdDireccion = IdDireccion,
                         IdCuentaPago = IdCuenta
@@ -220,9 +224,11 @@ namespace Web.Controllers
                     // Limpia el Carrito de compras
                     Carrito.Instancia.EliminarCarrito();
                     TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Orden realizada correctamente", SweetAlertMessageType.success);
+                    //return RedirectToAction("Detalle", "Factura", factSave.IdOrden);
                 }
                 // Reporte orden
                 return RedirectToAction("Index");
+              
             }
             catch (Exception ex)
             {
