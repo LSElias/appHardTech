@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//evitar cambio
 namespace Infraestructure.Models
 {
     internal partial class CategoriaMetadata

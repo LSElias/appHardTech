@@ -7,6 +7,7 @@ using System.Web;
 
 namespace Web.ViewModel
 {
+    //evitar cambio
     public class ViewModelOrdenDetalle
     {
         public int IdOrden { get; set; }

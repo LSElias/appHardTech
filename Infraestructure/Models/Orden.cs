@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+//evitar cambio
 namespace Infraestructure.Models
 {
     using System;

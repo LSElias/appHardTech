@@ -13,6 +13,7 @@ using Web.Utils;
 
 namespace Web.Controllers
 {
+    //evitar cambio
     public class OrdenController : Controller
     {
         // GET: Orden
@@ -202,7 +203,9 @@ namespace Web.Controllers
                             if (pro != null && pro.Cantidad >= item.Cantidad)
                             {
                                 pro.Cantidad -= item.Cantidad;
-                                // Producto productEdit = _ServiceProduct.Save(pro);
+                                pro.VentasR += 1;
+
+                                Producto productEdit = _ServiceProduct.Save(pro, null);
 
 
                                 OrdenDetalle ordenDetalle = new OrdenDetalle();
@@ -215,11 +218,17 @@ namespace Web.Controllers
                             }
                             else
                             {
-                                TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Cantidad Insuficiente", "Lo sentimos pero no contamos con suficientes artículos para su compra.", SweetAlertMessageType.error);
-                                return RedirectToAction("Index");
-
                                 //Cambiar el estado 
                                 // Disponible -> Agotado
+                                pro = product.FirstOrDefault(p => p.IdProducto ==
+                                item.IdProducto);
+
+                                pro.IdEstado = 4;
+                                Producto productEdit = _ServiceProduct.Save(pro, null);
+
+
+                                TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Cantidad Insuficiente", "Lo sentimos pero no contamos con suficientes artículos para su compra.", SweetAlertMessageType.error);
+                                return RedirectToAction("Index");
                             }
 
                         }
@@ -267,35 +276,5 @@ namespace Web.Controllers
 
         // GET: Orden/Edit/5
       //  [CustomAuthorize((int)Roles.Proveedor)]
-        public ActionResult Editar(int? id)
-        {
-            IServiceOrden _Service = new ServiceOrden();
-            Orden formato = null;
-
-            try
-            {
-                //Si es null el parametro
-                if (id == null)
-                {
-                    return RedirectToAction("MisVentas", "Factura");
-                }
-                formato = _Service.GetOrdenById(Convert.ToInt32(id));
-                if (formato == null)
-                {
-                    TempData["Message"] = "No existe la orden solicitada";
-                    TempData["Redirect"] = "Factura";
-                    TempData["Redirect-Action"] = "MisVentas";
-
-                    return RedirectToAction("MisVentas", "Factura");
-                }
-                return View(formato);
-            }
-            catch (Exception ex)
-            {
-                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
-                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
-                return RedirectToAction("Default", "Error");
-            }
-        }
     }
 }
