@@ -10,19 +10,19 @@ namespace ApplicationCore.Services
 {
     public class ServiceOrden : IServiceOrden
     {
-        public IEnumerable<Orden> GetOrden()
+        public IEnumerable<Factura> GetOrden()
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.GetOrden();
         }
 
-        public Orden GetOrdenById(int Id)
+        public Factura GetOrdenById(int Id)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.GetOrdenById(Id);
         }
 
-        public Orden Save(Orden orden)
+        public Factura Save(Factura orden)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.Save(orden);
