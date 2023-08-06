@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -99,6 +100,78 @@ namespace Web.Controllers
             }
         }
 
+        [CustomAuthorize((int)Roles.Administrador)]
+        public ActionResult UsuariosDesactivados()
+        {
+            return View();
+        }
+
+        public ActionResult LoadDesactivados()
+        {
+
+            try
+            {
+                using (MyContext _context = new MyContext())
+                {
+                    var draw = Request.Form.GetValues("draw").FirstOrDefault();
+                    var start = Request.Form.GetValues("start").FirstOrDefault();
+                    var length = Request.Form.GetValues("length").FirstOrDefault();
+                    var sortColumn = Request.Form.GetValues("columns[" +
+                        Request.Form.GetValues("order[0][column]").FirstOrDefault() + "][name]").FirstOrDefault();
+                    var sortColumnDir = Request.Form.GetValues("order[0][dir]").FirstOrDefault();
+                    var searchValue = Request.Form.GetValues("search[value]").FirstOrDefault();
+
+                    // Paginación (tamaño)
+                    int pageSize = length != null ? Convert.ToInt32(length) : 0;
+                    int skip = start != null ? Convert.ToInt32(start) : 0;
+                    int recordsTotal = 0;
+
+                    // Obtención de datos
+                    var productoData = (from u in _context.Usuario
+                                        from e in _context.Estado
+
+                                        where u.TipoUsuario.All(x => x.Id != 1)
+                                        where u.IdEstado == e.Id
+                                        where u.IdEstado != 1
+
+                                        select new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, u.Correo, Estado = e.Nombre, eID = e.Id }
+
+
+
+                                        );
+                    // join u in _context.Usuario on f.IdUsuario equals u.Id
+                    //  join e in _context.Estado on o.Estado equals e.Id
+
+                    // Organización
+                    if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
+                    {
+                        productoData = productoData.OrderBy(sortColumn + " " + sortColumnDir);
+                    }
+                    // Buscar
+                    if (!string.IsNullOrEmpty(searchValue))
+                    {
+                        productoData = productoData.Where(m => m.Nombre.ToLower().Contains(searchValue.ToLower()));
+                    }
+
+                    // Numero total de columnas
+                    recordsTotal = productoData.Count();
+                    //Paginación
+                    var data = productoData.Skip(skip).Take(pageSize).ToList();
+                    // Retorno del JSON
+                    return Json(new { draw = draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+
 
         // GET: Usuario/Details/5
         public ActionResult Details(int id)
@@ -128,9 +201,9 @@ namespace Web.Controllers
             HttpWebRequest myReq = (HttpWebRequest)WebRequest
                 .Create("https://ubicaciones.paginasweb.cr/provincias.json");
             myReq.ContentType = "json";
-            Response.ContentType = "json"; 
+            Response.ContentType = "json";
 
-
+            try { 
             var response = (HttpWebResponse)myReq.GetResponse();
             string text;
 
@@ -156,6 +229,16 @@ namespace Web.Controllers
 
 
             return new SelectList(provincias, "Nombre", "Nombre", idProvincia);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al obtener datos " + ex.Message;
+                TempData["Redirect"] = "Home";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return new SelectList("Null", idProvincia);
+            }
         }
 
         public SelectList ListaCanton(string idProvincia = "1", int idCanton = 0)
@@ -167,7 +250,7 @@ namespace Web.Controllers
             myReq.ContentType = "json";
             Response.ContentType = "json";
 
-
+            try { 
             var response = (HttpWebResponse)myReq.GetResponse();
             string text;
 
@@ -192,6 +275,16 @@ namespace Web.Controllers
             IEnumerable<Canton> cantones = ts;
 
             return new SelectList(cantones, "Nombre", "Nombre", idCanton);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al obtener datos " + ex.Message;
+                TempData["Redirect"] = "Home";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return new SelectList("Null", idCanton);
+            }
         }
 
         public string RefreshCanton(string idProvincia = "1")
@@ -230,7 +323,7 @@ namespace Web.Controllers
             myReq.ContentType = "json";
             Response.ContentType = "json";
 
-
+            try { 
             var response = (HttpWebResponse)myReq.GetResponse();
             string text;
 
@@ -256,6 +349,17 @@ namespace Web.Controllers
 
 
             return new SelectList(distritos, "Nombre", "Nombre", idDistrito);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al obtener datos " + ex.Message;
+                TempData["Redirect"] = "Home";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return new SelectList("Null", idDistrito);
+
+            }
         }
 
         public string RefreshDistritos(string idProvincia = "1", string idCanton = "1")
@@ -311,6 +415,45 @@ namespace Web.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [HttpPost]
+        public ActionResult CambiarEstado(int idEstado, int idUsuario)
+        {
+
+
+            IServiceUsuario _Service = new ServiceUsuario();
+            Usuario oUsuario = _Service.GetUsuarioByID(idUsuario);
+
+            if (oUsuario == null) {
+                ViewBag.NotificationMessage = SweetAlertHelper.Mensaje("Error",
+        "El usuario consultado no existe.", SweetAlertMessageType.error);
+
+                return View("Usuario");
+
+
+            }
+            oUsuario.IdEstado = idEstado;
+            string[] selectedTipos = { };
+            int[] arrayDirecciones = { };
+            int[] arrayCuentas = { };
+
+
+
+            try
+            {
+                Usuario rUsuario = _Service.Save(oUsuario, selectedTipos, arrayDirecciones, arrayCuentas);
+                return RedirectToAction("Index","Usuario");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Usuario";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
             }
         }
 

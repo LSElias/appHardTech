@@ -1,9 +1,10 @@
-﻿@{
-    ViewBag.Title = "Listado de Usuarios";
+﻿
+@{
+    ViewBag.Title = "Desactivados";
 }
 
 <div class="container-fluid m-auto text-center pt-5">
-    <h1 class="page-title">Listado de Usuarios</h1>
+    <h1 class="page-title">Usuarios desactivados</h1>
 </div>
 
 
@@ -35,7 +36,7 @@
             },
 
             "ajax": {
-                "url": "/Usuario/LoadUsuario",
+                "url": "/Usuario/LoadDesactivados",
                 "type": "POST",
                 "datatype": "json"
             },
@@ -61,23 +62,9 @@
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
                     "render": function (data, type, full, meta) {
-                        return '<a title="Perfil de Usuario" class="btn Detalle" href="/Producto/Detalle/'
-                            + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
 
-
-                    }
-                },
-
-                {
-                    "render": function (data, type, full, meta) {
-
-                        var returnString = ''
-                        if (full.eID != 1) {
-                            returnString = '<a title="Activar cuenta" onclick = "CambiarEstado(' + full.Id + ', 1)" class="btn Detalle" > <i class="fa-solid fa-arrow-up" style="color: #68a83e;"></i> </a >';
-                        } else {
-                            returnString = '<a title="Desactivar cuenta" onclick = "CambiarEstado(' + full.Id + ', 2)" class="btn Detalle" > <i class="fa-solid fa-arrow-down" style="color: #932f3e;"></i>  </a >';
-                        }
-                        return returnString;
+                        return '<a title="Activar cuenta" onclick = "CambiarEstado(' + full.Id + ', 1)" class="btn Detalle" > <i class="fa-solid fa-arrow-up" style="color: #68a83e;"></i> </a >';
+                         ;
                     }
                 },
             ]
@@ -140,7 +127,7 @@
                             },
 
                             "ajax": {
-                                "url": "/Usuario/LoadUsuario",
+                                "url": "/Usuario/LoadDesactivados",
                                 "type": "POST",
                                 "datatype": "json"
                             },
@@ -166,14 +153,6 @@
                                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                                 {
                                     "render": function (data, type, full, meta) {
-                                        return '<a title="Perfil de Usuario" class="btn Detalle" href="/Producto/Detalle/'
-                                            + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
-
-
-                                    }
-                                },
-                                {
-                                    "render": function (data, type, full, meta) {
 
                                         var returnString = ''
                                         if (full.eID != 1) {
@@ -187,6 +166,7 @@
                             ]
 
                         });
+
 
 
                     },
@@ -213,9 +193,7 @@
                     <th>Nombre</th> @* 1 *@
                     <th>Correo</th> @* 3 *@
                     <th>Estado</th> @* 2 *@
-                    <th></th> @* 2 *@
-                    <th></th> @* 2 *@
-
+                    <th>Activar</th> @* 2 *@
                 </tr>
             </thead>
         </table>
