@@ -9,9 +9,9 @@ namespace ApplicationCore.Services
 {
     public interface IServiceOrden
     {
-        IEnumerable<Orden> GetOrden();
-        Orden GetOrdenById(int Id);
-        Orden Save(Orden orden);
+        IEnumerable<Factura> GetOrden();
+        Factura GetOrdenById(int Id);
+        Factura Save(Factura orden);
 
     }
 }

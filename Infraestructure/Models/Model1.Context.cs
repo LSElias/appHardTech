@@ -34,7 +34,7 @@ namespace Infraestructure.Models
         public virtual DbSet<Factura> Factura { get; set; }
         public virtual DbSet<Foto> Foto { get; set; }
         public virtual DbSet<Mensaje> Mensaje { get; set; }
-        public virtual DbSet<Orden> Orden { get; set; }
+        public virtual DbSet<Factura> Orden { get; set; }
         public virtual DbSet<OrdenDetalle> OrdenDetalle { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<Respuesta> Respuesta { get; set; }

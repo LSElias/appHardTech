@@ -14,10 +14,10 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(OrdenMetadata))]
-    public partial class Orden
+    public partial class Factura
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Orden()
+        public Factura()
         {
             this.Factura = new HashSet<Factura>();
             this.OrdenDetalle = new HashSet<OrdenDetalle>();
