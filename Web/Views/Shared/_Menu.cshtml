@@ -64,13 +64,14 @@
                 </li>
                 <li class="nav-item dropdown" style="align-items: end">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Mi Cuenta &nbsp  <i class="fa-regular fa-user"></i> </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu ">
                         <li>
                             @* Información usuario *@
 
                             @if (Session["User"] == null)
                             {
-                                <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
+                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Iniciar Sesión </a>
+                                    <a href="@Url.Action("Registro","Usuario")" class="nav-link"> ¡Registrate! </a>
                             }
                             else
                             {
@@ -87,9 +88,9 @@
                                 <hr />
                                 if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
                                 {
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
+                                    <a href="@Url.Action("MisCuentas","Billetera")" class="nav-link"> Mi Billetera </a>
                                     <a href="@Url.Action("MisOrdenes", "Factura")" class="nav-link"> Mis Ordenes </a>
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
+                                    <a href="@Url.Action("MisDirecciones","Direccion")" class="nav-link"> Mis Direcciones </a>
 
                                 }
                                 <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>

@@ -3,6 +3,7 @@ using Infraestructure.Models;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -11,6 +12,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using Web.Models;
+using Web.Security;
 using Web.Utils;
 
 namespace Web.Controllers
@@ -22,6 +24,8 @@ namespace Web.Controllers
         {
             return View();
         }
+
+        [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor)]
 
         public ActionResult MisDirecciones()
         {
@@ -102,7 +106,7 @@ namespace Web.Controllers
             return View();
         }
 
-        // GET: Direccion/Create
+        [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor)]
         public ActionResult Crear()
         {
             ViewBag.IdProvincia = ListaProvincias();
@@ -156,7 +160,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Direccion direccion, IEnumerable<HttpPostedFileBase> images, List<Foto> lista)
+        public ActionResult Save(Direccion direccion)
         {
             var _idUsuario = 0;
             if (Session["User"] != null)
@@ -168,8 +172,6 @@ namespace Web.Controllers
                 }
             }
 
-            var imageList = new List<Foto>();
-            MemoryStream target = new MemoryStream();
             IServiceDireccion _Service = new ServiceDireccion();
             IServiceUsuario _ServiceUsuario = new ServiceUsuario();
             Usuario _Usuario = _ServiceUsuario.GetUsuarioByID(_idUsuario);
@@ -179,8 +181,19 @@ namespace Web.Controllers
                 if (ModelState.IsValid)
                 {
                     Direccion odireccionI = _Service.Save(direccion);
-                    int[] idDireccion = { odireccionI.Id };
-                    Usuario sUsuario = _ServiceUsuario.Save(_Usuario, null, idDireccion, null);
+                    IEnumerable<Direccion> direccionesUsuario = _Service.GetDireccionByIdUsuario(_idUsuario);
+                    int[] idDireccion = { };
+
+                    foreach (Direccion direcciones in direccionesUsuario)
+                    {
+                        idDireccion = idDireccion.Append(direcciones.Id).ToArray();
+                    }
+
+                    idDireccion = idDireccion.Append(odireccionI.Id).ToArray();
+                    string[] roles = { };
+                    int[] cuentas = { };
+
+                    Usuario sUsuario = _ServiceUsuario.Save(_Usuario, roles, idDireccion,cuentas);
                 }
                 else
                 {
@@ -194,8 +207,10 @@ namespace Web.Controllers
                     ViewBag.IdDistrito = ListaDistritos();
                     return View("Crear", direccion);
                 }
+                TempData["mensaje"] = SweetAlertHelper.Mensaje("¡Hecho!",
+"Dirección creada", SweetAlertMessageType.success);
 
-                return RedirectToAction("IndexProveedor");
+                return RedirectToAction("MisDirecciones");
             }
             catch (Exception ex)
             {

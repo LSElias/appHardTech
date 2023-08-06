@@ -259,14 +259,18 @@ namespace Infraestructure.Repository
 
 
                         var DireccionesID = new HashSet<int>(arrayDirecciones);
+
                         if (DireccionesID != null && arrayDirecciones.Count() != 0)
                         {
+
                             ctx.Entry(usuario).Collection(x => x.Direccion1).Load();
+
                             var newDirForUser = ctx.Direccion
                                 .Where(x => DireccionesID.Contains(x.Id)).ToList();
                             usuario.Direccion1 = newDirForUser;
 
                             ctx.Entry(usuario).State = EntityState.Modified;
+
                             retorno = ctx.SaveChanges();
                         }
 
