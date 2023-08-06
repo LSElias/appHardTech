@@ -79,7 +79,9 @@
                 <th style="text-align: center;">
                     Estado
                 </th>
-
+                <th style="text-align: center;">
+                    Fecha de entrega
+                </th>
             </tr>
 
             @foreach (var item in Model.Orden.OrdenDetalle)
@@ -99,6 +101,9 @@
                     </td>
                     <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                    </td>
+                    <td style="text-align: center;">
+                        @Html.DisplayFor(modelItem => item.FechaEntrega)
                     </td>
                 </tr>
             }

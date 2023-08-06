@@ -175,7 +175,6 @@ namespace Infraestructure.Models
         [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
         public Nullable<double> SubTotal { get; set; }
 
-        [Required(ErrorMessage = "El estado de la orden es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
@@ -199,12 +198,8 @@ namespace Infraestructure.Models
 
         public Nullable<int> IdEstado { get; set; }
 
-        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
-        [Required(ErrorMessage = "La fecha de entrega es requerida")]
-        [Display(Name = "Fecha de entrega")]
         public Nullable<System.DateTime> FechaEntrega { get; set; }
 
-        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 

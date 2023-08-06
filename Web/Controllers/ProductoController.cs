@@ -27,7 +27,6 @@ namespace Web.Controllers
             IEnumerable<Producto> lista = null;
             try
             {
-
                 IServiceProducto _ServiceProducto = new ServiceProducto();
                 lista = _ServiceProducto.GetProductos();
                 ViewBag.title = "Productos";

@@ -287,6 +287,7 @@
     <Content Include="Views\Shared\_OrdenCantidad.cshtml" />
     <Content Include="Views\Orden\IndexAdmin.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Orden\Editar.cshtml" />
     <Content Include="Views\Usuario\UsuariosDesactivados.cshtml" />
     <Content Include="Views\Direccion\MisDirecciones.cshtml" />
     <Content Include="Views\Direccion\Crear.cshtml" />
