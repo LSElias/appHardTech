@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
 {
+//evitar cambio
     public interface IRepositoryOrden
     {
-        IEnumerable<Factura> GetOrden();
-        Factura GetOrdenById(int Id);
-        Factura Save(Factura orden);
+        IEnumerable<Orden> GetOrden();
+        Orden GetOrdenById(int Id);
+        Orden Save(Orden orden);
     }
 }

@@ -10,19 +10,20 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
 {
+    //evitar cambio
     public class RepositoryOrden : IRepositoryOrden
     {
-        public IEnumerable<Factura> GetOrden()
+        public IEnumerable<Orden> GetOrden()
         {
-            try //Mod
+            try
             {
-                IEnumerable<Factura> list = null;
+                IEnumerable<Orden> list = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Orden.
                             Include("Estado").
-                            ToList<Factura>();
+                            ToList<Orden>();
                 }
                 return list;
 
@@ -42,9 +43,9 @@ namespace Infraestructure.Repository
 
         }
 
-        public Factura GetOrdenById(int Id)
+        public Orden GetOrdenById(int Id)
         {
-            Factura pOrden = null;
+            Orden pOrden = null;
 
             try
             {
@@ -57,7 +58,7 @@ namespace Infraestructure.Repository
                         Include("OrdenDetalle").
                         Include("OrdenDetalle.Producto")
                         .Where(x => x.IdOrden == Id)
-                        .FirstOrDefault<Factura>();
+                        .FirstOrDefault<Orden>();
                 }
                 return pOrden;
             }
@@ -75,10 +76,10 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Factura Save(Factura orden)
+        public Orden Save(Orden orden)
         {
             int retorno = 0;
-            Factura pOrden = null;
+            Orden pOrden = null;
 
             try
             {

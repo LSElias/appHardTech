@@ -13,6 +13,7 @@ using Web.Utils;
 
 namespace Web.Controllers
 {
+    //evitar cambio
     public class OrdenController : Controller
     {
         // GET: Orden
@@ -82,7 +83,7 @@ namespace Web.Controllers
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult IndexAdmin()
         {
-            IEnumerable<Factura> lista = null;
+            IEnumerable<Orden> lista = null;
 
             try
             {
@@ -110,7 +111,7 @@ namespace Web.Controllers
         public ActionResult Detalle(int? id)
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
-            Factura orden = null;
+            Orden orden = null;
             try
             {
                 // Si va null
@@ -166,7 +167,7 @@ namespace Web.Controllers
 
         // POST: Orden/Create
         [HttpPost]
-        public ActionResult Save(Factura orden, int? IdDireccion, int? IdCuenta)
+        public ActionResult Save(Orden orden, int? IdDireccion, int? IdCuenta)
         {
             Usuario oUsuario = (Usuario)Session["User"];
             var listaDetalle = Carrito.Instancia.Items;
@@ -223,21 +224,18 @@ namespace Web.Controllers
                                 item.IdProducto);
 
                                 pro.IdEstado = 4;
-
                                 Producto productEdit = _ServiceProduct.Save(pro, null);
 
 
                                 TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Cantidad Insuficiente", "Lo sentimos pero no contamos con suficientes artículos para su compra.", SweetAlertMessageType.error);
                                 return RedirectToAction("Index");
-
-          
                             }
 
                         }
                     }
                     //Guardar la orden
                     IServiceOrden _ServiceOrden = new ServiceOrden();
-                    Factura ordenSave = _ServiceOrden.Save(orden);
+                    Orden ordenSave = _ServiceOrden.Save(orden);
 
                     //Factura
                     Factura oFac = new Factura
@@ -276,5 +274,7 @@ namespace Web.Controllers
             }
         }
 
+        // GET: Orden/Edit/5
+      //  [CustomAuthorize((int)Roles.Proveedor)]
     }
 }

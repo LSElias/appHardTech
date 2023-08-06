@@ -9,6 +9,7 @@
 
 namespace Infraestructure.Models
 {
+    //evitar cambio
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -26,7 +27,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdDireccion { get; set; }
     
         public virtual CuentaPago CuentaPago { get; set; }
-        public virtual Factura Orden { get; set; }
+        public virtual Orden Orden { get; set; }
         public virtual Usuario Usuario { get; set; }
         public virtual Direccion Direccion { get; set; }
     }

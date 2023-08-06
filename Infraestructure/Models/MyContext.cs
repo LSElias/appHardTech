@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Models
 {
+    //evitar cambio
     public class MyContext : DBHardTechEntities
     {
         public MyContext() { }

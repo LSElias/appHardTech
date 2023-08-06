@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
 {
+    //evitar cambio
     public class RepositoryEstado : IRepositoryEstado
     {
         public IEnumerable<Estado> GetEstado()
