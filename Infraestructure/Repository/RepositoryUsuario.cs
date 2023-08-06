@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -185,7 +186,8 @@ namespace Infraestructure.Repository
                     IRepositoryTipoUsuario _RepositoryTipoUsuario = new RepositoryTipoUsuario();
                     IRepositoryDireccion _RepositoryDireccion = new RepositoryDireccion();
                     IRepositoryCuentaPago _RepositoryCuentaPago = new RepositoryCuentaPago();
-
+                    IRepositoryEstado _RepositoryEstado = new RepositoryEstado();
+                    
                     if (oUsuario == null)
                     {
                         if (selectedTipoUsuario != null)
@@ -219,8 +221,6 @@ namespace Infraestructure.Repository
                                 usuario.CuentaPago1.Add(dirAdd);
                             }
                         }
-
-
                         //Insertar
                         ctx.Usuario.Add(usuario);
                         retorno = ctx.SaveChanges();
@@ -228,6 +228,15 @@ namespace Infraestructure.Repository
                     else
                     {
                         //Actualizar
+                        Estado estado = _RepositoryEstado.GetEstadoByID((int) usuario.IdEstado);
+                        ctx.Estado.Attach(estado);
+                        usuario.Estado = estado;
+                        foreach (TipoUsuario type in usuario.TipoUsuario)
+                        {
+                            string id = type.Id.ToString();
+                            selectedTipoUsuario = selectedTipoUsuario.Append(id).ToArray();
+                        }
+                        usuario.TipoUsuario = null;
                         ctx.Usuario.Add(usuario);
                         ctx.Entry(usuario).State = EntityState.Modified;
                         retorno = ctx.SaveChanges();
@@ -235,14 +244,45 @@ namespace Infraestructure.Repository
                         var selectedTipoUserID = new HashSet<string>(selectedTipoUsuario);
                         if (selectedTipoUsuario != null)
                         {
-                            ctx.Entry(usuario).Collection(x => x.TipoUsuario).Load();
-                            var newTipoUsForUser = ctx.TipoUsuario
-                                .Where(x => selectedTipoUserID.Contains(x.Id.ToString())).ToList();
-                            usuario.TipoUsuario = newTipoUsForUser;
+
+                            ctx.Entry(usuario).Collection(p => p.TipoUsuario).Load();
+
+                            var newTipoUser = ctx.TipoUsuario
+                             .Where(x => selectedTipoUserID.Contains(x.Id.ToString())).ToList();
+
+                            usuario.TipoUsuario = newTipoUser;
 
                             ctx.Entry(usuario).State = EntityState.Modified;
                             retorno = ctx.SaveChanges();
                         }
+
+
+
+                        var DireccionesID = new HashSet<int>(arrayDirecciones);
+                        if (DireccionesID != null && arrayDirecciones.Count() != 0)
+                        {
+                            ctx.Entry(usuario).Collection(x => x.Direccion1).Load();
+                            var newDirForUser = ctx.Direccion
+                                .Where(x => DireccionesID.Contains(x.Id)).ToList();
+                            usuario.Direccion1 = newDirForUser;
+
+                            ctx.Entry(usuario).State = EntityState.Modified;
+                            retorno = ctx.SaveChanges();
+                        }
+
+
+                        var CuentasID = new HashSet<int>(arrayCuentas);
+                        if (CuentasID != null && arrayCuentas.Count() != 0)
+                        {
+                            ctx.Entry(usuario).Collection(x => x.CuentaPago1).Load();
+                            var newCuentaForUser = ctx.CuentaPago
+                                .Where(x => DireccionesID.Contains(x.Id)).ToList();
+                            usuario.CuentaPago1 = newCuentaForUser;
+
+                            ctx.Entry(usuario).State = EntityState.Modified;
+                            retorno = ctx.SaveChanges();
+                        }
+
                     }
                 }
                 if (retorno >= 0)
