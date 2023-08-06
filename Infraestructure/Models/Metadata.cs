@@ -67,7 +67,7 @@ namespace Infraestructure.Models
         [Display(Name = "Cantón")]
         public string Canton { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "El distrito es requerida")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El distrito es requerido")]
         [Display(Name = "Distrito")]
         public string Distrito { get; set; }
 
@@ -340,7 +340,6 @@ namespace Infraestructure.Models
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
-        [Required(ErrorMessage = "El tipo de usuario es requerido")]
         [Display(Name = "Tipo de usuario")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
     }

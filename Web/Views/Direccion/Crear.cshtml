@@ -1,0 +1,154 @@
+﻿@model Infraestructure.Models.Direccion
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<h2 class="page-title my-2">Crear Direccion</h2>
+
+@using (Html.BeginForm("Save", "Direccion", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row box-register">
+            <div class="col-md-9">
+                <div class="col-md-12 login-label my-3 row">
+                    <div class="form-group my-2 col-md-4">
+                        @Html.LabelFor(model => model.Provincia, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Provincia,
+                            (SelectList)ViewBag.IdProvincia, null,
+                            htmlAttributes: new { @id = "DDprovin", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Provincia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2 col-md-4">
+                        @Html.LabelFor(model => model.Canton, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Canton,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDcanton", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Canton, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2 col-md-4">
+                        @Html.LabelFor(model => model.Distrito, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.Distrito,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Distrito, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group my-2 col-md-11">
+                        @Html.LabelFor(model => model.DireccionExacta, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.DireccionExacta, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DireccionExacta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12 row my-3">
+                        <div class="form-group my-2 col-md-12">
+                            <div class="col-md-offset-2 col-md-12">
+                                <input type="submit" value="Registrar" class="btn btn-comprar btn-large" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 register-gradient">
+
+            </div>
+        </div>
+
+    </div>
+
+
+}
+<div>
+    @Html.ActionLink("Back to List", "MisDirecciones")
+</div>
+
+
+<script>
+    $("#DDprovin").change(function () {
+
+        var cantones = document.getElementById("DDcanton");
+        var i;
+        var L = cantones.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            cantones.remove(i);
+        }
+
+        var distritos = document.getElementById("DDdistrit");
+        L = distritos.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            distritos.remove(i);
+        }
+        var provincias = document.getElementById("DDprovin").selectedIndex + 1;
+        $.ajax({
+            method: "GET",
+            url: "/Direccion/RefreshCanton",
+            data: {
+                "idProvincia": provincias
+            },
+            success: function (data) {
+
+                let option;
+                var count = Object.keys(data).length;
+                for (let j = 1; j < count; j++) {
+                    option = document.createElement('option');
+                    option.text = data[j];
+                    option.value = data[j];
+                    cantones.add(option);
+                    cantones.selectedIndex = -1;
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + error, "No Error: " + xhr.status)
+            }
+        });
+    });
+
+    $("#DDcanton").change(function () {
+        var provincias = document.getElementById("DDprovin").selectedIndex + 1;
+        var cantones = document.getElementById("DDcanton").selectedIndex + 1;
+        var distritos = document.getElementById("DDdistrit");
+
+        L = distritos.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            distritos.remove(i);
+        }
+
+        $.ajax({
+            method: "GET",
+            url: "/Direccion/RefreshDistritos",
+            data: {
+                "idProvincia": provincias, "idCanton": cantones
+            },
+            success: function (data) {
+
+                let option;
+                var count = Object.keys(data).length;
+                for (let i = 1; i < count; i++) {
+                    option = document.createElement('option');
+                    option.text = data[i];
+                    option.value = data[i];
+                    distritos.add(option);
+                    distritos.selectedIndex = -1;
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.log("Error: " + error, "No Error: " + xhr.status)
+            }
+        });
+        console.log(provincias);
+    });
+</script>

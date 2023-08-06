@@ -145,6 +145,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -201,6 +202,7 @@
     <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
     <Content Include="Content\sweetalert\docs.css" />
     <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\sweetalert2.min.css" />
     <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -229,6 +231,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\sweetalert.min.js" />
+    <Content Include="Scripts\sweetalert2.min.js" />
     <Content Include="src\img\Accesorios.png" />
     <Content Include="src\img\circle-user-solid.svg" />
     <Content Include="src\img\Comp.png" />
@@ -285,6 +288,9 @@
     <Content Include="Views\Orden\IndexAdmin.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Orden\Editar.cshtml" />
+    <Content Include="Views\Usuario\UsuariosDesactivados.cshtml" />
+    <Content Include="Views\Direccion\MisDirecciones.cshtml" />
+    <Content Include="Views\Direccion\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
