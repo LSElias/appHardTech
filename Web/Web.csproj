@@ -290,6 +290,7 @@
     <Content Include="Views\Usuario\UsuariosDesactivados.cshtml" />
     <Content Include="Views\Direccion\MisDirecciones.cshtml" />
     <Content Include="Views\Direccion\Crear.cshtml" />
+    <Content Include="Views\Factura\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
