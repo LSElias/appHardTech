@@ -7,6 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+//evitar cambio
 namespace Infraestructure.Models
 {
     using System;
@@ -14,10 +15,10 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(OrdenMetadata))]
-    public partial class Factura
+    public partial class Orden
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Factura()
+        public Orden()
         {
             this.Factura = new HashSet<Factura>();
             this.OrdenDetalle = new HashSet<OrdenDetalle>();

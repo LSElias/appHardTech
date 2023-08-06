@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+//evitar cambio
 namespace Infraestructure.Models
 {
     internal partial class CategoriaMetadata
@@ -85,7 +87,7 @@ namespace Infraestructure.Models
         public string Nombre { get; set; }
 
         [Display(Name = "Orden")]
-        public virtual ICollection<Factura> Orden { get; set; }
+        public virtual ICollection<Orden> Orden { get; set; }
 
         [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
@@ -153,7 +155,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdOrden { get; set; }
 
         public virtual CuentaPago CuentaPago { get; set; }
-        public virtual Factura Orden { get; set; }
+        public virtual Orden Orden { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 
@@ -204,7 +206,7 @@ namespace Infraestructure.Models
         public virtual Estado Estado { get; set; }
 
         [Display(Name = "Orden")]
-        public virtual Factura Orden { get; set; }
+        public virtual Orden Orden { get; set; }
 
         [Required(ErrorMessage = "Los productos son requeridos")]
         [Display(Name = "Produto")]

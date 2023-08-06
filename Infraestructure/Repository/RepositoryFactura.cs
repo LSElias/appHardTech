@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
 {
+
+    //evitar cambio
     public class RepositoryFactura : IRepositoryFactura
     {
         public IEnumerable<Factura> GetFactura()

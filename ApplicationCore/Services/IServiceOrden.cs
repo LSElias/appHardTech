@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Services
 {
+ //evitar cambio
     public interface IServiceOrden
     {
-        IEnumerable<Factura> GetOrden();
-        Factura GetOrdenById(int Id);
-        Factura Save(Factura orden);
+        IEnumerable<Orden> GetOrden();
+        Orden GetOrdenById(int Id);
+        Orden Save(Orden orden);
 
     }
 }

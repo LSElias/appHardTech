@@ -8,21 +8,22 @@ using System.Threading.Tasks;
 
 namespace ApplicationCore.Services
 {
+    //service cambio
     public class ServiceOrden : IServiceOrden
     {
-        public IEnumerable<Factura> GetOrden()
+        public IEnumerable<Orden> GetOrden()
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.GetOrden();
         }
 
-        public Factura GetOrdenById(int Id)
+        public Orden GetOrdenById(int Id)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.GetOrdenById(Id);
         }
 
-        public Factura Save(Factura orden)
+        public Orden Save(Orden orden)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.Save(orden);
