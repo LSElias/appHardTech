@@ -293,6 +293,7 @@
     <Content Include="Views\Direccion\Crear.cshtml" />
     <Content Include="Views\Billetera\MiBilletera.cshtml" />
     <Content Include="Views\Billetera\Crear.cshtml" />
+    <Content Include="Views\Factura\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
