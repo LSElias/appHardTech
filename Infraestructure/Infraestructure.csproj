@@ -102,7 +102,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MyContext.cs" />
-    <Compile Include="Models\Orden.cs">
+    <Compile Include="Models\Factura_1.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\OrdenDetalle.cs">

@@ -12,17 +12,17 @@ namespace Infraestructure.Repository
 {
     public class RepositoryOrden : IRepositoryOrden
     {
-        public IEnumerable<Orden> GetOrden()
+        public IEnumerable<Factura> GetOrden()
         {
-            try
+            try //Mod
             {
-                IEnumerable<Orden> list = null;
+                IEnumerable<Factura> list = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Orden.
                             Include("Estado").
-                            ToList<Orden>();
+                            ToList<Factura>();
                 }
                 return list;
 
@@ -42,9 +42,9 @@ namespace Infraestructure.Repository
 
         }
 
-        public Orden GetOrdenById(int Id)
+        public Factura GetOrdenById(int Id)
         {
-            Orden pOrden = null;
+            Factura pOrden = null;
 
             try
             {
@@ -57,7 +57,7 @@ namespace Infraestructure.Repository
                         Include("OrdenDetalle").
                         Include("OrdenDetalle.Producto")
                         .Where(x => x.IdOrden == Id)
-                        .FirstOrDefault<Orden>();
+                        .FirstOrDefault<Factura>();
                 }
                 return pOrden;
             }
@@ -75,10 +75,10 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Orden Save(Orden orden)
+        public Factura Save(Factura orden)
         {
             int retorno = 0;
-            Orden pOrden = null;
+            Factura pOrden = null;
 
             try
             {

@@ -82,7 +82,7 @@ namespace Web.Controllers
         [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult IndexAdmin()
         {
-            IEnumerable<Orden> lista = null;
+            IEnumerable<Factura> lista = null;
 
             try
             {
@@ -110,7 +110,7 @@ namespace Web.Controllers
         public ActionResult Detalle(int? id)
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
-            Orden orden = null;
+            Factura orden = null;
             try
             {
                 // Si va null
@@ -166,7 +166,7 @@ namespace Web.Controllers
 
         // POST: Orden/Create
         [HttpPost]
-        public ActionResult Save(Orden orden, int? IdDireccion, int? IdCuenta)
+        public ActionResult Save(Factura orden, int? IdDireccion, int? IdCuenta)
         {
             Usuario oUsuario = (Usuario)Session["User"];
             var listaDetalle = Carrito.Instancia.Items;
@@ -202,7 +202,9 @@ namespace Web.Controllers
                             if (pro != null && pro.Cantidad >= item.Cantidad)
                             {
                                 pro.Cantidad -= item.Cantidad;
-                                // Producto productEdit = _ServiceProduct.Save(pro);
+                                pro.VentasR += 1;
+
+                                Producto productEdit = _ServiceProduct.Save(pro, null);
 
 
                                 OrdenDetalle ordenDetalle = new OrdenDetalle();
@@ -215,18 +217,27 @@ namespace Web.Controllers
                             }
                             else
                             {
+                                //Cambiar el estado 
+                                // Disponible -> Agotado
+                                pro = product.FirstOrDefault(p => p.IdProducto ==
+                                item.IdProducto);
+
+                                pro.IdEstado = 4;
+
+                                Producto productEdit = _ServiceProduct.Save(pro, null);
+
+
                                 TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Cantidad Insuficiente", "Lo sentimos pero no contamos con suficientes artículos para su compra.", SweetAlertMessageType.error);
                                 return RedirectToAction("Index");
 
-                                //Cambiar el estado 
-                                // Disponible -> Agotado
+          
                             }
 
                         }
                     }
                     //Guardar la orden
                     IServiceOrden _ServiceOrden = new ServiceOrden();
-                    Orden ordenSave = _ServiceOrden.Save(orden);
+                    Factura ordenSave = _ServiceOrden.Save(orden);
 
                     //Factura
                     Factura oFac = new Factura
@@ -265,37 +276,5 @@ namespace Web.Controllers
             }
         }
 
-        // GET: Orden/Edit/5
-      //  [CustomAuthorize((int)Roles.Proveedor)]
-        public ActionResult Editar(int? id)
-        {
-            IServiceOrden _Service = new ServiceOrden();
-            Orden formato = null;
-
-            try
-            {
-                //Si es null el parametro
-                if (id == null)
-                {
-                    return RedirectToAction("MisVentas", "Factura");
-                }
-                formato = _Service.GetOrdenById(Convert.ToInt32(id));
-                if (formato == null)
-                {
-                    TempData["Message"] = "No existe la orden solicitada";
-                    TempData["Redirect"] = "Factura";
-                    TempData["Redirect-Action"] = "MisVentas";
-
-                    return RedirectToAction("MisVentas", "Factura");
-                }
-                return View(formato);
-            }
-            catch (Exception ex)
-            {
-                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
-                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
-                return RedirectToAction("Default", "Error");
-            }
-        }
     }
 }
