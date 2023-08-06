@@ -13,8 +13,7 @@ namespace Infraestructure.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    [MetadataType(typeof(OrdenDetalleMetadata))]
-
+    [MetadataType(typeof(OrdenDetalle))]
     public partial class OrdenDetalle
     {
         public int IdOrden { get; set; }
@@ -24,7 +23,7 @@ namespace Infraestructure.Models
         public Nullable<int> IdEstado { get; set; }
     
         public virtual Estado Estado { get; set; }
-        public virtual Orden Orden { get; set; }
+        public virtual Factura Orden { get; set; }
         public virtual Producto Producto { get; set; }
     }
 }

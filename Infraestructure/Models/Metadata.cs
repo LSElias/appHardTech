@@ -67,7 +67,7 @@ namespace Infraestructure.Models
         [Display(Name = "Cantón")]
         public string Canton { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "El distrito es requerida")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "El distrito es requerido")]
         [Display(Name = "Distrito")]
         public string Distrito { get; set; }
 
@@ -75,18 +75,17 @@ namespace Infraestructure.Models
         [Display(Name = "Dirección exacta")]
         public string DireccionExacta { get; set; }
 
-        [Display(Name = "Usuario")]
-        public virtual Usuario Usuario { get; set; }
     }
 
     internal partial class EstadoMetadata
     {
         public int Id { get; set; }
 
+        [Display(Name = "Estado")]
         public string Nombre { get; set; }
 
         [Display(Name = "Orden")]
-        public virtual ICollection<Orden> Orden { get; set; }
+        public virtual ICollection<Factura> Orden { get; set; }
 
         [Display(Name = "Orden detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
@@ -154,12 +153,13 @@ namespace Infraestructure.Models
         public Nullable<int> IdOrden { get; set; }
 
         public virtual CuentaPago CuentaPago { get; set; }
-        public virtual Orden Orden { get; set; }
+        public virtual Factura Orden { get; set; }
         public virtual Usuario Usuario { get; set; }
     }
 
     internal partial class OrdenMetadata
     {
+        [Display(Name = "Número de orden")]
         public int IdOrden { get; set; }
 
         public Nullable<int> IdEstado { get; set; }
@@ -175,7 +175,6 @@ namespace Infraestructure.Models
         [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
         public Nullable<double> SubTotal { get; set; }
 
-        [Required(ErrorMessage = "El estado de la orden es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
@@ -199,17 +198,13 @@ namespace Infraestructure.Models
 
         public Nullable<int> IdEstado { get; set; }
 
-        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
-        [Required(ErrorMessage = "La fecha de entrega es requerida")]
-        [Display(Name = "Fecha de entrega")]
         public Nullable<System.DateTime> FechaEntrega { get; set; }
 
-        [Required(ErrorMessage = "El estado es requerido")]
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
         [Display(Name = "Orden")]
-        public virtual Orden Orden { get; set; }
+        public virtual Factura Orden { get; set; }
 
         [Required(ErrorMessage = "Los productos son requeridos")]
         [Display(Name = "Produto")]
@@ -299,7 +294,6 @@ namespace Infraestructure.Models
     {
         public int Id { get; set; }
 
-        public Nullable<int> IdDireccion { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
@@ -343,17 +337,9 @@ namespace Infraestructure.Models
         [Display(Name = "Género")]
         public string Genero { get; set; }
 
-        [Display(Name = "Cuenta de pago")]
-        public virtual ICollection<CuentaPago> CuentaPago { get; set; }
-
-        [Display(Name = "Dirección")]
-        public virtual ICollection<Direccion> Direccion { get; set; }
-
-      //  [Required(ErrorMessage = "El estado es requerido")]
-      //  [Display(Name = "Estado")]
+        [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
-        [Required(ErrorMessage = "El tipo de usuario es requerido")]
         [Display(Name = "Tipo de usuario")]
         public virtual ICollection<TipoUsuario> TipoUsuario { get; set; }
     }

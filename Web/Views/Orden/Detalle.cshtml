@@ -1,4 +1,4 @@
-﻿@model Infraestructure.Models.Orden
+﻿@model Infraestructure.Models.Factura
 
 @{
     ViewBag.Title = "Detalle";
@@ -25,45 +25,41 @@
 
 <div class="orden-container">
     <div class="orden-header">
-        <h4>Orden</h4>
+        <h4>Orden #@Model.IdOrden</h4>
     </div>
     <hr />
     <div class="dl-horizontal inside-orden">
 
-        <div class="header-inside-orden row">
+        <div class="header-inside-orden row" style="padding: 5px 0 10px 0;">
             <div class="col-md-6">
-                <h6>
-                    @Html.DisplayNameFor(model => model.FechaInicio)
-                </h6>
+                    <h6>
+                        <b> @Html.DisplayNameFor(model => model.FechaInicio): </b>
+                            @Html.DisplayFor(model => model.FechaInicio)
+                       
+                    </h6>
 
-                <p>
-                    @Html.DisplayFor(model => model.FechaInicio)
-                </p>
             </div>
             <div class="col-md-6">
                 <h6>
-                    @Html.DisplayNameFor(model => model.Estado)
-                </h6>
-
-                <p>
+                    <b> @Html.DisplayNameFor(model => model.Estado): </b>
                     @Html.DisplayFor(model => model.Estado.Nombre)
-                </p>
+                </h6>
             </div>
 
         </div>
         <table class="table table-hover">
             <tr>
-                <th>
+                <th style="background-color: black; color: white; text-align: center;">
                     Nombre
                 </th>
-                <th>
+                <th style="background-color: black; color: white; text-align: center;">
                     Cantidad
                 </th>
-                <th>
-                    Precio
+                <th style="background-color: black; color: white; text-align: center;">
+                    Precio unitario
                 </th>
-                <th>
-                    Precio Acumulado
+                <th style="background-color: black; color: white; text-align: center;">
+                    Precio por volumen
                 </th>
 
             </tr>
@@ -71,36 +67,36 @@
             @foreach (var item in Model.OrdenDetalle)
             {
                 <tr>
-                    <td>
+                    <td style=" background-color: #ffffffd8; text-align: center;">
                         @Html.DisplayFor(modelItem => item.Producto.Nombre)
                     </td>
-                    <td>
+                    <td style=" background-color: #ffffffd8; text-align: center;">
                         @Html.DisplayFor(modelItem => item.Cantidad)
                     </td>
-                    <td>
+                    <td style=" background-color: #ffffffd8; text-align: center;">
                         @Html.DisplayFor(modelItem => item.Producto.Precio)
                     </td>
-                    <td>
-                        @calcularAcumulado(item.Cantidad, item.Producto.Precio)
+                    <td style=" background-color: #ffffffd8; text-align: center;">
+                        ₡@calcularAcumulado(item.Cantidad, item.Producto.Precio)
                     </td>
                 </tr>
             }
 
         </table>
-
-        <dt>
+        <div>
             @Html.DisplayNameFor(model => model.SubTotal)
-        </dt>
+        </div>
 
-        <dd>
+        <div>
             @Html.DisplayFor(model => model.SubTotal)
-        </dd>
+        </div>
 
 
 
     </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.IdOrden }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <a class="btn btn-comprar" href="/Orden/IndexAdmin"style="color: white; text-align: center;">
+        Volver
+    </a>
+
+

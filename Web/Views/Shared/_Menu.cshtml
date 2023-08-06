@@ -1,43 +1,38 @@
-﻿    <nav class="header sticky-top navbar navbar-expand-xl navbar-toggleable-xl navbar-dark">
-        <div class="container">
-            @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new
-       {
-           @class = "navbar-brand logo",
+﻿<nav class="header sticky-top navbar navbar-expand-xl navbar-toggleable-xl navbar-dark">
+    <div class="container">
+        @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new
+        {
+            @class = "navbar-brand logo",
 
-       })
-            
-            @{
-                string nombre = "";
-                string email = "Perfil";
-                Infraestructure.Models.Usuario oUsuario;
-                //Validar si existe en la sesión
-                if (Session["User"] != null)
+        })
+
+        @{
+            string nombre = "";
+            string email = "Perfil";
+            Infraestructure.Models.Usuario oUsuario;
+            //Validar si existe en la sesión
+            if (Session["User"] != null)
+            {
+                oUsuario = (Infraestructure.Models.Usuario)Session["User"];
+                if (oUsuario != null)
                 {
-                    oUsuario = (Infraestructure.Models.Usuario)Session["User"];
-                    if (oUsuario != null)
-                    {
-                        nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
-                        email = oUsuario.Correo;
-                    }
+                    nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
+                    email = oUsuario.Correo;
                 }
             }
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-xl-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        @Html.ActionLink("Productos", "Index", "Producto", null, new { @class = "nav-link" })
-                    </li>
-                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
-                    {
-                        <li class="nav-item">
+        }
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Alternar navegación" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse d-xl-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    @Html.ActionLink("Productos", "Index", "Producto", null, new { @class = "nav-link" })
+                </li>
 
-                            @Html.ActionLink("Mis Ordenes", "MisOrdenes", "Factura", null, new { @class = "nav-link" })
-                        </li>
-                    }
-                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Proveedor" })) { 
+                @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Proveedor" }))
+                {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedor</a>
                         <ul class="dropdown-menu">
@@ -47,57 +42,64 @@
                             </li>
                         </ul>
                     </li>
-                    }
-                    @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Administrador" })) { 
+                }
+                @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Administrador" }))
+                {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mantenimientos</a>
 
                         <ul class="dropdown-menu">
                             <li>
-                                @Html.ActionLink("Usuarios", "Index", "Autor", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Usuarios", "Index", "Usuario", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Usuarios Desactivados", "UsuariosDesactivados", "Usuario", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Producto", "IndexAdmin", "Producto", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Historial de ordenes", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
+
                             </li>
                         </ul>
                     </li>
-                    }
-                    <li>
-                        <a href="@Url.Action("Index","Login")" class="nav-link"> Carrito &nbsp <i class="fa-solid fa-cart-shopping"></i></a>
-                    </li>
-                    <li class="nav-item dropdown" style="align-items: end">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Mi Cuenta &nbsp  <i class="fa-regular fa-user"></i> </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                @* Información usuario *@
+                }
+                <li class="nav-item" id="cantProductos">
+                    @Html.Partial("_OrdenCantidad")
+                </li>
+                <li class="nav-item dropdown" style="align-items: end">
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"> Mi Cuenta &nbsp  <i class="fa-regular fa-user"></i> </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            @* Información usuario *@
 
-                                @if (Session["User"] == null)
-                                {
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
-                                }
-                                else
-                                {
-                                    <div class="dropdown-item">
-                                        @nombre
-                                    </div>
+                            @if (Session["User"] == null)
+                            {
+                                <a href="@Url.Action("Index","Login")" class="nav-link"><i class="fa-solid fa-user"></i> &nbspInicio de Sesión </a>
+                            }
+                            else
+                            {
+                                <div class="dropdown-item">
+                                    @nombre
+                                </div>
 
-                                    <ul style="list-style: none; font-size: 0.8em;">
-                                        <li>
-                                            <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
-                                            <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
-                                        </li>
-                                    </ul>
-                                    <hr />
-                                    if(Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" })){ 
+                                <ul style="list-style: none; font-size: 0.8em;">
+                                    <li>
+                                        <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
+                                        <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
+                                    </li>
+                                </ul>
+                                <hr />
+                                if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
+                                {
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Billetera </a>
+                                    <a href="@Url.Action("MisOrdenes", "Factura")" class="nav-link"> Mis Ordenes </a>
                                     <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Direcciones </a>
-                                    }
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
-                                    <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
-                                }
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
 
-            </div>
+                                }
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
+                                <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
+                            }
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
         </div>
-    </nav>
+    </div>
+</nav>

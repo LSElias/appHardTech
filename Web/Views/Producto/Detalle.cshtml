@@ -139,7 +139,9 @@ else
                 </div>
 
                 <div class="col-md-11 justify-content-center">
-                    <a class="btn btn-secondary btn-lg btn-comprar" href="#meow">
+                    <h6 id="compraObj" style="margin:-4px 0; opacity: 0">@Model.IdProducto</h6>
+
+                    <a id="comprar" class="btn btn-secondary btn-lg btn-comprar">
                         Comprar
                     </a>
                 </div>
@@ -330,6 +332,22 @@ else
 
                          }
                      });
+         });
+     $(document).on('click', '#comprar',
+         function () {
+             var ctr = $(this);
+             var idProd = document.getElementById('compraObj').innerText
+             $.ajax({
+                 method: "GET",
+                 url: "/Orden/ordenProducto",
+                 data: { "idProducto": idProd },
+                 success: function (data) {
+                     $("#cantProductos").html('');
+                     $("#cantProductos").html(data);
+                 }, error: function (xhr, status, error) {
+                     console.log("Error: " + error + ", No Error: " + xhr.status);
+                 },
+             });
          });
  </script>
 }

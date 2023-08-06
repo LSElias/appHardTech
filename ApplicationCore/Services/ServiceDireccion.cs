@@ -16,7 +16,7 @@ namespace ApplicationCore.Services
             return oRep.GetDireccionByID(Id);        
         }
 
-        public Direccion GetDireccionByIdUsuario(int IdUsuario)
+        public IEnumerable<Direccion> GetDireccionByIdUsuario(int IdUsuario)
         {
             IRepositoryDireccion oRep = new RepositoryDireccion();
             return oRep.GetDireccionByIdUsuario(IdUsuario);

@@ -146,7 +146,7 @@ namespace Web.Controllers
                                         where o.IdOrden == f.IdOrden
                                         where od.IdEstado == e.Id
 
-                                        select new { Id = f.IdFactura, f.Fecha , Producto = p.Nombre , od.Cantidad, Estado = e.Nombre }); ;
+                                        select new { Id = f.IdFactura, f.Fecha , Producto = p.Nombre , od.Cantidad, Estado = e.Nombre, o.IdOrden }); ;
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id
@@ -238,47 +238,50 @@ namespace Web.Controllers
             }
         }
 
-        // GET: Factura/Edit/5
-        public ActionResult Edit(int id)
+
+        private SelectList ListaEstados(int idEstado = 0)
         {
-            return View();
+            IServiceEstado _service = new ServiceEstado();
+            List<Estado> estado = new List<Estado>
+            {
+                _service.GetEstadoByID(3),
+                _service.GetEstadoByID(4)
+            };
+            IEnumerable<Estado> lista = estado;
+            return new SelectList(lista, "Id", "Nombre", idEstado);
         }
 
-        // POST: Factura/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+
+        public ActionResult Editar(int? id)
         {
+            IServiceFactura _Service = new ServiceFactura();
+            Factura formato = null;
+
             try
             {
-                // TODO: Add update logic here
+                //Si es null el parametro
+                if (id == null)
+                {
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+                formato = _Service.GetOrdenById(Convert.ToInt32(id));
 
-                return RedirectToAction("Index");
+                if (formato == null)
+                {
+                    TempData["Message"] = "No existe la orden solicitada";
+                    TempData["Redirect"] = "Factura";
+                    TempData["Redirect-Action"] = "MisVentas";
+
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+                ViewBag.IdEstado = ListaEstados((int)formato.IdEstado);
+                return View(formato);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: Factura/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Factura/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
             }
         }
     }

@@ -32,18 +32,31 @@ namespace Web.Controllers
                 ModelState.Remove("Genero");
                 ModelState.Remove("TipoUsuario");
                 ModelState.Remove("IdEstado");
+                ModelState.Remove("Estado");
 
                 if (ModelState.IsValid)
                 {
                     oUsuario = _ServiceUsuario.GetUsuario(usuario.Correo, usuario.Clave);
                     if (oUsuario != null)
                     {
-                        Session["User"] = oUsuario;
-                        Log.Info($"Accede{oUsuario.Nombre} {oUsuario.Apellido1} + {oUsuario.Apellido2} " +
-                            $"con el rol {oUsuario.TipoUsuario.ToList()}");
-                        TempData["mensaje"] = Utils.SweetAlertHelper.Mensaje("Login",
-                            "Usuario autenticado", Utils.SweetAlertMessageType.success);
-                        return RedirectToAction("Index", "Home");
+                        if(oUsuario.IdEstado  == 1)
+                        {
+                            Session["User"] = oUsuario;
+                            Log.Info($"Accede{oUsuario.Nombre} {oUsuario.Apellido1} + {oUsuario.Apellido2} " +
+                                $"con el rol {oUsuario.TipoUsuario.ToList()}");
+                            TempData["mensaje"] = Utils.SweetAlertHelper.Mensaje("Login",
+                                "Usuario autenticado", Utils.SweetAlertMessageType.success);
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            Log.Warn($"Intento de inicio de secion{usuario.Correo}");
+                            ViewBag.NotificationMessage = Utils.SweetAlertHelper.Mensaje("No se logro iniciar sesión",
+                                "Este usuario no esta activado. Contacte a un administrador.", Utils.SweetAlertMessageType.error);
+
+                        }
+
+
                     }
                     else
                     {

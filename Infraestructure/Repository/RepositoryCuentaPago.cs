@@ -23,8 +23,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.CuentaPago
                         .Where(t => t.TipoPago.Id == IdTipoPago)
-                        .Include("TipoPago").
-                        Include("Usuario")
+                        .Include("TipoPago")
                         .ToList();
                 }
                 return list;
@@ -44,6 +43,37 @@ namespace Infraestructure.Repository
             }
         }
 
+        public IEnumerable<CuentaPago> GetCuentaByIdUsuario(int IdUsuario)
+        {
+
+            try
+            {
+                IEnumerable<CuentaPago> oPago = null;
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oPago = ctx.CuentaPago
+                         .Where(x => x.Usuario1.All(y => y.Id == IdUsuario))
+                         .ToList();
+                }
+                return oPago;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+
+
+        }
+
         public CuentaPago GetCuentaPagoByID(int Id)
         {
             CuentaPago oCuenta = null;
@@ -54,8 +84,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oCuenta = ctx.CuentaPago.
-                        Include("TipoPago").
-                        Include("Usuario")
+                        Include("TipoPago")
                         .Where(t => t.Id == Id)
                         .FirstOrDefault();
                 }
@@ -85,7 +114,6 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.CuentaPago.
                         Include("TipoPago").
-                        Include("Usuario").
                         ToList<CuentaPago>();
                 }
                 return list;

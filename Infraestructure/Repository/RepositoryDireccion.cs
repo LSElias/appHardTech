@@ -22,7 +22,6 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .Include("Usuario")
                         .Where(x=>x.Id == Id)
                         .FirstOrDefault();
                 }
@@ -42,17 +41,18 @@ namespace Infraestructure.Repository
             }
         }
 
-        public Direccion GetDireccionByIdUsuario(int IdUsuario)
+        public IEnumerable<Direccion> GetDireccionByIdUsuario(int IdUsuario)
         {
             try
             {
-                Direccion oDireccion = null;
+                IEnumerable<Direccion> oDireccion = null;
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oDireccion = ctx.Direccion
-                        .Include("Usuario")
-                        .FirstOrDefault();
+                         .Where(x => x.Usuario1.All(y => y.Id == IdUsuario))
+                         .ToList();
+
 
                 }
                 return oDireccion;
@@ -79,7 +79,7 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    list = ctx.Direccion.Include("Usuario").
+                    list = ctx.Direccion.
                         ToList<Direccion>();
                 }
                 return list;

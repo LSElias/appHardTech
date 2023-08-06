@@ -9,8 +9,8 @@ namespace Infraestructure.Repository
 {
     public interface IRepositoryOrden
     {
-        IEnumerable<Orden> GetOrden();
-        Orden GetOrdenById(int Id);
-        Orden Save(Orden orden);
+        IEnumerable<Factura> GetOrden();
+        Factura GetOrdenById(int Id);
+        Factura Save(Factura orden);
     }
 }

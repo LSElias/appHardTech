@@ -67,19 +67,21 @@
                 <th>
                     Nombre
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Cantidad
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Precio
                 </th>
-                <th>
-                    Acumulado
+                <th style="text-align: center;">
+                    Precio por volumen
                 </th>
-                <th>
+                <th style="text-align: center;">
                     Estado
                 </th>
-
+                <th style="text-align: center;">
+                    Fecha de entrega
+                </th>
             </tr>
 
             @foreach (var item in Model.Orden.OrdenDetalle)
@@ -88,17 +90,20 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Producto.Nombre)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Cantidad)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Producto.Precio)
                     </td>
-                    <td>
-                        @calcularAcumulado(item.Cantidad, item.Producto.Precio)
+                    <td style="text-align: center;">
+                        ₡@calcularAcumulado(item.Cantidad, item.Producto.Precio)
                     </td>
-                    <td>
+                    <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                    </td>
+                    <td style="text-align: center;">
+                        @Html.DisplayFor(modelItem => item.FechaEntrega)
                     </td>
                 </tr>
             }
@@ -120,7 +125,7 @@
         <div>
             <h5> Otros detalles: </h5>
             <h6>
-                @Html.DisplayNameFor(model => model.Usuario.Direccion): @Html.DisplayFor(model => model.Usuario.Direccion.Provincia), @Html.DisplayFor(model => model.Usuario.Direccion.Canton), @Html.DisplayFor(model => model.Usuario.Direccion.Distrito), @Html.DisplayFor(model => model.Usuario.Direccion.DireccionExacta)
+                @Html.DisplayNameFor(model => model.Direccion): @Html.DisplayFor(model => model.Direccion.Provincia), @Html.DisplayFor(model => model.Direccion.Canton), @Html.DisplayFor(model => model.Direccion.Distrito), @Html.DisplayFor(model => model.Direccion.DireccionExacta)
             </h6>
         </div>
         

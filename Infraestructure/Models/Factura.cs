@@ -14,8 +14,6 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(FacturaMetadata))]
-
-
     public partial class Factura
     {
         public int IdFactura { get; set; }
@@ -25,9 +23,11 @@ namespace Infraestructure.Models
         public Nullable<int> IVA { get; set; }
         public Nullable<double> Total { get; set; }
         public Nullable<int> IdOrden { get; set; }
+        public Nullable<int> IdDireccion { get; set; }
     
         public virtual CuentaPago CuentaPago { get; set; }
-        public virtual Orden Orden { get; set; }
+        public virtual Factura Orden { get; set; }
         public virtual Usuario Usuario { get; set; }
+        public virtual Direccion Direccion { get; set; }
     }
 }

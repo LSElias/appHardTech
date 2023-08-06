@@ -1,0 +1,308 @@
+﻿@model Web.ViewModel.Registro
+
+@{
+    ViewBag.Title = "Registro";
+}
+
+
+
+@using (Html.BeginForm("SaveRegistro", "Usuario", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row box-register">
+            <div class="col-md-9">
+                <div class="col-md-12 login-label my-3 row">
+                    <h4 class="page-title my-2">¡Crea tu cuenta ahora!</h4>
+                    <div class="col-md-8 row">
+                        <div class="form-group my-2 col-md-12">
+                            @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group my-2 col-md-12">
+                            @Html.LabelFor(model => model.Clave, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.PasswordFor(model => model.Clave, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Clave, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group my-2 col-md-12">
+                            @Html.LabelFor(model => model.ConfirmarClave, htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-12">
+                                @Html.PasswordFor(model => model.ConfirmarClave, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ConfirmarClave, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 m-auto">
+                        <div>
+                            <img id="img-focus" class="img-thumbnail " style="height: 28vh" src="~/src/img/no-photo.jpg"
+                                 alt="No hay fotos" />
+                        </div>
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.Foto, "Agregar Imagen", htmlAttributes: new { @class = "control-label col-md-12 mb-2", })
+                            <div class="col-md-10">
+                                <input type="file" name="ImageFile" accept="image/jpeg, image/png, image/jpg" class="form-control fotoP">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 login-label my-3 row">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Apellido1, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Apellido1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Apellido1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Apellido2, htmlAttributes: new { @class = "control-label col-md-10" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Apellido2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Apellido2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 login-label row my-3">
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-12">
+                            @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(model => model.Genero, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-12">
+                            <select class="form-control" required name="genero" id="idGenero">
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                                <option value="N">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <h5 class="login-label"> ¿Que tipo de cuenta deseas tener?</h5>
+                    <div class="form-group ">
+                        @Html.CheckBoxFor(model => model.Cliente, htmlAttributes: new { @style = "accent-color: #9b59b6;" })
+                        @Html.LabelFor(model => model.Cliente, htmlAttributes: new { @style = "color: #ffffff8c" })
+                        @Html.CheckBoxFor(model => model.Proveedor, htmlAttributes: new { @style = "accent-color: #9b59b6;" })
+                        @Html.LabelFor(model => model.Proveedor, htmlAttributes: new { @style = "color: #ffffff8c" })
+                    </div>
+                    <hr />
+                </div>
+                <div class="col-md-12 login-label row my-3">
+                    <h5 class="login-label">
+                        Direccion
+                    </h5>
+                    <div class="form-group col-md-4 ">
+                        <div class="col-md-12">
+                            <h6 style="color: #ffffff8c"> Provincia </h6>
+                            @Html.DropDownListFor(model => model.Provincia,
+                            (SelectList)ViewBag.IdProvincia, null,
+                            htmlAttributes: new { @id = "DDprovin", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Provincia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 ">
+                        <div class="col-md-12">
+                            <h6 style="color: #ffffff8c"> Canton </h6>
+                            @Html.DropDownListFor(model => model.Canton,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDcanton", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Canton, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4 ">
+                        <div class="col-md-12">
+                            <h6 style="color: #ffffff8c"> Distrito </h6>
+                            @Html.DropDownListFor(model => model.Distrito,
+                            (SelectList)ViewBag.IdDistrito, null,
+                            htmlAttributes: new { @id = "DDdistrit", @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Distrito, "", new { @class = "text-danger" }) 
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 ">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Senas, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Senas, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Senas, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <div class="col-md-12 login-label row my-3">
+                    <h5 class="login-label">
+                        Método de Pago
+                    </h5>
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.NumCuenta, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.NumCuenta, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NumCuenta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.CodSeguridad, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.CodSeguridad, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CodSeguridad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Mes, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Mes, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Mes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Anio, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Anio, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 mb-3 ">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.IdTipoPago, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.DropDownListFor(model => model.IdTipoPago,
+                            (SelectList)ViewBag.IdTipoPago, null,
+                            htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdTipoPago, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+                <div class="col-md-12 row my-3">
+                    <div class="form-group my-2 col-md-12">
+                        <div class="col-md-offset-2 col-md-12">
+                            <input type="submit" value="Registrar" class="btn btn-comprar btn-large" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 register-gradient">
+
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $("#DDprovin").change(function () {
+
+            var cantones = document.getElementById("DDcanton");
+            var i;
+            var L = cantones.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                cantones.remove(i);
+            }
+
+            var distritos = document.getElementById("DDdistrit");
+            L = distritos.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                distritos.remove(i);
+            }
+            var provincias = document.getElementById("DDprovin").selectedIndex + 1;
+            $.ajax({
+                method: "GET",
+                url: "/Usuario/RefreshCanton",
+                data: {
+                    "idProvincia": provincias
+                },
+                success: function (data) {
+
+                    let option;
+                    var count = Object.keys(data).length;
+                    for (let j = 1; j < count; j++) {
+                        option = document.createElement('option');
+                        option.text = data[j];
+                        option.value = data[j];
+                        cantones.add(option);
+                        cantones.selectedIndex = -1;
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + error, "No Error: " + xhr.status)
+                }
+            });
+        });
+
+        $("#DDcanton").change(function () {
+            var provincias = document.getElementById("DDprovin").selectedIndex + 1;
+            var cantones = document.getElementById("DDcanton").selectedIndex + 1;
+            var distritos = document.getElementById("DDdistrit");
+
+            L = distritos.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                distritos.remove(i);
+            }
+
+            $.ajax({
+                method: "GET",
+                url: "/Usuario/RefreshDistritos",
+                data: {
+                    "idProvincia": provincias, "idCanton": cantones
+                },
+                success: function (data) {
+
+                    let option;
+                    var count = Object.keys(data).length;
+                    for (let i = 1; i < count; i++) {
+                        option = document.createElement('option');
+                        option.text = data[i];
+                        option.value = data[i];
+                        distritos.add(option);
+                        distritos.selectedIndex = -1;
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    console.log("Error: " + error, "No Error: " + xhr.status)
+                }
+            });
+            console.log(provincias);
+        });
+
+        const input = document.querySelector(".fotoP")
+        input.addEventListener("change", () => {
+            const files = input.files
+            var src = URL.createObjectURL(files[0]);
+            document.getElementById("img-focus").src = src;
+        })
+
+    </script>
+}

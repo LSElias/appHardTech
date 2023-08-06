@@ -14,8 +14,8 @@ namespace ApplicationCore.Services
         public Usuario GetUsuario(string oCorreo, string oClave)
         {
            IRepositoryUsuario oRep = new RepositoryUsuario();
-         //   string crytpPasswd = Cryptography.EncrypthAES(oClave);
-            return oRep.GetUsuario(oCorreo, oClave);
+            string crytpPasswd = Cryptography.EncrypthAES(oClave);
+            return oRep.GetUsuario(oCorreo, crytpPasswd);
         }
 
         public Usuario GetUsuarioByID(int Id)
@@ -27,11 +27,11 @@ namespace ApplicationCore.Services
             return oUsuario;
         }
 
-        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario)
+        public Usuario Save(Usuario usuario, string[] selectedTipoUsuario, int[] arrayDirecciones, int[] arrayCuentas)
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             usuario.Clave = Cryptography.EncrypthAES(usuario.Clave);
-            return oRep.Save(usuario, selectedTipoUsuario);
+            return oRep.Save(usuario, selectedTipoUsuario, arrayDirecciones, arrayCuentas);
         }
 
         //No se encriptó porque es el Admin que usará los usuarios
@@ -45,6 +45,12 @@ namespace ApplicationCore.Services
         {
             IRepositoryUsuario oRep = new RepositoryUsuario();
             return oRep.GetUsuarioByIDTipoUsuario(IdTipoUsuario);
+        }
+
+        public Usuario GetUsuarioByEmail(string correo)
+        {
+            IRepositoryUsuario oRep = new RepositoryUsuario();
+            return oRep.GetUsuarioByEmail(correo);
         }
     }
 }
