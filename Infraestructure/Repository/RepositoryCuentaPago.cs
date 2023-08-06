@@ -53,7 +53,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     oPago = ctx.CuentaPago
-                         .Where(x => x.Usuario1.All(y => y.Id == IdUsuario))
+                         .Where(x => x.Usuario1.Any(y => y.Id == IdUsuario))
                          .ToList();
                 }
                 return oPago;

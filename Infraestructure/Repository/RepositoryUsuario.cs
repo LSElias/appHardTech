@@ -280,7 +280,7 @@ namespace Infraestructure.Repository
                         {
                             ctx.Entry(usuario).Collection(x => x.CuentaPago1).Load();
                             var newCuentaForUser = ctx.CuentaPago
-                                .Where(x => DireccionesID.Contains(x.Id)).ToList();
+                                .Where(x => CuentasID.Contains(x.Id)).ToList();
                             usuario.CuentaPago1 = newCuentaForUser;
 
                             ctx.Entry(usuario).State = EntityState.Modified;

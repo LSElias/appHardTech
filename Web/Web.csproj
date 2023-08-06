@@ -145,6 +145,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BilleteraController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
@@ -290,6 +291,8 @@
     <Content Include="Views\Usuario\UsuariosDesactivados.cshtml" />
     <Content Include="Views\Direccion\MisDirecciones.cshtml" />
     <Content Include="Views\Direccion\Crear.cshtml" />
+    <Content Include="Views\Billetera\MiBilletera.cshtml" />
+    <Content Include="Views\Billetera\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

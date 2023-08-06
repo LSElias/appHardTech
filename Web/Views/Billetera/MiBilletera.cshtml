@@ -1,23 +1,24 @@
-﻿@model Infraestructure.Models.Factura
-
+﻿
 @{
-    ViewBag.Title = "Mis Ordenes";
+    ViewBag.Title = "Mis Direcciones";
 }
 
+
+
 <div class="container-fluid m-auto text-center pt-5">
-    <h1 class="page-title">Mis Ordenes</h1>
+    <h1 class="page-title">Mi Billetera</h1>
 </div>
 
 
 <script>
+
+    function getDateString(date) {
+        var dateObj = new Date(parseInt(date.substr(6)));
+        return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit' });
+    }
+
+
     $(document).ready(function () {
-
-
-        function getDateString(date) {
-            var dateObj = new Date(parseInt(date.substr(6)));
-            return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
-        }
-
         $('#productoGrid').dataTable({
             "processing": true,
             "serverSide": true,
@@ -32,7 +33,7 @@
                 "info": "Mostrando página _PAGE_ de _PAGES_",
                 "infoEmpty": "No hay productos para mostrar",
                 "infoFiltered": "(filtrado de _MAX_ productos totales)",
-                    "paginate": {
+                "paginate": {
                     "first": "Primera",
                     "last": "Última",
                     "next": "Siguiente",
@@ -42,19 +43,19 @@
             },
 
             "ajax": {
-                "url": "/Factura/LoadData",
+                "url": "/Billetera/LoadCuentas",
                 "type": "POST",
                 "datatype": "json"
             },
             "columnDefs":
                 [
                     {
-                    "targets": [0],
-                    "visible": false,
-                    "searchable": false
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
                     },
                     {
-                        "targets": [4],
+                        "targets": [3],
                         "visible": true,
                         "searchable": false,
                         orderable: false,
@@ -63,18 +64,18 @@
 
             "columns": [
                 { "data": "Id", "name": "Id", "autoWidth": true },
+                { "data": "Nombre", "name": "Nombre", "autoWidth": true },
                 {
-                    "data": "Fecha", "name": "Fecha",
+                    "data": "FechaExp", "name": "FechaExp",
                     "render": function (data) { return getDateString(data); }
                 },
-                { "data": "Estado", "name": "Estado", "autoWidth": true },
-                { "data": "Total", "name": "Total", "autoWidth": true },
-             //   { "data": "Fecha", "title": "Fecha", "name": "Fecha", "autoWidth": true },
-
                 {
-                    "render": function (data, type, full, meta) { return '<a class="btn Detalle" href="/Billetera/Detalle/'
-                    + full.Id + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>'; }
+                    "render": function (data, type, full, meta) {
+                        return '<a class="btn Detalle" href="/Producto/Detalle/'
+                            + full.IdProducto + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
+                    }
                 },
+
             ]
 
         });
@@ -84,17 +85,20 @@
 
 <div class=" ">
     <br />
+    <div class="mb-3" style="float:right">
+        <a id="redireccion" href="/Billetera/Crear/" class="btn btn-gradient"> <i class="fa-solid fa-plus"> </i> </a>
+    </div>
     <div style=" width:101%; margin:0 auto;">
         <table id="productoGrid" class="table table-striped table-bordered dt-responsive nowrap overflow-x-scroll" width="100%" cellspacing="0">
             <thead>
                 <tr>
                     <th>Id</th> @* 0 *@
-                    <th>Fecha</th> @* 1 *@
-                    <th>Estado</th> @* 3 *@
-                    <th>Total</th> @* 2 *@
-                    <th>Detalle</th> @* 4 *@
+                    <th>Tipo de Tarjeta</th> @* 3 *@
+                    <th>Fecha de expiración</th> @* 2 *@
+                    <th>Detalle</th> @* 2 *@
                 </tr>
             </thead>
         </table>
     </div>
 </div>
+
