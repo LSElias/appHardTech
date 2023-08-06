@@ -16,7 +16,6 @@ namespace Web.Controllers
     public class OrdenController : Controller
     {
         // GET: Orden
-        [CustomAuthorize((int)Roles.Cliente)]
         public ActionResult Index()
         {
             //Recibir Mensaje de notificación
@@ -28,10 +27,12 @@ namespace Web.Controllers
             //Carrito de Compras
             ViewBag.DetalleOrden = Carrito.Instancia.Items;
 
-            ViewBag.IdDireccion = listaDirecciones(); 
+            if (Session["User"] != null)
+            {
+                ViewBag.IdDireccion = listaDirecciones();
 
-            ViewBag.IdCuenta = listaCuentaPago();
-
+                ViewBag.IdCuenta = listaCuentaPago();
+            }
             return View();
         }
 
@@ -169,7 +170,11 @@ namespace Web.Controllers
         {
             Usuario oUsuario = (Usuario)Session["User"];
             var listaDetalle = Carrito.Instancia.Items;
-            orden.SubTotal = Carrito.Instancia.GetTotal();  
+            orden.SubTotal = Carrito.Instancia.GetTotal();
+            orden.IdEstado = 5;
+
+            IServiceProducto _ServiceProduct = new ServiceProducto();
+            var product = _ServiceProduct.GetProductos();
 
             try
             {
@@ -182,20 +187,41 @@ namespace Web.Controllers
                 }
                 else
                 {
+                    ModelState.Remove("Estado");
+                    ModelState.Remove("SubTotal");
+
                     if (ModelState.IsValid)
                     {
-                        
+
                         //Agregar cada línea de detalle a la orden
                         foreach (var item in listaDetalle)
                         {
-                            OrdenDetalle ordenDetalle = new OrdenDetalle();
-                            ordenDetalle.IdProducto = item.IdProducto;
-                            ordenDetalle.Cantidad = item.Cantidad;
-                            ordenDetalle.IdEstado = 5; 
-                            
-                           
+                            var pro = product.FirstOrDefault(p => p.IdProducto ==
+                             item.IdProducto);
 
-                            orden.OrdenDetalle.Add(ordenDetalle);
+                            if (pro != null && pro.Cantidad >= item.Cantidad)
+                            {
+                                pro.Cantidad -= item.Cantidad;
+                                // Producto productEdit = _ServiceProduct.Save(pro);
+
+
+                                OrdenDetalle ordenDetalle = new OrdenDetalle();
+                                ordenDetalle.IdProducto = item.IdProducto;
+                                ordenDetalle.Cantidad = item.Cantidad;
+                                ordenDetalle.IdEstado = 5;
+                                ordenDetalle.FechaEntrega = item.FechaEntrega;
+
+                                orden.OrdenDetalle.Add(ordenDetalle);
+                            }
+                            else
+                            {
+                                TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Cantidad Insuficiente", "Lo sentimos pero no contamos con suficientes artículos para su compra.", SweetAlertMessageType.error);
+                                return RedirectToAction("Index");
+
+                                //Cambiar el estado 
+                                // Disponible -> Agotado
+                            }
+
                         }
                     }
                     //Guardar la orden
@@ -208,7 +234,7 @@ namespace Web.Controllers
                         IdUsuario = oUsuario.Id,
                         Fecha = (DateTime)ordenSave.FechaInicio,
                         IVA = 10,
-                        Total = (ordenSave.SubTotal * (10 / 100)) + ordenSave.SubTotal,
+                        Total = (orden.SubTotal * 0.10) + orden.SubTotal,
                         IdOrden = ordenSave.IdOrden,
                         IdDireccion = IdDireccion,
                         IdCuentaPago = IdCuenta
@@ -220,9 +246,12 @@ namespace Web.Controllers
                     // Limpia el Carrito de compras
                     Carrito.Instancia.EliminarCarrito();
                     TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Orden", "Orden realizada correctamente", SweetAlertMessageType.success);
+                    //return RedirectToAction("Detalle", "Factura", factSave.IdOrden);
                 }
+
                 // Reporte orden
                 return RedirectToAction("Index");
+
             }
             catch (Exception ex)
             {
@@ -237,27 +266,36 @@ namespace Web.Controllers
         }
 
         // GET: Orden/Edit/5
-        public ActionResult Edit(int id)
+      //  [CustomAuthorize((int)Roles.Proveedor)]
+        public ActionResult Editar(int? id)
         {
-            return View();
-        }
+            IServiceOrden _Service = new ServiceOrden();
+            Orden formato = null;
 
-        // POST: Orden/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
             try
             {
-                // TODO: Add update logic here
+                //Si es null el parametro
+                if (id == null)
+                {
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+                formato = _Service.GetOrdenById(Convert.ToInt32(id));
+                if (formato == null)
+                {
+                    TempData["Message"] = "No existe la orden solicitada";
+                    TempData["Redirect"] = "Factura";
+                    TempData["Redirect-Action"] = "MisVentas";
 
-                return RedirectToAction("Index");
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+                return View(formato);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
             }
         }
-
-        
     }
 }
