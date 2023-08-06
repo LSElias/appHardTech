@@ -14,7 +14,7 @@ namespace Infraestructure.Repository
     {
         public IEnumerable<Orden> GetOrden()
         {
-            try
+            try //Mod
             {
                 IEnumerable<Orden> list = null;
                 using (MyContext ctx = new MyContext())
