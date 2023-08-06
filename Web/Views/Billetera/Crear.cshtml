@@ -1,0 +1,76 @@
+﻿@model Web.ViewModel.Registro
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<h2 class="page-title my-2">Crear Cuenta</h2>
+
+@using (Html.BeginForm("Save", "Billetera", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row box-register">
+            <div class="col-md-9">
+                <div class="col-md-12 row">
+                    <div class="form-group col-md-8">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.NumCuenta, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.NumCuenta, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.NumCuenta, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.CodSeguridad, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.CodSeguridad, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.CodSeguridad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Mes, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Mes, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Mes, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.Anio, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.TextBoxFor(model => model.Anio, null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Anio, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12 mb-3 ">
+                        <div class="col-md-12 my-3">
+                            @Html.LabelFor(model => model.IdTipoPago, htmlAttributes: new { @style = "color: #ffffff8c;" })
+                            @Html.DropDownListFor(model => model.IdTipoPago,
+                            (SelectList)ViewBag.IdTipoPago, null,
+                            htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdTipoPago, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-12 my-3">
+                        <div class="form-group my-2 col-md-12">
+                            <div class="col-md-offset-2 col-md-12">
+                                <input type="submit" value="Registrar" class="btn btn-comprar btn-large" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 register-gradient">
+
+            </div>
+        </div>
+
+        </div>
+
+}
+<div>
+    @Html.ActionLink("Back to List", "MiBilletera")
+</div>
+
+

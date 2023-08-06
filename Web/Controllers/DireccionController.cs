@@ -26,7 +26,6 @@ namespace Web.Controllers
         }
 
         [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor)]
-
         public ActionResult MisDirecciones()
         {
             return View();
@@ -116,8 +115,9 @@ namespace Web.Controllers
         }
 
         // GET: Direccion/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Editar(int id)
         {
+ 
             return View();
         }
 
@@ -180,6 +180,7 @@ namespace Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if(direccion.Id == 0) { 
                     Direccion odireccionI = _Service.Save(direccion);
                     IEnumerable<Direccion> direccionesUsuario = _Service.GetDireccionByIdUsuario(_idUsuario);
                     int[] idDireccion = { };
@@ -194,6 +195,12 @@ namespace Web.Controllers
                     int[] cuentas = { };
 
                     Usuario sUsuario = _ServiceUsuario.Save(_Usuario, roles, idDireccion,cuentas);
+                    }
+                    else
+                    {
+                        Direccion odireccionI = _Service.Save(direccion);
+
+                    }
                 }
                 else
                 {
@@ -227,7 +234,7 @@ namespace Web.Controllers
 
 
 
-        public SelectList ListaProvincias(int idProvincia = 0)
+        public SelectList ListaProvincias(string idProvincia = "0")
         {
             HttpWebRequest myReq = (HttpWebRequest)WebRequest
                 .Create("https://ubicaciones.paginasweb.cr/provincias.json");
@@ -273,7 +280,7 @@ namespace Web.Controllers
             }
         }
 
-        public SelectList ListaCanton(string idProvincia = "1", int idCanton = 0)
+        public SelectList ListaCanton(string idProvincia = "1", string idCanton = "0")
         {
 
             var url = "https://ubicaciones.paginasweb.cr/provincia/" + idProvincia + "/cantones.json";
@@ -347,7 +354,7 @@ namespace Web.Controllers
         }
 
 
-        public SelectList ListaDistritos(string idProvincia = "1", string idCanton = "1", int idDistrito = 0)
+        public SelectList ListaDistritos(string idProvincia = "1", string idCanton = "1", string idDistrito = "0")
         {
 
             var url = "https://ubicaciones.paginasweb.cr/provincia/" + idProvincia + "/canton/" + idCanton + "/distritos.json";
