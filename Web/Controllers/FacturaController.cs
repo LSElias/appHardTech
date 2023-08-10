@@ -7,17 +7,16 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using log4net.Util.TypeConverters;
-using Web.Utils;
 using ApplicationCore.Services;
 using Web.Security;
+using Infraestructure.Utils;
+using Web.Utils;
 
 namespace Web.Controllers
 {
     public class FacturaController : Controller
     {
         // GET: Factura
-
-
         [CustomAuthorize((int)Roles.Cliente)]
         public ActionResult MisOrdenes()
         {
@@ -90,7 +89,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
@@ -169,7 +168,7 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos!" + ex.Message;
                 return RedirectToAction("Default", "Error");
             }
@@ -206,7 +205,7 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 // Salvar el error en un archivo 
-                Log.Error(ex, MethodBase.GetCurrentMethod());
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos! " + ex.Message;
                 TempData["Redirect"] = "Orden";
                 TempData["Redirect-Action"] = "IndexAdmin";
@@ -216,69 +215,90 @@ namespace Web.Controllers
 
         }
 
-        // GET: Factura/Create
-        public ActionResult Create()
+        public ActionResult Save(Factura fact)
         {
-            return View();
-        }
-
-        // POST: Factura/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
+            var listaDetalle = fact;
             try
             {
-                // TODO: Add insert logic here
+                    if (ModelState.IsValid)
+                    {
+                        foreach (var item in fact.Orden.OrdenDetalle)
+                        {
+                            OrdenDetalle ordenDetalle = new OrdenDetalle();
+                            ordenDetalle.FechaEntrega = item.FechaEntrega;
 
-                return RedirectToAction("Index");
+                        fact.Orden.OrdenDetalle.Add(ordenDetalle);
+                        }
+                    }
+                    //Guardar la orden
+                    IServiceOrden _ServiceOrden = new ServiceOrden();
+                    Orden ordenSave = _ServiceOrden.Save(fact.Orden);
+
+                    return RedirectToAction("MisVentas", "Factura");
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                // Salvar el error  
+                Infraestructure.Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Orden";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
             }
         }
 
-        // GET: Factura/Edit/5
-        public ActionResult Edit(int id)
+        private SelectList ListaEstados(int idEstado = 0)
         {
-            return View();
+            IServiceEstado _Service = new ServiceEstado();
+            List<Estado> estado = new List<Estado>
+            {
+                _Service.GetEstadoByID(5),
+                _Service.GetEstadoByID(6),
+                _Service.GetEstadoByID(7),
+                _Service.GetEstadoByID(8)
+            };
+            IEnumerable<Estado> lista = estado; 
+            return new SelectList(lista, "Id", "Nombre", idEstado);
+        }
+        private SelectList ListaPago(int idTipo = 0)
+        {
+            IServiceTipoPago _service = new ServiceTipoPago();
+            IEnumerable<TipoPago> lista = _service.GetTipoPago();
+            return new SelectList(lista, "Id", "Nombre", idTipo);
         }
 
-        // POST: Factura/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Editar(int? id)
         {
+            IServiceFactura _Service = new ServiceFactura();
+            Factura formato = null;
+
             try
             {
-                // TODO: Add update logic here
+                if (id == null)
+                {
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+                formato = _Service.GetFacturaById((int)id);
+                
+                if (formato == null)
+                {
+                    TempData["Message"] = "No existe el producto solicitado";
+                    TempData["Redirect"] = "Producto";
+                    TempData["Redirect-Action"] = "IndexProveedor";
+                    //Redireccion a la vista del error
+                    return RedirectToAction("Default", "Error");
 
-                return RedirectToAction("Index");
+                }
+                ViewBag.IdEstado = ListaEstados((int)formato.Orden.IdEstado);
+                ViewBag.IdCuentaPago = ListaPago((int)formato.IdCuentaPago);
+                return View(formato);
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: Factura/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Factura/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
             }
         }
     }
