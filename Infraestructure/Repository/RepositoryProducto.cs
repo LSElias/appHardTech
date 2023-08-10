@@ -215,6 +215,10 @@ namespace Infraestructure.Repository
                         producto.Estado = _RepositoryEst.GetEstadoByID((int)producto.IdEstado);
 
                         producto.Usuario = _RepositoryUsu.GetUsuarioByID((int)oProducto.IdProveedor);
+                        foreach(Foto foto in producto.Foto)
+                        {
+                            ctx.Foto.Attach(foto);
+                        }
                         ctx.Categoria.Attach(producto.Categoria);
                         ctx.Estado.Attach(producto.Estado);
                         ctx.Usuario.Attach(producto.Usuario);
