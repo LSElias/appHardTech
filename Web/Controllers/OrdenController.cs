@@ -199,10 +199,10 @@ namespace Web.Controllers
 
                             if (pro != null && pro.Cantidad >= item.Cantidad)
                             {
-                                pro.Cantidad -= item.Cantidad;
-                                pro.VentasR += 1;
+                               //pro.Cantidad -= item.Cantidad;
+                               //pro.VentasR += 1;
 
-                                Producto productEdit = _ServiceProduct.Save(pro, null);
+                               // Producto productEdit = _ServiceProduct.Save(pro, null);
 
 
                                 OrdenDetalle ordenDetalle = new OrdenDetalle();
@@ -233,6 +233,16 @@ namespace Web.Controllers
                     //Guardar la orden
                     IServiceOrden _ServiceOrden = new ServiceOrden();
                     Orden ordenSave = _ServiceOrden.Save(orden);
+
+                    foreach(var detalle  in ordenSave.OrdenDetalle)
+                    {
+                        var pro = product.FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
+                        pro.Cantidad -= detalle.Cantidad;
+                        pro.VentasR += 1;
+
+                         Producto productEdit = _ServiceProduct.Save(pro, null);
+
+                    }
 
                     //Factura
                     Factura oFac = new Factura

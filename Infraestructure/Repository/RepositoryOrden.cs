@@ -80,6 +80,12 @@ namespace Infraestructure.Repository
         {
             int retorno = 0;
             Orden pOrden = null;
+            IRepositoryEstado _rEstado = new RepositoryEstado();
+            IRepositoryUsuario _rUsuario = new RepositoryUsuario();
+            IRepositoryProducto _rProducto = new RepositoryProducto();
+            IRepositoryUsuario _RepositoryUsu = new RepositoryUsuario();
+            IRepositoryCategoria _RepositoryCat = new RepositoryCategoria();
+
 
             try
             {
@@ -93,6 +99,20 @@ namespace Infraestructure.Repository
                         //Guardar los datos en ambos tablas Orden y OrdenDet...
                         using (var transaccion = ctx.Database.BeginTransaction())
                         {
+                            foreach (OrdenDetalle detalle in orden.OrdenDetalle)
+                            {
+                                Producto oProducto = _rProducto.GetProductoById(detalle.IdProducto);
+                                oProducto.Categoria = _RepositoryCat.GetCategoriaByID((int)oProducto.IdCategoria);
+                                oProducto.Estado = _rEstado.GetEstadoByID((int)oProducto.IdEstado);
+                                ctx.Producto.Attach(oProducto);
+
+                            }
+
+
+                            ctx.Estado.Attach(_rEstado.GetEstadoByID((int)orden.IdEstado));
+
+
+
                             ctx.Orden.Add(orden);
                             retorno = ctx.SaveChanges();
                             transaccion.Commit();
