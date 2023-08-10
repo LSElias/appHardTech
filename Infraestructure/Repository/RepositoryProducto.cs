@@ -181,6 +181,10 @@ namespace Infraestructure.Repository
             int retorno = 0;
             Producto oProducto = null;
             IRepositoryFoto _RepositoryFoto = new RepositoryFoto();
+            IRepositoryUsuario _RepositoryUsu = new RepositoryUsuario();
+            IRepositoryEstado _RepositoryEst = new RepositoryEstado();
+            IRepositoryCategoria _RepositoryCat = new RepositoryCategoria();
+
             var imageList = new List<Foto>();
 
             try
@@ -206,6 +210,14 @@ namespace Infraestructure.Repository
                     else
                     {
                         //Actualizar
+                        producto.Categoria = _RepositoryCat.GetCategoriaByID((int)oProducto.IdCategoria);
+
+                        producto.Estado = _RepositoryEst.GetEstadoByID((int)producto.IdEstado);
+
+                        producto.Usuario = _RepositoryUsu.GetUsuarioByID((int)oProducto.IdProveedor);
+                        ctx.Categoria.Attach(producto.Categoria);
+                        ctx.Estado.Attach(producto.Estado);
+                        ctx.Usuario.Attach(producto.Usuario);
                         ctx.Producto.Add(producto);
                         ctx.Entry(producto).State = EntityState.Modified;
                         retorno = ctx.SaveChanges();
