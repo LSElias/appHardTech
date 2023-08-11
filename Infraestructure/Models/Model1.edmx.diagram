@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="DBHardTechModel.Direccion" Width="1.5" PointX="0.5" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Escala" Width="1.5" PointX="6" PointY="22.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Estado" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBHardTechModel.Evaluacion" Width="1.5" PointX="9.125" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBHardTechModel.Evaluacion" Width="1.5" PointX="11.25" PointY="11.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Factura" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Foto" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBHardTechModel.Mensaje" Width="1.5" PointX="5.25" PointY="13.75" IsExpanded="true" />
@@ -45,6 +45,7 @@
         <AssociationConnector Association="DBHardTechModel.FK_Factura_Direccion" />
         <AssociationConnector Association="DBHardTechModel.Usuario_Cuenta" />
         <AssociationConnector Association="DBHardTechModel.Usuario_Direccion" />
+        <AssociationConnector Association="DBHardTechModel.FK_OrdenDetalle_Evaluacion" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

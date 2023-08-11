@@ -13,7 +13,6 @@ namespace Infraestructure.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    //evitar cambios
     public partial class DBHardTechEntities : DbContext
     {
         public DBHardTechEntities()
