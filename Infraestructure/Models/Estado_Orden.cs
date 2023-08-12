@@ -11,27 +11,19 @@ namespace Infraestructure.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    [MetadataType(typeof(Orden))]
-    public partial class Orden
+    
+    public partial class Estado_Orden
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Orden()
+        public Estado_Orden()
         {
-            this.Factura = new HashSet<Factura>();
-            this.OrdenDetalle = new HashSet<OrdenDetalle>();
+            this.Orden = new HashSet<Orden>();
         }
     
-        public int IdOrden { get; set; }
-        public Nullable<int> IdEstado { get; set; }
-        public Nullable<System.DateTime> FechaInicio { get; set; }
-        public Nullable<double> SubTotal { get; set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Factura> Factura { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
-        public virtual Estado_Orden Estado_Orden { get; set; }
+        public virtual ICollection<Orden> Orden { get; set; }
     }
 }

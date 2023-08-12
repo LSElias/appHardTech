@@ -24,6 +24,8 @@ namespace Web.Controllers
             return View();
         }
 
+        #region Loaders
+
         public ActionResult LoadData()
         {
             var _idUsuario = 0;
@@ -56,16 +58,13 @@ namespace Web.Controllers
                     var productoData = (from f in _context.Factura
                                         from o in _context.Orden
                                         from u in _context.Usuario
-                                        from e in _context.Estado
+                                        from e in _context.Estado_Orden
 
                                         where f.IdUsuario == _idUsuario
                                         where f.IdOrden == o.IdOrden
                                         where o.IdEstado == e.Id
                                         where f.IdUsuario == u.Id
                                         select new { Id = f.IdFactura,IdOrden = o.IdOrden, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
-                    //   join o in _context.Orden on f.IdOrden equals o.Id
-                    // join u in _context.Usuario on f.IdUsuario equals u.Id
-                    //  join e in _context.Estado on o.Estado equals e.Id
 
                     // Organización
                     if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -133,20 +132,21 @@ namespace Web.Controllers
 
                     // Obtención de datos
                     var productoData = (
-                        
+
                                         from p in _context.Producto
                                         from o in _context.Orden
                                         from od in _context.OrdenDetalle
-                                        from e in _context.Estado
+                                        from eo in _context.Estado_Orden
+                                        from ed in _context.Estado_Detalle
                                         from f in _context.Factura
 
                                         where p.IdProveedor == _idUsuario
                                         where p.IdProducto == od.IdProducto
                                         where od.IdOrden == o.IdOrden
                                         where o.IdOrden == f.IdOrden
-                                        where od.IdEstado == e.Id
+                                        where od.IdEstado == ed.Id
 
-                                        select new { Id = f.IdFactura, f.Fecha , Producto = p.Nombre , od.Cantidad, Estado = e.Nombre }); ;
+                                        select new { Id = f.IdFactura, f.Fecha, Producto = p.Nombre, od.Cantidad, Estado = ed.Nombre, o.IdOrden, p.IdProducto, od.IdEvaluacion, IdComprador = f.IdUsuario });
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id
@@ -175,8 +175,10 @@ namespace Web.Controllers
             }
         }
 
+        #endregion
         // GET: Factura/Details/5
 
+        #region Detalle, Creates, Edits
         [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor, (int)Roles.Administrador)]
         public ActionResult Detalle(int? id)
         {
@@ -279,6 +281,37 @@ namespace Web.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        #endregion
+
+        public ActionResult ActualizarOrden(int orden, int producto, int estado)
+        {
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            IServiceEstadoDetalle _ServiceEstado = new ServiceEstadoDetalle();
+            Orden oOrden = _ServiceOrden.GetOrdenById(orden);
+            foreach(OrdenDetalle odens in oOrden.OrdenDetalle)
+            {
+                if(odens.IdProducto == producto)
+                {
+                    odens.IdEstado = estado;
+                    odens.Estado_Detalle = _ServiceEstado.GetEstadoByID(estado);
+                }
+            }
+            try
+            {
+                Orden _orden = _ServiceOrden.Save(oOrden);
+                return RedirectToAction("Index", "Factura");
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos! " + ex.Message;
+                TempData["Redirect"] = "Factura";
+                TempData["Redirect-Action"] = "Index";
+                // Redireccion a la captura del Error
+                return RedirectToAction("Default", "Error");
             }
         }
     }

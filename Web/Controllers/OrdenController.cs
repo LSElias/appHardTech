@@ -188,7 +188,7 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    ModelState.Remove("Estado");
+                    ModelState.Remove("Estado_Orden");
                     ModelState.Remove("SubTotal");
 
                     if (ModelState.IsValid)

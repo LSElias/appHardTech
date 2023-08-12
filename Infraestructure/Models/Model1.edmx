@@ -48,6 +48,27 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Estado_Detalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Estado_Orden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Estado_Producto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Evaluacion">
           <Key>
             <PropertyRef Name="Id" />
@@ -320,11 +341,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orden_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
+        <Association Name="FK_Orden_Estado_Orden">
+          <End Role="Estado_Orden" Type="Self.Estado_Orden" Multiplicity="0..1" />
           <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Estado">
+            <Principal Role="Estado_Orden">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orden">
@@ -332,11 +353,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_OrdenDetalle_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
+        <Association Name="FK_OrdenDetalle_Estado_Detalle">
+          <End Role="Estado_Detalle" Type="Self.Estado_Detalle" Multiplicity="0..1" />
           <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Estado">
+            <Principal Role="Estado_Detalle">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrdenDetalle">
@@ -392,11 +413,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Producto_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
+        <Association Name="FK_Producto_Estado_Producto">
+          <End Role="Estado_Producto" Type="Self.Estado_Producto" Multiplicity="0..1" />
           <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Estado">
+            <Principal Role="Estado_Producto">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Producto">
@@ -530,6 +551,9 @@
           <EntitySet Name="Direccion" EntityType="Self.Direccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Escala" EntityType="Self.Escala" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Estado" EntityType="Self.Estado" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado_Detalle" EntityType="Self.Estado_Detalle" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado_Orden" EntityType="Self.Estado_Orden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estado_Producto" EntityType="Self.Estado_Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Evaluacion" EntityType="Self.Evaluacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Factura" EntityType="Self.Factura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Foto" EntityType="Self.Foto" Schema="dbo" store:Type="Tables" />
@@ -588,12 +612,12 @@
             <End Role="Usuario" EntitySet="Usuario" />
             <End Role="Mensaje" EntitySet="Mensaje" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orden_Estado" Association="Self.FK_Orden_Estado">
-            <End Role="Estado" EntitySet="Estado" />
+          <AssociationSet Name="FK_Orden_Estado_Orden" Association="Self.FK_Orden_Estado_Orden">
+            <End Role="Estado_Orden" EntitySet="Estado_Orden" />
             <End Role="Orden" EntitySet="Orden" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdenDetalle_Estado" Association="Self.FK_OrdenDetalle_Estado">
-            <End Role="Estado" EntitySet="Estado" />
+          <AssociationSet Name="FK_OrdenDetalle_Estado_Detalle" Association="Self.FK_OrdenDetalle_Estado_Detalle">
+            <End Role="Estado_Detalle" EntitySet="Estado_Detalle" />
             <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
           </AssociationSet>
           <AssociationSet Name="FK_OrdenDetalle_Evaluacion" Association="Self.FK_OrdenDetalle_Evaluacion">
@@ -612,8 +636,8 @@
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
-          <AssociationSet Name="FK_Producto_Estado" Association="Self.FK_Producto_Estado">
-            <End Role="Estado" EntitySet="Estado" />
+          <AssociationSet Name="FK_Producto_Estado_Producto" Association="Self.FK_Producto_Estado_Producto">
+            <End Role="Estado_Producto" EntitySet="Estado_Producto" />
             <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
           <AssociationSet Name="FK_Producto_Usuario" Association="Self.FK_Producto_Usuario">
@@ -710,9 +734,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_Estado" FromRole="Estado" ToRole="Orden" />
-          <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Estado" FromRole="Estado" ToRole="OrdenDetalle" />
-          <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Estado" FromRole="Estado" ToRole="Producto" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Usuario_Estado" FromRole="Estado" ToRole="Usuario" />
         </EntityType>
         <EntityType Name="Evaluacion">
@@ -776,9 +797,9 @@
           <Property Name="IdEstado" Type="Int32" />
           <Property Name="FechaInicio" Type="DateTime" Precision="0" />
           <Property Name="SubTotal" Type="Double" />
-          <NavigationProperty Name="Estado" Relationship="Self.FK_Orden_Estado" FromRole="Orden" ToRole="Estado" />
           <NavigationProperty Name="Factura" Relationship="Self.FK_Factura_Orden" FromRole="Orden" ToRole="Factura" />
           <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Orden" FromRole="Orden" ToRole="OrdenDetalle" />
+          <NavigationProperty Name="Estado_Orden" Relationship="DBHardTechModel.FK_Orden_Estado_Orden" FromRole="Orden" ToRole="Estado_Orden" />
         </EntityType>
         <EntityType Name="OrdenDetalle">
           <Key>
@@ -790,11 +811,11 @@
           <Property Name="Cantidad" Type="Int32" />
           <Property Name="FechaEntrega" Type="DateTime" Precision="0" />
           <Property Name="IdEstado" Type="Int32" />
-          <NavigationProperty Name="Estado" Relationship="Self.FK_OrdenDetalle_Estado" FromRole="OrdenDetalle" ToRole="Estado" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_OrdenDetalle_Orden" FromRole="OrdenDetalle" ToRole="Orden" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_OrdenDetalle_Producto" FromRole="OrdenDetalle" ToRole="Producto" />
           <Property Name="IdEvaluacion" Type="Int32" />
           <NavigationProperty Name="Evaluacion" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion" FromRole="OrdenDetalle" ToRole="Evaluacion" />
+          <NavigationProperty Name="Estado_Detalle" Relationship="DBHardTechModel.FK_OrdenDetalle_Estado_Detalle" FromRole="OrdenDetalle" ToRole="Estado_Detalle" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -810,11 +831,11 @@
           <Property Name="IdEstado" Type="Int32" />
           <Property Name="VentasR" Type="Int32" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Producto_Categoria" FromRole="Producto" ToRole="Categoria" />
-          <NavigationProperty Name="Estado" Relationship="Self.FK_Producto_Estado" FromRole="Producto" ToRole="Estado" />
           <NavigationProperty Name="Foto" Relationship="Self.FK_Foto_Producto" FromRole="Producto" ToRole="Foto" />
           <NavigationProperty Name="Mensaje" Relationship="Self.FK_Mensaje_Producto" FromRole="Producto" ToRole="Mensaje" />
           <NavigationProperty Name="OrdenDetalle" Relationship="Self.FK_OrdenDetalle_Producto" FromRole="Producto" ToRole="OrdenDetalle" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Producto_Usuario" FromRole="Producto" ToRole="Usuario" />
+          <NavigationProperty Name="Estado_Producto" Relationship="DBHardTechModel.FK_Producto_Estado_Producto" FromRole="Producto" ToRole="Estado_Producto" />
         </EntityType>
         <EntityType Name="Respuesta">
           <Key>
@@ -914,42 +935,6 @@
             </Principal>
             <Dependent Role="Evaluacion">
               <PropertyRef Name="IdEscala" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orden_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
-          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orden">
-              <PropertyRef Name="IdEstado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_OrdenDetalle_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
-          <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="IdEstado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Producto_Estado">
-          <End Role="Estado" Type="Self.Estado" Multiplicity="0..1" />
-          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Estado">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Producto">
-              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1146,18 +1131,6 @@
             <End Role="Escala" EntitySet="Escala" />
             <End Role="Evaluacion" EntitySet="Evaluacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orden_Estado" Association="Self.FK_Orden_Estado">
-            <End Role="Estado" EntitySet="Estado" />
-            <End Role="Orden" EntitySet="Orden" />
-          </AssociationSet>
-          <AssociationSet Name="FK_OrdenDetalle_Estado" Association="Self.FK_OrdenDetalle_Estado">
-            <End Role="Estado" EntitySet="Estado" />
-            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Producto_Estado" Association="Self.FK_Producto_Estado">
-            <End Role="Estado" EntitySet="Estado" />
-            <End Role="Producto" EntitySet="Producto" />
-          </AssociationSet>
           <AssociationSet Name="FK_Usuario_Estado" Association="Self.FK_Usuario_Estado">
             <End Role="Estado" EntitySet="Estado" />
             <End Role="Usuario" EntitySet="Usuario" />
@@ -1230,6 +1203,21 @@
             <End Role="Evaluacion" EntitySet="Evaluacion" />
             <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
           </AssociationSet>
+          <EntitySet Name="Estado_Detalle" EntityType="DBHardTechModel.Estado_Detalle" />
+          <EntitySet Name="Estado_Orden" EntityType="DBHardTechModel.Estado_Orden" />
+          <EntitySet Name="Estado_Producto" EntityType="DBHardTechModel.Estado_Producto" />
+          <AssociationSet Name="FK_OrdenDetalle_Estado_Detalle" Association="DBHardTechModel.FK_OrdenDetalle_Estado_Detalle">
+            <End Role="Estado_Detalle" EntitySet="Estado_Detalle" />
+            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orden_Estado_Orden" Association="DBHardTechModel.FK_Orden_Estado_Orden">
+            <End Role="Estado_Orden" EntitySet="Estado_Orden" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Estado_Producto" Association="DBHardTechModel.FK_Producto_Estado_Producto">
+            <End Role="Estado_Producto" EntitySet="Estado_Producto" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Factura_Direccion">
           <End Type="DBHardTechModel.Direccion" Role="Direccion" Multiplicity="0..1" />
@@ -1260,6 +1248,66 @@
             </Principal>
             <Dependent Role="OrdenDetalle">
               <PropertyRef Name="IdEvaluacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Estado_Detalle">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OrdenDetalle" Relationship="DBHardTechModel.FK_OrdenDetalle_Estado_Detalle" FromRole="Estado_Detalle" ToRole="OrdenDetalle" />
+        </EntityType>
+        <EntityType Name="Estado_Orden">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Orden" Relationship="DBHardTechModel.FK_Orden_Estado_Orden" FromRole="Estado_Orden" ToRole="Orden" />
+        </EntityType>
+        <EntityType Name="Estado_Producto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Producto" Relationship="DBHardTechModel.FK_Producto_Estado_Producto" FromRole="Estado_Producto" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_OrdenDetalle_Estado_Detalle">
+          <End Type="DBHardTechModel.Estado_Detalle" Role="Estado_Detalle" Multiplicity="0..1" />
+          <End Type="DBHardTechModel.OrdenDetalle" Role="OrdenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado_Detalle">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenDetalle">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orden_Estado_Orden">
+          <End Type="DBHardTechModel.Estado_Orden" Role="Estado_Orden" Multiplicity="0..1" />
+          <End Type="DBHardTechModel.Orden" Role="Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado_Orden">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Estado_Producto">
+          <End Type="DBHardTechModel.Estado_Producto" Role="Estado_Producto" Multiplicity="0..1" />
+          <End Type="DBHardTechModel.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Estado_Producto">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="IdEstado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1465,6 +1513,30 @@
               <ScalarProperty Name="Id" ColumnName="IdDireccion" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Estado_Detalle">
+            <EntityTypeMapping TypeName="DBHardTechModel.Estado_Detalle">
+              <MappingFragment StoreEntitySet="Estado_Detalle">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado_Orden">
+            <EntityTypeMapping TypeName="DBHardTechModel.Estado_Orden">
+              <MappingFragment StoreEntitySet="Estado_Orden">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Estado_Producto">
+            <EntityTypeMapping TypeName="DBHardTechModel.Estado_Producto">
+              <MappingFragment StoreEntitySet="Estado_Producto">
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

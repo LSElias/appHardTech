@@ -231,11 +231,13 @@ namespace Infraestructure.Repository
                         Estado estado = _RepositoryEstado.GetEstadoByID((int) usuario.IdEstado);
                         ctx.Estado.Attach(estado);
                         usuario.Estado = estado;
+
                         foreach (TipoUsuario type in usuario.TipoUsuario)
                         {
                             string id = type.Id.ToString();
                             selectedTipoUsuario = selectedTipoUsuario.Append(id).ToArray();
                         }
+
                         usuario.TipoUsuario = null;
                         ctx.Usuario.Add(usuario);
                         ctx.Entry(usuario).State = EntityState.Modified;
