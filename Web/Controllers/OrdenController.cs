@@ -88,7 +88,7 @@ namespace Web.Controllers
             try
             {
                 IServiceOrden _ServiceOrden = new ServiceOrden();
-                lista = _ServiceOrden.GetOrden();
+                lista = (IEnumerable<Orden>)_ServiceOrden.GetOrden();
                 return View(lista);
             }
             catch (Exception ex)
@@ -103,9 +103,6 @@ namespace Web.Controllers
             }
 
         }
-
-        //Orden por proveedor 
-        //Agregar en Service y Repository, buscar las orden por proveeedor
 
         // GET: Orden/Details/5
         public ActionResult Detalle(int? id)
@@ -283,8 +280,5 @@ namespace Web.Controllers
                 return RedirectToAction("Default", "Error");
             }
         }
-
-        // GET: Orden/Edit/5
-      //  [CustomAuthorize((int)Roles.Proveedor)]
     }
 }
