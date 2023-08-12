@@ -47,6 +47,9 @@
     <Compile Include="Services\IServiceCuentaPago.cs" />
     <Compile Include="Services\IServiceDireccion.cs" />
     <Compile Include="Services\IServiceEscala.cs" />
+    <Compile Include="Services\IServiceEstadoProducto.cs" />
+    <Compile Include="Services\IServiceEstadoOrden.cs" />
+    <Compile Include="Services\IServiceEstadoDetalle.cs" />
     <Compile Include="Services\IServiceEstado.cs" />
     <Compile Include="Services\IServiceEvaluacion.cs" />
     <Compile Include="Services\IServiceFactura.cs" />
@@ -62,6 +65,9 @@
     <Compile Include="Services\ServiceCuentaPago.cs" />
     <Compile Include="Services\ServiceDireccion.cs" />
     <Compile Include="Services\ServiceEscala.cs" />
+    <Compile Include="Services\ServiceEstadoOrden.cs" />
+    <Compile Include="Services\ServiceEstadoProducto.cs" />
+    <Compile Include="Services\ServiceEstadoDetalle.cs" />
     <Compile Include="Services\ServiceEstado.cs" />
     <Compile Include="Services\ServiceEvaluacion.cs" />
     <Compile Include="Services\ServiceFactura.cs" />

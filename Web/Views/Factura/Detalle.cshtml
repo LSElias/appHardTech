@@ -44,11 +44,11 @@
             </div>
             <div class="col-md-4">
                 <h6>
-                    @Html.DisplayNameFor(model => model.Orden.Estado):
+                    @Html.DisplayNameFor(model => model.Orden.Estado_Orden):
                 </h6>
 
                 <p>
-                    @Html.DisplayFor(model => model.Orden.Estado.Nombre)
+                    @Html.DisplayFor(model => model.Orden.Estado_Orden.Nombre)
                 </p>
             </div>
             <div class="col-md-4">
@@ -100,7 +100,7 @@
                         ₡@calcularAcumulado(item.Cantidad, item.Producto.Precio)
                     </td>
                     <td style="text-align: center;">
-                        @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                        @Html.DisplayFor(modelItem => item.Estado_Detalle.Nombre)
                     </td>
                     <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.FechaEntrega)

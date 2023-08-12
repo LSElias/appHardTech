@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,7 +24,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     list = ctx.Orden.
-                            Include("Estado").
+                            Include("Estado_Orden").
                             ToList<Orden>();
                 }
                 return list;
@@ -53,7 +55,7 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
                     pOrden = ctx.Orden.
-                        Include("Estado").
+                        Include("Estado_Orden").
                         Include("Factura").
                         Include("OrdenDetalle").
                         Include("OrdenDetalle.Producto")
@@ -80,11 +82,20 @@ namespace Infraestructure.Repository
         {
             int retorno = 0;
             Orden pOrden = null;
-            IRepositoryEstado _rEstado = new RepositoryEstado();
+            
+            
+            IRepositoryEstadoProducto _rEstProducto = new RepositoryEstadoProducto();
+            IRepositoryEstadoOrden _rEstOrden = new RepositoryEstadoOrden();
+            IRepositoryEstadoDetalle _rEstDetalle = new RepositoryEstadoDetalle();
+
+
+
             IRepositoryUsuario _rUsuario = new RepositoryUsuario();
             IRepositoryProducto _rProducto = new RepositoryProducto();
             IRepositoryUsuario _RepositoryUsu = new RepositoryUsuario();
             IRepositoryCategoria _RepositoryCat = new RepositoryCategoria();
+            IRepositoryFactura _RepositoryFact = new RepositoryFactura();
+
 
 
             try
@@ -94,7 +105,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
                     pOrden = GetOrdenById((int)orden.IdOrden);
 
-                   if (pOrden == null)
+                    if (pOrden == null)
                     {
                         //Guardar los datos en ambos tablas Orden y OrdenDet...
                         using (var transaccion = ctx.Database.BeginTransaction())
@@ -103,13 +114,13 @@ namespace Infraestructure.Repository
                             {
                                 Producto oProducto = _rProducto.GetProductoById(detalle.IdProducto);
                                 oProducto.Categoria = _RepositoryCat.GetCategoriaByID((int)oProducto.IdCategoria);
-                                oProducto.Estado = _rEstado.GetEstadoByID((int)oProducto.IdEstado);
+                                oProducto.Estado_Producto = _rEstProducto.GetEstadoByID((int)oProducto.IdEstado);
                                 ctx.Producto.Attach(oProducto);
 
                             }
 
 
-                            ctx.Estado.Attach(_rEstado.GetEstadoByID((int)orden.IdEstado));
+                            ctx.Estado_Orden.Attach(_rEstOrden.GetEstadoByID((int)orden.IdEstado));
 
 
 
@@ -120,6 +131,23 @@ namespace Infraestructure.Repository
                     }
                     else
                     {
+                        foreach (Factura facturaton in orden.Factura)
+                        {
+                            Factura oFactura = _RepositoryFact.GetFacturaSimpleByIdOrden((int)facturaton.IdOrden);
+                            ctx.Factura.Attach(facturaton);
+                            ctx.Entry(facturaton).State = EntityState.Modified;
+                        }
+
+
+
+                        foreach (OrdenDetalle detalle in orden.OrdenDetalle)
+                        {
+
+                            ctx.OrdenDetalle.Attach(detalle);
+                            ctx.Entry(detalle).State = EntityState.Modified;
+                        }
+
+
                         ctx.Orden.Add(orden);
                         ctx.Entry(orden).State = EntityState.Modified;
                         retorno = ctx.SaveChanges();

@@ -12,6 +12,8 @@ namespace ApplicationCore.Services
         IEnumerable<Factura> GetFactura();
         IEnumerable<Factura> GetFacturaByIdUsuario(int IdUsuario);
 
+        Factura GetFacturaSimpleByIdOrden(int IdFactura);
+
         Factura GetFacturaById(int IdFactura);
         Factura GetFacturaByIdOrden(int IdOrden);
         Factura Save(Factura factura);

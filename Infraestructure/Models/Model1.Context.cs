@@ -13,7 +13,6 @@ namespace Infraestructure.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    //evitar cambios
     public partial class DBHardTechEntities : DbContext
     {
         public DBHardTechEntities()
@@ -42,5 +41,8 @@ namespace Infraestructure.Models
         public virtual DbSet<TipoPago> TipoPago { get; set; }
         public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Estado_Detalle> Estado_Detalle { get; set; }
+        public virtual DbSet<Estado_Orden> Estado_Orden { get; set; }
+        public virtual DbSet<Estado_Producto> Estado_Producto { get; set; }
     }
 }

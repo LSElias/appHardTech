@@ -16,7 +16,7 @@ namespace Web.ViewModel
         public DateTime FechaEntrega { get; set; }
         public int IdEstado { get; set; }
 
-        public virtual Estado Estado { get; set; }
+        public virtual Estado_Detalle Estado { get; set; }
         public virtual Orden Orden { get; set; }
         public virtual Producto Producto { get; set; }
 

@@ -12,6 +12,9 @@ namespace Infraestructure.Repository
         IEnumerable<Factura> GetFactura();
         IEnumerable<Factura> GetFacturaByIdUsuario(int IdUsuario);
         Factura GetFacturaById(int IdFactura);
+
+        Factura GetFacturaSimpleByIdOrden(int IdOrden);
+
         Factura GetFacturaByIdOrden(int IdOrden);
         Factura Save(Factura factura);
     }

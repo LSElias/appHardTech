@@ -20,7 +20,7 @@
                     @Html.DisplayNameFor(model => model.FechaInicio)
                 </th>
                 <th style="background-color: black; color: white; text-align: center">
-                    @Html.DisplayNameFor(model => model.Estado.Nombre)
+                    @Html.DisplayNameFor(model => model.Estado_Orden.Nombre)
                 </th>
                 <th style="background-color: black; color: white; text-align: center">
                     Detalle
@@ -37,7 +37,7 @@
                         @Html.DisplayFor(modelItem => item.FechaInicio)
                     </td>
                     <td style=" background-color: #ffffffd8; text-align: center">
-                        @Html.DisplayFor(modelItem => item.Estado.Nombre)
+                        @Html.DisplayFor(modelItem => item.Estado_Orden.Nombre)
                     </td>
                     <td style=" background-color: #ffffffd8; text-align: center">
                         <a class="btn" href="/Orden/Detalle/@item.IdOrden">

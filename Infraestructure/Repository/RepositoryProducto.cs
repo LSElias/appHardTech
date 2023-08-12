@@ -26,7 +26,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")     
+                        .Include("Estado_Producto")     
                         .Include("Foto")
                         .Where(x=>x.IdCategoria == IdCategoria)
                         .ToList();
@@ -58,7 +58,7 @@ namespace Infraestructure.Repository
                     oProducto = ctx.Producto
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")
+                        .Include("Estado_Producto")
                         .Include("Foto")
                         .Where(x => x.IdProveedor  == IdProveedor)
                         .ToList();
@@ -119,7 +119,7 @@ namespace Infraestructure.Repository
                         Where(n => n.IdProducto == IdProducto)
                         .Include("Categoria")
                         .Include("Usuario")
-                        .Include("Estado")
+                        .Include("Estado_Producto")
                         .Include("Foto")
                         .Include("Mensaje")
                         .Include("Mensaje.Usuario")
@@ -153,7 +153,7 @@ namespace Infraestructure.Repository
                     list = ctx.Producto
                     .Include("Categoria")
                     .Include("Usuario")
-                    .Include("Estado")
+                    .Include("Estado_Producto")
                     .Include("Foto")
                     .ToList();
                 }
@@ -182,7 +182,7 @@ namespace Infraestructure.Repository
             Producto oProducto = null;
             IRepositoryFoto _RepositoryFoto = new RepositoryFoto();
             IRepositoryUsuario _RepositoryUsu = new RepositoryUsuario();
-            IRepositoryEstado _RepositoryEst = new RepositoryEstado();
+            IRepositoryEstadoProducto _RepositoryEst = new RepositoryEstadoProducto();
             IRepositoryCategoria _RepositoryCat = new RepositoryCategoria();
 
             var imageList = new List<Foto>();
@@ -212,7 +212,7 @@ namespace Infraestructure.Repository
                         //Actualizar
                         producto.Categoria = _RepositoryCat.GetCategoriaByID((int)oProducto.IdCategoria);
 
-                        producto.Estado = _RepositoryEst.GetEstadoByID((int)producto.IdEstado);
+                        producto.Estado_Producto = _RepositoryEst.GetEstadoByID((int)producto.IdEstado);
 
                         producto.Usuario = _RepositoryUsu.GetUsuarioByID((int)oProducto.IdProveedor);
                         foreach(Foto foto in producto.Foto)
@@ -220,7 +220,7 @@ namespace Infraestructure.Repository
                             ctx.Foto.Attach(foto);
                         }
                         ctx.Categoria.Attach(producto.Categoria);
-                        ctx.Estado.Attach(producto.Estado);
+                        ctx.Estado_Producto.Attach(producto.Estado_Producto);
                         ctx.Usuario.Attach(producto.Usuario);
                         ctx.Producto.Add(producto);
                         ctx.Entry(producto).State = EntityState.Modified;

@@ -147,8 +147,36 @@ namespace Infraestructure.Repository
             }
         }
 
-
-
+        public Factura GetFacturaSimpleByIdOrden(int IdOrden)
+        {
+            try
+            {
+                Factura oFactura = null;
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+                    oFactura = ctx.Factura
+                       .Include("CuentaPago").
+                        Include("Direccion").
+                        Include("Usuario")
+                        .Where(x => x.IdOrden == IdOrden)
+                        .FirstOrDefault();
+                }
+                return oFactura;
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw;
+            }
+        }
 
         public Factura Save(Factura factura)
         {

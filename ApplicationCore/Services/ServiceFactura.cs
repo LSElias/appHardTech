@@ -34,6 +34,12 @@ namespace ApplicationCore.Services
             return oRep.GetFacturaByIdUsuario(IdUsuario);
         }
 
+        public Factura GetFacturaSimpleByIdOrden(int IdOrden)
+        {
+            IRepositoryFactura oRep = new RepositoryFactura();
+            return oRep.GetFacturaSimpleByIdOrden(IdOrden);
+        }
+
         public Factura Save(Factura factura)
         {
             IRepositoryFactura oRep = new RepositoryFactura();

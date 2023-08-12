@@ -90,7 +90,7 @@ namespace Web.Controllers
                     // Obtención de datos
                     var productoData = (from p in _context.Producto
                                         join c in _context.Categoria on p.IdCategoria equals c.Id
-                                        join e in _context.Estado on p.IdEstado equals e.Id
+                                        join e in _context.Estado_Producto on p.IdEstado equals e.Id
                                         select new { p.IdProducto, Estado = e.Nombre , p.Precio, p.Nombre, Categoria = c.Nombre});
 
                     // Organización
@@ -159,7 +159,7 @@ namespace Web.Controllers
                     // Obtención de datos
                     var productoData = (from p in _context.Producto where p.IdProveedor == id
                                         join c in _context.Categoria on p.IdCategoria equals c.Id
-                                        join e in _context.Estado on p.IdEstado equals e.Id
+                                        join e in _context.Estado_Producto on p.IdEstado equals e.Id
                                         select new { p.IdProducto, Estado = e.Nombre, p.Precio, p.Nombre, Categoria = c.Nombre });
 
                     // Organización
@@ -374,13 +374,13 @@ namespace Web.Controllers
 
         private SelectList ListaEstados(int idEstado = 0)
         {
-            IServiceEstado _service = new ServiceEstado();
-            List<Estado> estado = new List<Estado>
+            IServiceEstadoProducto _service = new ServiceEstadoProducto();
+            List<Estado_Producto> estado = new List<Estado_Producto>
             {
                 _service.GetEstadoByID(3),
                 _service.GetEstadoByID(4)
             };
-            IEnumerable<Estado> lista = estado;
+            IEnumerable<Estado_Producto> lista = estado;
             return new SelectList(lista, "Id", "Nombre", idEstado);
         }
 
