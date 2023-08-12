@@ -11,6 +11,7 @@ using ApplicationCore.Services;
 using Web.Security;
 using Infraestructure.Utils;
 using Web.Utils;
+using Infraestructure.Repository;
 
 namespace Web.Controllers
 {
@@ -143,9 +144,10 @@ namespace Web.Controllers
                                         where p.IdProducto == od.IdProducto
                                         where od.IdOrden == o.IdOrden
                                         where o.IdOrden == f.IdOrden
+                                        where o.IdEstado == eo.Id
                                         where od.IdEstado == ed.Id
 
-                                        select new { Id = f.IdFactura, f.Fecha, Producto = p.Nombre, od.Cantidad, Estado = ed.Nombre, o.IdOrden, p.IdProducto, od.IdEvaluacion, IdComprador = f.IdUsuario });
+                                        select new { Id = f.IdFactura, f.Fecha, Producto = p.Nombre, od.Cantidad, Estado = ed.Nombre, o.IdOrden, p.IdProducto, od.IdEvaluacion, IdComprador = f.IdUsuario, IdEstado = ed.Id });
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id
@@ -311,22 +313,43 @@ namespace Web.Controllers
             IServiceOrden _ServiceOrden = new ServiceOrden();
             IServiceEstadoDetalle _ServiceEstado = new ServiceEstadoDetalle();
             Orden oOrden = _ServiceOrden.GetOrdenById(orden);
-            foreach(OrdenDetalle odens in oOrden.OrdenDetalle)
+            int[] estados = new int[] { };
+            IServiceEstadoOrden _rEstOrden = new ServiceEstadoOrden();
+
+
+            foreach (OrdenDetalle odens in oOrden.OrdenDetalle)
             {
                 if(odens.IdProducto == producto)
                 {
                     odens.IdEstado = estado;
                     odens.Estado_Detalle = _ServiceEstado.GetEstadoByID(estado);
                 }
+                estados = estados.Append((int)odens.IdEstado).ToArray();
             }
+
+            bool todosEntregados = estados.Count() > 0 && !estados.Any(x => x != 9);
+            if (todosEntregados == false)
+            {
+                if (estados.Contains(6))
+                {
+                    oOrden.IdEstado = 6;
+                }
+            }
+            else
+            {
+                oOrden.IdEstado = 8;
+            }
+
+            oOrden.Estado_Orden = _rEstOrden.GetEstadoByID((int)oOrden.IdEstado);
+
             try
             {
                 Orden _orden = _ServiceOrden.Save(oOrden);
-                return RedirectToAction("Index", "Factura");
+                return RedirectToAction("MisVentas", "Factura");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, MethodBase.GetCurrentMethod());
+                Web.Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
                 TempData["Message"] = "Error al procesar los datos! " + ex.Message;
                 TempData["Redirect"] = "Factura";
                 TempData["Redirect-Action"] = "Index";

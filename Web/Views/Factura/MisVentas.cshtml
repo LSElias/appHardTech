@@ -10,13 +10,16 @@
 
 
 <script>
+
+    function getDateString(date) {
+        var dateObj = new Date(parseInt(date.substr(6)));
+        return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    }
+
     $(document).ready(function () {
 
 
-        function getDateString(date) {
-            var dateObj = new Date(parseInt(date.substr(6)));
-            return dateObj.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
-        }
+
 
         $('#productoGrid').dataTable({
             "processing": true,
@@ -54,7 +57,7 @@
                     "searchable": false
                     },
                     {
-                        "targets": [5, 6, 7],
+                        "targets": [5],
                         "visible": true,
                         "searchable": false,
                         "orderable": false,
@@ -72,20 +75,21 @@
                 { "data": "Estado", "name": "Estado", "autoWidth": true },
                 {
                     "render": function (data, type, full, meta) {
+                        if (full.IdEstado == 5) { 
                         return '<a title="Marcar como enviado" class="btn Detalle"  onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 6)"> <i class="fa-solid fa-truck-fast fa-xl" style="color: #8045d9;"></i> </a>';
-                    }
+                        }
+                        if (full.IdEstado == 6) { 
+                            return '<a title="Marcar como entregado" class="btn Editar" onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 9)"><i class="fa-solid fa-circle-check fa-xl" style="color: #c23c81;"></i></a>';
+                        }
+                        if (full.IdEstado == 9 && full.IdEvaluacion == null) {
+                            return '<a class="btn Editar" href="/Orden/Evaluar/'
+                                + full.Id + '"><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
+                        } else {
+                            return '<a class="btn Editar"><i class="fa-regular fa-circle-check" style="color: #121212;"></i></a>';
+
+
+                        }
                 },
-                {
-                    "render": function (data, type, full, meta) {
-                        return '<a title="Marcar como entregado" class="btn Editar" onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 7)"><i class="fa-solid fa-circle-check fa-xl" style="color: #c23c81;"></i></a>';
-                    }
-                },
-                {
-                    "render": function (data, type, full, meta) { 
-                        
-                        return '<a disabled="true" class="btn Editar" href="/Orden/Evaluar/'
-                            + full.Id + '"><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
-                    }
                 }
             ]
 
@@ -94,9 +98,7 @@
 
 
     function ActualizarDetalle(_orden, _producto, _estado) {
-        console.log(_orden);
-        console.log(_producto);
-        console.log(_estado);
+
         var texto;
         if (_estado == 6) {
             texto = "¿Estas seguro que deseas marcar este producto como enviado?"
@@ -130,6 +132,79 @@
                             'Tu imagen ha sido eliminada con éxito',
                             'success'
                         )
+                        $('#productoGrid').DataTable().destroy();
+                        $('#productoGrid').dataTable({
+                            "processing": true,
+                            "serverSide": true,
+                            "filter": false,
+                            "bFilter": false,
+                            "orderMulti": false,
+                            "pageLength": 5,
+                            "scrollX": true,
+                            "language": {
+                                "lengthMenu": "Muestre _MENU_ productos por página",
+                                "zeroRecords": "No logramos encontrar los productos - Perdón :(",
+                                "info": "Mostrando página _PAGE_ de _PAGES_",
+                                "infoEmpty": "No hay productos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ productos totales)",
+                                "paginate": {
+                                    "first": "Primera",
+                                    "last": "Última",
+                                    "next": "Siguiente",
+                                    "previous": "Previa"
+                                },
+                                "search": "Buscar  "
+                            },
+
+                            "ajax": {
+                                "url": "/Factura/LoadVentas",
+                                "type": "POST",
+                                "datatype": "json"
+                            },
+                            "columnDefs":
+                                [
+                                    {
+                                        "targets": [0],
+                                        "visible": false,
+                                        "searchable": false
+                                    },
+                                    {
+                                        "targets": [5],
+                                        "visible": true,
+                                        "searchable": false,
+                                        "orderable": false,
+                                    },
+                                ],
+
+                            "columns": [
+                                { "data": "Id", "name": "Id", "autoWidth": true },
+                                {
+                                    "data": "Fecha", "name": "Fecha",
+                                    "render": function (data) { return getDateString(data); }
+                                },
+                                { "data": "Producto", "name": "Producto", "autoWidth": true },
+                                { "data": "Cantidad", "name": "Cantidad", "autoWidth": true },
+                                { "data": "Estado", "name": "Estado", "autoWidth": true },
+                                {
+                                    "render": function (data, type, full, meta) {
+                                        if (full.IdEstado == 5) {
+                                            return '<a title="Marcar como enviado" class="btn Detalle"  onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 6)"> <i class="fa-solid fa-truck-fast fa-xl" style="color: #8045d9;"></i> </a>';
+                                        }
+                                        if (full.IdEstado == 6) {
+                                            return '<a title="Marcar como entregado" class="btn Editar" onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 9)"><i class="fa-solid fa-circle-check fa-xl" style="color: #c23c81;"></i></a>';
+                                        }
+                                        if (full.IdEstado == 9) {
+                                            return '<a class="btn Editar" href="/Orden/Evaluar/'
+                                                + full.Id + '"><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
+                                        }
+                                    }
+                                }
+                            ]
+
+                        });
+
+
+
                     },
                     error: function (xhr, status, error) {
                         console.log("Error: " + error, "No Error: " + xhr.status)
@@ -154,8 +229,6 @@
                     <th>Producto</th> @* 1 *@
                     <th>Cantidad</th> @* 2 *@
                     <th>Estado</th> @* 4 *@
-                    <th></th> @* 5 *@
-                    <th></th> @* 5 *@
                     <th></th> @* 5 *@
                 </tr>
             </thead>

@@ -131,7 +131,23 @@ namespace Infraestructure.Repository
                     }
                     else
                     {
-                        orden.OrdenDetalle = null;
+                        foreach (Factura facturaton in orden.Factura)
+                        {
+                            Factura oFactura = _RepositoryFact.GetFacturaSimpleByIdOrden((int)facturaton.IdOrden);
+                            ctx.Factura.Attach(facturaton);
+                            ctx.Entry(facturaton).State = EntityState.Modified;
+                        }
+
+
+
+                        foreach (OrdenDetalle detalle in orden.OrdenDetalle)
+                        {
+
+                            ctx.OrdenDetalle.Attach(detalle);
+                            ctx.Entry(detalle).State = EntityState.Modified;
+                        }
+
+
                         ctx.Orden.Add(orden);
                         ctx.Entry(orden).State = EntityState.Modified;
                         retorno = ctx.SaveChanges();
