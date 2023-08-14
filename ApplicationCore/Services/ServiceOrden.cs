@@ -17,6 +17,15 @@ namespace ApplicationCore.Services
             return oRep.GetOrden();
         }
 
+        public void GetOrdenByDia(out string valores1, out string etiquetas1)
+        {
+           IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetOrdenByDia(out string valores, out string etiquetas);
+            etiquetas1 = etiquetas;
+            valores1 = valores; 
+        }
+
         public Orden GetOrdenById(int Id)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
