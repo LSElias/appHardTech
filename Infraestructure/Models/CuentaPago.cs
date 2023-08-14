@@ -29,9 +29,9 @@ namespace Infraestructure.Models
         public System.DateTime FechaExp { get; set; }
         public string CodSeguridad { get; set; }
     
-        public string CuentaEncrp()
+        public string CuentaEncrp
         {
-            return "***********" + NumCuenta.Substring(NumCuenta.Length - 4);
+          get { return "***********" + NumCuenta.Substring(NumCuenta.Length - 4); }
         }
 
         public virtual TipoPago TipoPago { get; set; }

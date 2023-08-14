@@ -24,9 +24,8 @@ namespace Web.Controllers
             grafico.Etiquetas = etiquetas;
             grafico.Valores = valores;
             int cantidadValores = valores.Split(',').Length;
-            grafico.Colores = string.Join(",", grafico.GenerateColors(cantidadValores));
-            grafico.titulo = "Ordenes por fecha";
-            grafico.tituloEtiquetas = "Cantidad de Ordenes";
+            grafico.titulo = "Ordenes por día";
+            grafico.tituloEtiquetas = "Cantidad de ordenes";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
             grafico.tipo = "line";
             ViewBag.grafico = grafico;
