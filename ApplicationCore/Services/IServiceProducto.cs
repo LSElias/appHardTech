@@ -14,7 +14,11 @@ namespace ApplicationCore.Services
         Producto GetProductoById(int Id);
         IEnumerable<Producto> GetByIdProveedor(int IdProveedor);
         IEnumerable<Producto> GetByIdCategoria(int IdCategoria);
+        //Producto General
         IEnumerable<Producto> GetByNombre(String Nombre);
+
+        //Lista de los nombre 
+        IEnumerable<string> GetProductosNombre();
 
         Producto Save(Producto producto, IEnumerable<HttpPostedFileBase> images);
 
