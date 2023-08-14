@@ -17,10 +17,6 @@
     }
 
     $(document).ready(function () {
-
-
-
-
         $('#productoGrid').dataTable({
             "processing": true,
             "serverSide": true,
@@ -81,13 +77,10 @@
                         if (full.IdEstado == 6) { 
                             return '<a title="Marcar como entregado" class="btn Editar" onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 9)"><i class="fa-solid fa-circle-check fa-xl" style="color: #c23c81;"></i></a>';
                         }
-                        if (full.IdEstado == 9 && full.IdEvaluacion == null) {
-                            return '<a class="btn Editar" href="/Orden/Evaluar/'
-                                + full.Id + '"><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
+                        if (full.IdEstado == 9 && full.IdEvaluacionProv == null) {
+                            return '<a title="Evaluar cliente" class="btn Editar"   onclick="CrearEvaluacion(' + full.IdComprador + ',' + full.IdOrden + ',' + full.IdProducto + ')" ><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
                         } else {
                             return '<a class="btn Editar"><i class="fa-regular fa-circle-check" style="color: #121212;"></i></a>';
-
-
                         }
                 },
                 }
@@ -106,8 +99,6 @@
             texto = "¿Estas seguro que deseas marcar este producto como entregado?"
 
         }
-
-
         Swal.fire({
             title: '¡Un segundo!',
             text: texto,
@@ -115,8 +106,8 @@
             showCancelButton: true,
             confirmButtonColor: '#a847ea',
             cancelButtonColor: '#d33',
-            confirmButtonText: "¡Eliminalo!",
-            cancelButtonText: "De hecho..."
+            confirmButtonText: "Cambiar estado",
+            cancelButtonText: "Cancelar"
 
         }).then((resulto) => {
             if (resulto.isConfirmed) {
@@ -128,8 +119,8 @@
                     },
                     success: function (result) {
                         Swal.fire(
-                            '¡Adiós!',
-                            'Tu imagen ha sido eliminada con éxito',
+                            '¡Completado!',
+                            'Has cambiado el estado de esta orden con exito',
                             'success'
                         )
                         $('#productoGrid').DataTable().destroy();
@@ -193,9 +184,10 @@
                                         if (full.IdEstado == 6) {
                                             return '<a title="Marcar como entregado" class="btn Editar" onclick="ActualizarDetalle(' + full.IdOrden + ',' + full.IdProducto + ', 9)"><i class="fa-solid fa-circle-check fa-xl" style="color: #c23c81;"></i></a>';
                                         }
-                                        if (full.IdEstado == 9) {
-                                            return '<a class="btn Editar" href="/Orden/Evaluar/'
-                                                + full.Id + '"><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
+                                        if (full.IdEstado == 9 && full.IdEvaluacionProv == null) {
+                                            return '<a title="Evaluar cliente" class="btn Editar"   onclick="CrearEvaluacion(' + full.IdComprador + ',' + full.IdOrden + ',' + full.IdProducto + ')" ><i class="fa-solid fa-star fa-xl" style="color: #cf7b06;"></i></a>';
+                                        } else {
+                                            return '<a class="btn Editar"><i class="fa-regular fa-circle-check" style="color: #121212;"></i></a>';
                                         }
                                     }
                                 }
@@ -213,9 +205,24 @@
 
             }
         })
-
-
     }
+
+        function CrearEvaluacion(idCliente, idOrden, idProducto) {
+            $.ajax({
+                method: "POST",
+                url: "/Factura/EvaluarCliente",
+                data: { "id": idCliente, "idOrden":idOrden, "idProducto": idProducto },
+                success: function (result) {
+                    $(".modal-body").html("");
+                    $(".modal-body").html(result);
+                    $("#myModal").modal("show");
+                }, error: function (xhr, status, error) {
+                    console.log("Error: " + error, "No Error: " + xhr.status)
+                }
+            });
+        }
+
+
 </script>
 
 <div class=" ">
@@ -234,4 +241,25 @@
             </thead>
         </table>
     </div>
+
+    @* Modal *@
+    <input type="hidden" id="campoOculto" />
+    <div class="modal" tabindex="-1" id="myModal">
+        <div class="modal-dialog modal-lg box-eval" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="border: none">
+                    <h5 class="head-Title">Evaluar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="background-color: #2222226c; border-radius: 10px; margin: 3px 10px; border: 1px solid #ffffff23">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer" style="border:none;">
+                    <button type="button" class="btn btn-detalle" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* Modal *@
+
 </div>

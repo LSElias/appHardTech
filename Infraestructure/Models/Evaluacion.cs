@@ -14,13 +14,13 @@ namespace Infraestructure.Models
     using System.ComponentModel.DataAnnotations;
 
     [MetadataType(typeof(EvaluacionMetadata))]
-
     public partial class Evaluacion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Evaluacion()
         {
-            this.OrdenDetalle = new HashSet<OrdenDetalle>();
+            this.DetEvaluacionProv = new HashSet<OrdenDetalle>();
+            this.DetEvaluacionCliente = new HashSet<OrdenDetalle>();
         }
     
         public int Id { get; set; }
@@ -33,6 +33,8 @@ namespace Infraestructure.Models
         public virtual Usuario Usuario { get; set; }
         public virtual Usuario Usuario1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
+        public virtual ICollection<OrdenDetalle> DetEvaluacionProv { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdenDetalle> DetEvaluacionCliente { get; set; }
     }
 }

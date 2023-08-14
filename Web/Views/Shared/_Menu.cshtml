@@ -16,7 +16,7 @@
                 oUsuario = (Infraestructure.Models.Usuario)Session["User"];
                 if (oUsuario != null)
                 {
-                    nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido1}";
+                    nombre = $"{oUsuario.Nombre} {oUsuario.Apellido1} {oUsuario.Apellido2}";
                     email = oUsuario.Correo;
                 }
             }

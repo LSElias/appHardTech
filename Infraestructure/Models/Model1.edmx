@@ -129,7 +129,8 @@
           <Property Name="Cantidad" Type="int" />
           <Property Name="FechaEntrega" Type="date" />
           <Property Name="IdEstado" Type="int" />
-          <Property Name="IdEvaluacion" Type="int" />
+          <Property Name="IdEvaluacionProv" Type="int" />
+          <Property Name="IdEvaluacionCliente" Type="int" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -373,7 +374,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="IdEvaluacion" />
+              <PropertyRef Name="IdEvaluacionProv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenDetalle_Evaluacion1">
+          <End Role="Evaluacion" Type="Self.Evaluacion" Multiplicity="0..1" />
+          <End Role="OrdenDetalle" Type="Self.OrdenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Evaluacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenDetalle">
+              <PropertyRef Name="IdEvaluacionCliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -624,6 +637,10 @@
             <End Role="Evaluacion" EntitySet="Evaluacion" />
             <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
           </AssociationSet>
+          <AssociationSet Name="FK_OrdenDetalle_Evaluacion1" Association="Self.FK_OrdenDetalle_Evaluacion1">
+            <End Role="Evaluacion" EntitySet="Evaluacion" />
+            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrdenDetalle_Orden" Association="Self.FK_OrdenDetalle_Orden">
             <End Role="Orden" EntitySet="Orden" />
             <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
@@ -748,7 +765,8 @@
           <NavigationProperty Name="Escala" Relationship="Self.FK_Evaluacion_Escala" FromRole="Evaluacion" ToRole="Escala" />
           <NavigationProperty Name="Usuario" Relationship="Self.FK_Evaluacion_Usuario" FromRole="Evaluacion" ToRole="Usuario" />
           <NavigationProperty Name="Usuario1" Relationship="Self.FK_Evaluacion_Usuario1" FromRole="Evaluacion" ToRole="Usuario" />
-          <NavigationProperty Name="OrdenDetalle" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion" FromRole="Evaluacion" ToRole="OrdenDetalle" />
+          <NavigationProperty Name="DetEvaluacionProv" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion1" FromRole="Evaluacion" ToRole="OrdenDetalle" />
+          <NavigationProperty Name="DetEvaluacionCliente" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion11" FromRole="Evaluacion" ToRole="OrdenDetalle" />
         </EntityType>
         <EntityType Name="Factura">
           <Key>
@@ -813,9 +831,11 @@
           <Property Name="IdEstado" Type="Int32" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_OrdenDetalle_Orden" FromRole="OrdenDetalle" ToRole="Orden" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_OrdenDetalle_Producto" FromRole="OrdenDetalle" ToRole="Producto" />
-          <Property Name="IdEvaluacion" Type="Int32" />
-          <NavigationProperty Name="Evaluacion" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion" FromRole="OrdenDetalle" ToRole="Evaluacion" />
           <NavigationProperty Name="Estado_Detalle" Relationship="DBHardTechModel.FK_OrdenDetalle_Estado_Detalle" FromRole="OrdenDetalle" ToRole="Estado_Detalle" />
+          <Property Name="IdEvaluacionProv" Type="Int32" />
+          <Property Name="IdEvaluacionCliente" Type="Int32" />
+          <NavigationProperty Name="EvaluacionProv" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion1" FromRole="OrdenDetalle" ToRole="Evaluacion" />
+          <NavigationProperty Name="EvaluacionCliente" Relationship="DBHardTechModel.FK_OrdenDetalle_Evaluacion11" FromRole="OrdenDetalle" ToRole="Evaluacion" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -1199,10 +1219,6 @@
             <End Role="Direccion" EntitySet="Direccion" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_OrdenDetalle_Evaluacion" Association="DBHardTechModel.FK_OrdenDetalle_Evaluacion">
-            <End Role="Evaluacion" EntitySet="Evaluacion" />
-            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
-          </AssociationSet>
           <EntitySet Name="Estado_Detalle" EntityType="DBHardTechModel.Estado_Detalle" />
           <EntitySet Name="Estado_Orden" EntityType="DBHardTechModel.Estado_Orden" />
           <EntitySet Name="Estado_Producto" EntityType="DBHardTechModel.Estado_Producto" />
@@ -1217,6 +1233,14 @@
           <AssociationSet Name="FK_Producto_Estado_Producto" Association="DBHardTechModel.FK_Producto_Estado_Producto">
             <End Role="Estado_Producto" EntitySet="Estado_Producto" />
             <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenDetalle_Evaluacion1" Association="DBHardTechModel.FK_OrdenDetalle_Evaluacion1">
+            <End Role="Evaluacion" EntitySet="Evaluacion" />
+            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrdenDetalle_Evaluacion11" Association="DBHardTechModel.FK_OrdenDetalle_Evaluacion11">
+            <End Role="Evaluacion" EntitySet="Evaluacion" />
+            <End Role="OrdenDetalle" EntitySet="OrdenDetalle" />
           </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Factura_Direccion">
@@ -1238,18 +1262,6 @@
         <Association Name="Usuario_Direccion">
           <End Type="DBHardTechModel.Direccion" Role="Direccion" Multiplicity="*" />
           <End Type="DBHardTechModel.Usuario" Role="Usuario" Multiplicity="*" />
-        </Association>
-        <Association Name="FK_OrdenDetalle_Evaluacion">
-          <End Type="DBHardTechModel.Evaluacion" Role="Evaluacion" Multiplicity="0..1" />
-          <End Type="DBHardTechModel.OrdenDetalle" Role="OrdenDetalle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Evaluacion">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="OrdenDetalle">
-              <PropertyRef Name="IdEvaluacion" />
-            </Dependent>
-          </ReferentialConstraint>
         </Association>
         <EntityType Name="Estado_Detalle">
           <Key>
@@ -1308,6 +1320,30 @@
             </Principal>
             <Dependent Role="Producto">
               <PropertyRef Name="IdEstado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenDetalle_Evaluacion1">
+          <End Type="DBHardTechModel.Evaluacion" Role="Evaluacion" Multiplicity="0..1" />
+          <End Type="DBHardTechModel.OrdenDetalle" Role="OrdenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Evaluacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenDetalle">
+              <PropertyRef Name="IdEvaluacionProv" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrdenDetalle_Evaluacion11">
+          <End Type="DBHardTechModel.Evaluacion" Role="Evaluacion" Multiplicity="0..1" />
+          <End Type="DBHardTechModel.OrdenDetalle" Role="OrdenDetalle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Evaluacion">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="OrdenDetalle">
+              <PropertyRef Name="IdEvaluacionCliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1422,7 +1458,8 @@
           <EntitySetMapping Name="OrdenDetalle">
             <EntityTypeMapping TypeName="DBHardTechModel.OrdenDetalle">
               <MappingFragment StoreEntitySet="OrdenDetalle">
-                <ScalarProperty Name="IdEvaluacion" ColumnName="IdEvaluacion" />
+                <ScalarProperty Name="IdEvaluacionCliente" ColumnName="IdEvaluacionCliente" />
+                <ScalarProperty Name="IdEvaluacionProv" ColumnName="IdEvaluacionProv" />
                 <ScalarProperty Name="IdOrden" ColumnName="IdOrden" />
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="Cantidad" ColumnName="Cantidad" />

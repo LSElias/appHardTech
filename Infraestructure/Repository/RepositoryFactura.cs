@@ -61,10 +61,14 @@ namespace Infraestructure.Repository
                         Include("CuentaPago").
                         Include("CuentaPago.TipoPago").
                         Include("Orden").
-                        Include("Orden.Estado").
+                        Include("Orden.Estado_Orden").
                         Include("Orden.OrdenDetalle").
                         Include("Orden.OrdenDetalle.Producto").
-                        Include("Orden.OrdenDetalle.Estado")
+                        Include("Orden.OrdenDetalle.EvaluacionProv").
+                        Include("Orden.OrdenDetalle.EvaluacionCliente").
+                        Include("Orden.OrdenDetalle.EvaluacionProv.Escala").
+                        Include("Orden.OrdenDetalle.EvaluacionCliente.Escala").
+                        Include("Orden.OrdenDetalle.Estado_Detalle")
 
                         .Where(x => x.IdFactura== IdFactura)
                         .FirstOrDefault();

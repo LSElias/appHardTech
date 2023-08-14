@@ -172,7 +172,7 @@
     <Compile Include="ViewModel\ViewModelOrdenDetalle.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\12-8 HTDB.sql" />
+    <Content Include="App_Data\14-8 HTDB.sql" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -294,6 +294,8 @@
     <Content Include="Views\Billetera\MiBilletera.cshtml" />
     <Content Include="Views\Billetera\Crear.cshtml" />
     <Content Include="Views\Factura\Editar.cshtml" />
+    <Content Include="Views\Factura\_PartialEvalProveedor.cshtml" />
+    <Content Include="Views\Factura\_PartialEvalCliente.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

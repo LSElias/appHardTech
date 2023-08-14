@@ -44,14 +44,12 @@ namespace Infraestructure.Models
         [Display(Name = "Código de seguridad")]
         public string CodSeguridad { get; set; }
 
-        public Nullable<int> IdUsuario { get; set; }
-
         [Required(ErrorMessage = "El tipo de pago es requerido")]
         [Display(Name = "Tipo de pago")]
         public virtual TipoPago TipoPago { get; set; }
 
         [Display(Name = "Usuario")]
-        public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Usuario1 { get; set; }
 
         [Display(Name = "Factura")]
         public virtual ICollection<Factura> Factura { get; set; }
@@ -86,40 +84,68 @@ namespace Infraestructure.Models
         [Display(Name = "Estado")]
         public string Nombre { get; set; }
 
-        [Display(Name = "Orden")]
-        public virtual ICollection<Orden> Orden { get; set; }
-
-        [Display(Name = "Orden detalle")]
-        public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
-
-        [Display(Name = "Producto")]
-        public virtual ICollection<Producto> Producto { get; set; }
 
         [Display(Name = "Usuario")]
         public virtual ICollection<Usuario> Usuario { get; set; }
     }
 
+    public partial class EstadoDetalleMetadata
+    {
+
+
+        public int Id { get; set; }
+
+        [Display(Name = "Estado")]
+        public string Nombre { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
+    }
+
+    public partial class EstadoOrdenMetadata
+    {
+
+        public int Id { get; set; }
+        
+        [Display(Name = "Estado")]
+        public string Nombre { get; set; }
+
+        public virtual ICollection<Orden> Orden { get; set; }
+    }
+
+    public partial class EstadoProductoMetadata
+    {
+        public int Id { get; set; }
+        
+        [Display(Name = "Estado")]
+        public string Nombre { get; set; }
+
+    }
+
+
     internal partial class EvaluacionMetadata
     {
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Sus datos son requeridos")]
         public Nullable<int> IdEvaluador { get; set; }
+        
+        [Required(ErrorMessage = "Los datos de la persona a evaluar son requeridos")]
         public Nullable<int> IdEvaluado { get; set; }
+        
+        [Required(ErrorMessage = "La escala es requerida")]
         public Nullable<int> IdEscala { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El comentario es requerido")]
         [Display(Name = "Comentario")]
         public string Comentario { get; set; }
 
-        [Required(ErrorMessage = "La escala es requerida")]
-        [Display(Name = "Escala")]
+        [Display(Name = "Calificación")]
         public virtual Escala Escala { get; set; }
 
-        [Required(ErrorMessage = "Sus datos son requeridos")]
         [Display(Name = "Evaluador")]
         public virtual Usuario Usuario { get; set; }
 
-        [Required(ErrorMessage = "Los datos de la persona ha evaluador son requeridos")]
         [Display(Name = "Evaluado")]
         public virtual Usuario Usuario1 { get; set; }
     }
@@ -164,6 +190,7 @@ namespace Infraestructure.Models
         [Display(Name = "Número de orden")]
         public int IdOrden { get; set; }
 
+        [Display(Name = "Estado")]
         public Nullable<int> IdEstado { get; set; }
 
         [Required(ErrorMessage = "La fecha de inicio es requerida")]
@@ -171,22 +198,21 @@ namespace Infraestructure.Models
         [Display(Name = "Fecha de inicio")]
         public Nullable<System.DateTime> FechaInicio { get; set; }
 
-
         [DisplayFormat(DataFormatString = "{0:C}")]
         [Required(ErrorMessage = "El subtotal es requerido")]
         [RegularExpression(@"^[0-9]+(\,[0-9]{1,2})?$", ErrorMessage = "El subtotal solo acepta números con dos decimales")]
         public Nullable<double> SubTotal { get; set; }
 
-        [Display(Name = "Estado")]
-        public virtual Estado Estado { get; set; }
-
-
         [Display(Name = "Factura")]
         public virtual ICollection<Factura> Factura { get; set; }
 
-
         [Display(Name = "Orden Detalle")]
         public virtual ICollection<OrdenDetalle> OrdenDetalle { get; set; }
+
+
+        [Display(Name = "Estado")]
+        public virtual Estado_Orden Estado_Orden { get; set; }
+
     }
 
     internal partial class OrdenDetalleMetadata
@@ -200,10 +226,11 @@ namespace Infraestructure.Models
 
         public Nullable<int> IdEstado { get; set; }
 
+        [DataType(DataType.Date, ErrorMessage = "Fecha inválida")]
         public Nullable<System.DateTime> FechaEntrega { get; set; }
 
         [Display(Name = "Estado")]
-        public virtual Estado Estado { get; set; }
+        public virtual Estado_Detalle Estado_Detalle { get; set; }
 
         [Display(Name = "Orden")]
         public virtual Orden Orden { get; set; }
@@ -253,7 +280,7 @@ namespace Infraestructure.Models
         public virtual Categoria Categoria { get; set; }
 
         [Display(Name = "Estado")]
-        public virtual Estado Estado { get; set; }
+        public virtual Estado_Producto Estado_Producto { get; set; }
 
         [Required(ErrorMessage = "La fotografía es requerida")]
         [Display(Name = "Fotografía")]
