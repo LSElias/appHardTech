@@ -176,7 +176,7 @@ namespace Infraestructure.Repository
         }
 
         //Reporte
-        public void GetOrdenByDia(out string cantCompras, out string fechaHoy)
+        public void GetOrdenByDia(out string valores, out string etiquetas)
         {
             string varCantidad = "";
             DateTime varfechaHoy = DateTime.Today;
@@ -207,9 +207,9 @@ namespace Infraestructure.Repository
                 }
                 varCantidad = varCantidad.Substring(0, varCantidad.Length - 1);
                 varHora = varHora.Substring(0, varHora.Length - 1);
-
-                cantCompras = varCantidad;
-                fechaHoy = varHora; 
+       
+                 valores = varCantidad;
+                 etiquetas = varHora; 
             }
             catch (DbUpdateException dbEx)
             {
