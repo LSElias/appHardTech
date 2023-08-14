@@ -87,8 +87,13 @@ namespace Infraestructure.Repository
                 using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
-                    oProducto = ctx.Producto.ToList().
-                          FindAll(x => x.Nombre.ToLower().Contains(Nombre.ToLower()));
+                    oProducto = ctx.Producto
+                        .Include("Categoria")
+                        .Include("Usuario")
+                        .Include("Estado_Producto")
+                        .Include("Foto")
+                        .ToList()
+                        .FindAll(x => x.Nombre.ToLower().Contains(Nombre.ToLower()));
                         
                 }
                 return oProducto;

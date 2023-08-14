@@ -41,6 +41,12 @@ namespace ApplicationCore.Services
             return oRep.GetProductos();
         }
 
+        public IEnumerable<string> GetProductosNombre()
+        {
+            IRepositoryProducto repository = new RepositoryProducto();
+            return repository.GetProductos().Select(x => x.Nombre);
+        }
+
         public Producto Save(Producto producto, IEnumerable<HttpPostedFileBase> images)
         {
             IRepositoryProducto oRep = new RepositoryProducto();

@@ -33,6 +33,9 @@ namespace Web.Controllers
                 // Lista Categoría
                 IServiceCategoria _ServiceCategoria = new ServiceCategoria();
                 ViewBag.listaCategorias = _ServiceCategoria.GetCategorias();
+
+                //Lista de nombres de los productos 
+                ViewBag.listaNombres= _ServiceProducto.GetProductosNombre();
                 return View(lista);
 
             }
@@ -58,6 +61,22 @@ namespace Web.Controllers
                 lista = _ServiceProducto.GetProductos();
             }
             //Nombre vista, datos para la vista
+            return PartialView("_PartialViewProducto", lista);
+        }
+
+        public PartialViewResult ProductosXNombre(string filtro)
+        {
+            IEnumerable<Producto> lista = null; 
+            IServiceProducto _ServiceProduct = new ServiceProducto();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                lista = _ServiceProduct.GetByNombre(filtro);
+            }
+            else
+            {
+                lista = _ServiceProduct.GetProductos();
+            }
             return PartialView("_PartialViewProducto", lista);
         }
 
