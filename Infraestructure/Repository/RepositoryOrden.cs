@@ -174,5 +174,55 @@ namespace Infraestructure.Repository
                 throw new Exception(mensaje);
             }
         }
+
+        //Reporte
+        public void GetOrdenByDia(out string cantCompras, out string fechaHoy)
+        {
+            string varCantidad = "";
+            DateTime varfechaHoy = DateTime.Today;
+            string varHora = ""; 
+
+            try
+            {
+                using(MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+                    var resultado = ctx.Orden
+                            .Where(c => c.FechaInicio >= varfechaHoy && c.FechaInicio < varfechaHoy.AddDays(1))
+                            .GroupBy(c => c.FechaInicio.Value.Hour)
+                            .Select(group => new
+                            {
+                                Hora = group.Key,
+                                Cantidad = group.Count()
+                            })
+                            .OrderBy(entry => entry.Hora)
+                            .ToList();
+                  
+                   foreach(var item in resultado) 
+                   {
+                        varCantidad += item.Cantidad;
+                        varHora += item.Hora.ToString("HH:mm"); 
+                   }
+                }
+                varCantidad = varCantidad.Substring(0, varCantidad.Length - 1);
+                varHora = varHora.Substring(0, varHora.Length - 1);
+
+                cantCompras = varCantidad;
+                fechaHoy = varHora; 
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
     }
 }
