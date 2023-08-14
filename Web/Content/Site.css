@@ -417,6 +417,8 @@ output .image {
         background: #ffb506eb;
         border: 1px white;
     }
+
+
 .login-box {
     position: relative;
     background: black;
@@ -453,12 +455,6 @@ output .image {
     transition: opacity 0.3s;
     border-radius: inherit;
 }
-
-/* 
-* Prevents issues when the parent creates a 
-* stacking context. (For example, using the transform
-* property )
-*/
 
 .login-box::after {
     content: "";
@@ -513,6 +509,49 @@ output .image {
     background: inherit;
     border-radius: inherit;
 }
+
+.box-eval {
+    position: relative;
+    background: black;
+    margin: 5em auto;
+    border-width: 1px;
+    border-radius: 5px;
+}
+
+
+
+    .box-eval:before {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(-45deg, #8308d7ff 0%, #f5c131 100% );
+        transform: translate3d(0px, 0px, 0) scale(1);
+        filter: blur(5px);
+        opacity: var(1);
+        transition: opacity 0.3s;
+        border-radius: inherit;
+    }
+
+    .box-eval::after {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: inherit;
+        border-radius: inherit;
+    }
+
+
+
+
+
 
 @font-face {
     font-family: 'code_boldregular';

@@ -12,6 +12,9 @@ using Web.Security;
 using Infraestructure.Utils;
 using Web.Utils;
 using Infraestructure.Repository;
+using Web.ViewModel;
+using Microsoft.SqlServer.Server;
+using System.Web.UI.WebControls;
 
 namespace Web.Controllers
 {
@@ -64,7 +67,7 @@ namespace Web.Controllers
                                         where f.IdOrden == o.IdOrden
                                         where o.IdEstado == e.Id
                                         where f.IdUsuario == u.Id
-                                        select new { Id = f.IdFactura,IdOrden = o.IdOrden, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
+                                        select new { Id = f.IdFactura, IdOrden = o.IdOrden, u.Nombre, f.Total, f.Fecha, Estado = e.Nombre }); ;
 
                     // Organización
                     if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDir)))
@@ -147,7 +150,7 @@ namespace Web.Controllers
                                         where o.IdEstado == eo.Id
                                         where od.IdEstado == ed.Id
 
-                                        select new { Id = f.IdFactura, f.Fecha, Producto = p.Nombre, od.Cantidad, Estado = ed.Nombre, o.IdOrden, p.IdProducto, od.IdEvaluacion, IdComprador = f.IdUsuario, IdEstado = ed.Id });
+                                        select new { Id = f.IdFactura, f.Fecha, Producto = p.Nombre, od.Cantidad, Estado = ed.Nombre, o.IdOrden, p.IdProducto, od.IdEvaluacionProv, IdComprador = f.IdUsuario, IdEstado = ed.Id });
                     //   join o in _context.Orden on f.IdOrden equals o.Id
                     // join u in _context.Usuario on f.IdUsuario equals u.Id
                     //  join e in _context.Estado on o.Estado equals e.Id
@@ -176,6 +179,67 @@ namespace Web.Controllers
             }
         }
 
+
+        public PartialViewResult EvaluarCliente(int id, int idOrden, int idProducto)
+        {
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
+            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
+
+            Evaluacion oEvaluacion = new Evaluacion();
+            oEvaluacion.IdEvaluado = id;
+            oEvaluacion.Usuario1 = _ServiceUsuario.GetUsuarioByID(id);
+            oEvaluacion.IdEvaluador = _idUsuario;
+
+            ViewBag.idOrden = idOrden;
+            ViewBag.idProducto = idProducto;
+            ViewBag.idEscala = ListaEvaluacion();
+            return PartialView("_PartialEvalProveedor", oEvaluacion);
+        }
+
+        public PartialViewResult EvaluarProveedor(int id, int idOrden, int idProducto)
+        {
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
+            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
+
+            Evaluacion oEvaluacion = new Evaluacion();
+            oEvaluacion.IdEvaluado = id;
+            oEvaluacion.Usuario1 = _ServiceUsuario.GetUsuarioByID(id);
+            oEvaluacion.IdEvaluador = _idUsuario;
+
+            ViewBag.idOrden = idOrden;
+            ViewBag.idProducto = idProducto;
+            ViewBag.idEscala = ListaEvaluacion();
+            return PartialView("_PartialEvalCliente", oEvaluacion);
+        }
+
+
+        private SelectList ListaEvaluacion(int idEscala = 0)
+        {
+            IServiceEscala _service = new ServiceEscala();
+            IEnumerable<Escala> lista = _service.GetEscala();
+            return new SelectList(lista, "Id", "Nombre", idEscala);
+        }
+
+
+
         #endregion
         // GET: Factura/Details/5
 
@@ -183,7 +247,6 @@ namespace Web.Controllers
         [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor, (int)Roles.Administrador)]
         public ActionResult Detalle(int? id)
         {
-
             IServiceFactura _ServiceFactura = new ServiceFactura();
             Factura factura = null;
             try
@@ -305,6 +368,96 @@ namespace Web.Controllers
                 return RedirectToAction("Default", "Error");
             }
         }
+
+        public ActionResult GuardarEvaluacion(Evaluacion evaluacion, int? idOrden, int? idProducto)
+        {
+            IServiceEvaluacion _Service = new ServiceEvaluacion();
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+
+            Orden _Orden = _ServiceOrden.GetOrdenById((int) idOrden);
+
+            try
+            {
+
+                if (_Orden == null)
+                {
+                    TempData["Message"] = "No existe la orden solicitado";
+                    TempData["Redirect"] = "Producto";
+                    TempData["Redirect-Action"] = "IndexProveedor";
+                    //Redireccion a la vista del error
+                    return RedirectToAction("Default", "Error");
+                }
+                else
+                {
+                    Evaluacion oEvaluacion = _Service.Save(evaluacion);
+                    foreach(OrdenDetalle detallito in _Orden.OrdenDetalle)
+                    {
+                        if(detallito.IdProducto == idProducto) { 
+                            detallito.IdEvaluacionProv = oEvaluacion.Id;
+                            detallito.EvaluacionProv = oEvaluacion;
+                        }
+                    }
+
+                    Orden oOrden = _ServiceOrden.Save(_Orden);
+                    return RedirectToAction("MisVentas", "Factura");
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+        public ActionResult GuardarEvaluacionCliente(Evaluacion evaluacion, int? idOrden, int? idProducto)
+        {
+            IServiceEvaluacion _Service = new ServiceEvaluacion();
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            IServiceFactura _ServiceFact = new ServiceFactura();
+
+
+            Orden _Orden = _ServiceOrden.GetOrdenById((int)idOrden);
+
+            try
+            {
+
+                if (_Orden == null)
+                {
+                    TempData["Message"] = "No existe la orden solicitado";
+                    TempData["Redirect"] = "Producto";
+                    TempData["Redirect-Action"] = "IndexProveedor";
+                    //Redireccion a la vista del error
+                    return RedirectToAction("Default", "Error");
+                }
+                else
+                {
+                    Evaluacion oEvaluacion = _Service.Save(evaluacion);
+                    foreach (OrdenDetalle detallito in _Orden.OrdenDetalle)
+                    {
+                        if (detallito.IdProducto == idProducto)
+                        {
+                            detallito.IdEvaluacionCliente = oEvaluacion.Id;
+                            detallito.EvaluacionCliente = oEvaluacion;
+                        }
+                    }
+
+                    Orden oOrden = _ServiceOrden.Save(_Orden);
+                    Factura _factura = _ServiceFact.GetFacturaByIdOrden(oOrden.IdOrden);
+                    string url = "Detalle/" + _factura.IdFactura;
+                    return Redirect(url);
+                }
+            }
+            catch (Exception ex)
+            {
+                Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
+                TempData["Message"] = "Error al procesar los datos!" + ex.Message;
+                return RedirectToAction("Default", "Error");
+            }
+        }
+
+
+
 
         #endregion
 

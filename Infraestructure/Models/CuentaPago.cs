@@ -13,7 +13,7 @@ namespace Infraestructure.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    [MetadataType(typeof(CuentaPago))]
+    [MetadataType(typeof(CuentaPagoMetadata))]
     public partial class CuentaPago
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,13 +28,7 @@ namespace Infraestructure.Models
         public string NumCuenta { get; set; }
         public System.DateTime FechaExp { get; set; }
         public string CodSeguridad { get; set; }
-
-        public string CuentaEncrp
-        {
-            get {
-                return "***************" + NumCuenta.Substring((NumCuenta.Length - 4), 4);
-            }
-        }
+    
         public virtual TipoPago TipoPago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura> Factura { get; set; }
