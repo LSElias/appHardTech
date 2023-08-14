@@ -29,6 +29,11 @@ namespace Infraestructure.Models
         public System.DateTime FechaExp { get; set; }
         public string CodSeguridad { get; set; }
     
+        public string CuentaEncrp()
+        {
+            return "***********" + NumCuenta.Substring(NumCuenta.Length - 4);
+        }
+
         public virtual TipoPago TipoPago { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Factura> Factura { get; set; }

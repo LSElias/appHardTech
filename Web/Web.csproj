@@ -252,6 +252,7 @@
     <Compile Include="Utils\SweetAlertHelper.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="ViewModel\Registro.cs" />
+    <Compile Include="ViewModel\ViewModelGrafico.cs" />
     <Compile Include="ViewModel\ViewModelOrdenDetalle.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -379,10 +380,9 @@
     <Content Include="Views\Factura\Editar.cshtml" />
     <Content Include="Views\Factura\_PartialEvalProveedor.cshtml" />
     <Content Include="Views\Factura\_PartialEvalCliente.cshtml" />
+    <Content Include="Views\Reportes\GraficoOrden.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Reportes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
