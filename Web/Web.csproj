@@ -380,7 +380,7 @@
     <Content Include="Views\Factura\Editar.cshtml" />
     <Content Include="Views\Factura\_PartialEvalProveedor.cshtml" />
     <Content Include="Views\Factura\_PartialEvalCliente.cshtml" />
-    <Content Include="Views\Reportes\GraficoOrden.cshtml" />
+    <Content Include="Views\Reportes\graficoOrden.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
