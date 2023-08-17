@@ -110,19 +110,7 @@ namespace Infraestructure.Repository
                         //Guardar los datos en ambos tablas Orden y OrdenDet...
                         using (var transaccion = ctx.Database.BeginTransaction())
                         {
-                            foreach (OrdenDetalle detalle in orden.OrdenDetalle)
-                            {
-                                Producto oProducto = _rProducto.GetProductoById(detalle.IdProducto);
-                                oProducto.Categoria = _RepositoryCat.GetCategoriaByID((int)oProducto.IdCategoria);
-                                oProducto.Estado_Producto = _rEstProducto.GetEstadoByID((int)oProducto.IdEstado);
-                                ctx.Producto.Attach(oProducto);
-
-                            }
-
-
                             ctx.Estado_Orden.Attach(_rEstOrden.GetEstadoByID((int)orden.IdEstado));
-
-
 
                             ctx.Orden.Add(orden);
                             retorno = ctx.SaveChanges();
@@ -178,44 +166,38 @@ namespace Infraestructure.Repository
         //Reporte
         public void GetOrdenByDia(out string valores, out string etiquetas)
         {
-            string varCantidad = "";
             DateTime varfechaHoy = DateTime.Today;
-            DateTime varfechaTomorr = varfechaHoy.AddDays(1);
-            string varHora = ""; 
+            String varEtiquetas = "";
+            String varValores = ""; 
 
             try
             {
-                using(MyContext ctx = new MyContext())
+                using (MyContext ctx = new MyContext())
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
 
                     var resultado = ctx.Orden
-                            .Where(c => c.FechaInicio >= varfechaHoy && c.FechaInicio < varfechaTomorr)
-                            .GroupBy(c => c.FechaInicio.Value.Hour)
-                            .Select(group => new
-                            {
-                                Hora = group.Key,
-                                Cantidad = group.Count()
-                            })
-                            .OrderBy(entry => entry.Hora)
-                            .ToList();
-                  
-                   foreach(var item in resultado) 
-                   {
-                        varCantidad += item.Cantidad;
-                        varHora += item.Hora.ToString("HH:mm"); 
-                   }
+                        .Where(o => o.FechaInicio == varfechaHoy)
+                        .GroupBy(o => o.FechaInicio)
+                        .Select(o => new
+                        {
+                            Count = o.Count(),
+                            FechaInicio = o.Key
+                        });
+                    foreach (var item in resultado)
+                    {
+                        varEtiquetas += String.Format("{0:dd/MM/yyyy}", item.FechaInicio) + ",";
+                        varValores += item.Count + ",";
+                    }
+
+
+                    varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                    varValores = varValores.Substring(0, varValores.Length - 1);
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
                 }
-                if(!string.IsNullOrEmpty(varCantidad))
-                {
-                    varCantidad = varCantidad.Substring(0, varCantidad.Length - 1);
-                }
-                if (!string.IsNullOrEmpty(varHora))
-                {
-                    varHora = varHora.Substring(0, varHora.Length - 1);
-                }
-                 valores = varCantidad;
-                 etiquetas = varHora; 
+
             }
             catch (DbUpdateException dbEx)
             {

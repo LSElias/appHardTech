@@ -15,7 +15,7 @@ namespace Web.Controllers
             return View();
         }
 
-        public ActionResult GraficoOrden()
+        public ActionResult graficoOrden()
         {
             //Documentación chartjs https://www.chartjs.org/docs/latest/
             IServiceOrden _ServiceOrden = new ServiceOrden();
@@ -24,10 +24,11 @@ namespace Web.Controllers
             grafico.Etiquetas = etiquetas;
             grafico.Valores = valores;
             int cantidadValores = valores.Split(',').Length;
+            grafico.Colores = string.Join(",", grafico.GenerateColors(cantidadValores));
             grafico.titulo = "Ordenes por día";
             grafico.tituloEtiquetas = "Cantidad de ordenes";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
-            grafico.tipo = "line";
+            grafico.tipo = "pie";
             ViewBag.grafico = grafico;
             return View();
         }

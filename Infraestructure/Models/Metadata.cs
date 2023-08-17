@@ -218,6 +218,9 @@ namespace Infraestructure.Models
     internal partial class OrdenDetalleMetadata
     {
         public int IdOrden { get; set; }
+
+        [Required(ErrorMessage = "Los productos son requeridos")]
+        [Display(Name ="Producto")]
         public int IdProducto { get; set; }
 
         [Required(ErrorMessage = "La cantidad es requerida")]
@@ -235,8 +238,6 @@ namespace Infraestructure.Models
         [Display(Name = "Orden")]
         public virtual Orden Orden { get; set; }
 
-        [Required(ErrorMessage = "Los productos son requeridos")]
-        [Display(Name = "Produto")]
         public virtual Producto Producto { get; set; }
     }
 

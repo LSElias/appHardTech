@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GraficoOrden";
+    ViewBag.Title = "graficoOrden";
 }
 
 <h2>Ventas realizadas por día</h2>
@@ -16,6 +16,8 @@
     <script src="~/Scripts/graficoChartJS.js"></script>
     <script type="text/javascript">
 
+        var colores = @Html.Raw(Json.Encode(ViewBag.grafico.Colores));
+        colores = colores.split(",");
         var etiquetas = @Html.Raw(Json.Encode(ViewBag.grafico.Etiquetas));
         etiquetas = etiquetas.split(",");
         var valores = @Html.Raw(Json.Encode(ViewBag.grafico.Valores));
@@ -23,7 +25,7 @@
         var titulo = @Html.Raw(Json.Encode(ViewBag.grafico.titulo));
         var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.grafico.tituloEtiquetas));
         var tipo = @Html.Raw(Json.Encode(ViewBag.grafico.tipo));
-        grafico(titulo, tituloEtiquetas, tipo, etiquetas, valores);
+        grafico(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
     </script>
 
 
