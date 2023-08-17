@@ -17,11 +17,11 @@ namespace ApplicationCore.Services
             return oRep.GetOrden();
         }
 
-        public void GetOrdenByDia(out string valores1, out string etiquetas1)
+        public void GetOrdenByDia(out string etiquetas1, out string valores1)
         {
            IRepositoryOrden repository = new RepositoryOrden();
 
-            repository.GetOrdenByDia(out string valores, out string etiquetas);
+            repository.GetOrdenByDia(out string etiquetas,out string valores);
             etiquetas1 = etiquetas;
             valores1 = valores; 
         }
