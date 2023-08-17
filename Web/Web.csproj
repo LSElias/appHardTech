@@ -230,6 +230,7 @@
     <Compile Include="Controllers\BilleteraController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\EvaluacionController.cs" />
     <Compile Include="Controllers\FacturaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -382,6 +383,8 @@
     <Content Include="Views\Factura\_PartialEvalProveedor.cshtml" />
     <Content Include="Views\Factura\_PartialEvalCliente.cshtml" />
     <Content Include="Views\Reportes\graficoOrden.cshtml" />
+    <Content Include="Views\Evaluacion\MisEvaluaciones.cshtml" />
+    <Content Include="Views\Evaluacion\_DetalleEv.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
