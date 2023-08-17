@@ -140,10 +140,18 @@ else
 
                 <div class="col-md-11 justify-content-center">
                     <h6 id="compraObj" style="margin:-4px 0; opacity: 0">@Model.IdProducto</h6>
-
-                    <a id="comprar" class="btn btn-secondary btn-lg btn-comprar">
-                        Comprar
-                    </a>
+                    @if (Model.Cantidad > 0)
+                    {
+                        <a id="comprar" class="btn btn-secondary btn-lg btn-comprar">
+                            Comprar
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="comprar" class="btn btn-secondary disabled btn-lg btn-comprar">
+                            Comprar
+                        </a>
+                    }
                 </div>
             </div>
         </div>

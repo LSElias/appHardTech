@@ -9,21 +9,25 @@
 </div>
 
 <div class="row mt-3" style="box-shadow: 0px 0px 20px #262626; border-radius: 0px 10px 10px 0px; ">
-    <div class="col-md-12">
-        @* Llamado por nombre  *@
-        <div class="card my-4">
-            <h5 class="card-header my-4 foot-Title text-center">Búsqueda por nombre</h5>
+    <h5 class="card-header pt-3 my-2 foot-Title text-center">Búsqueda por nombre</h5>
+    @* Llamado por nombre  *@
+<div class="row my-3 mx-3">
+    <div class="col-md-11">
             <form id="formBusqueda">
-                <div class="card-body">
                     <div class="input-group">
                         @Html.TextBox("filtro", "", new { @class = "form-control", @placeholder = "Ingrese el nombre" })
                         <button type="button" id="btnBuscar" class="btn  btn-comprar">Buscar</button>
                     </div>
-                </div>
             </form>
-
+    </div>
+    <div class="col-md-1">
+                <div class="card-body">
+                    <div class="input-group">
+                        <button type="button" id="btnOrdenar" value="0" class="btn btn-detalle"><i class="fa-solid fa-sort fa-xl" style="color: #000000;"></i></button>
+                    </div>
         </div>
     </div>
+</div>
 
 
     <div class="col-lg-3">
@@ -46,7 +50,7 @@
         </div>
     </div>
 
-    <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 10px 10px 0px;">
+    <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 0px 10px 0px;">
         <div id="productos" class="row">
             @foreach (var item in Model)
             {
@@ -73,7 +77,15 @@
                                     <a href="/Producto/Detalle/@item.IdProducto" class="btn btn-large btn-detalle">Detalle</a>
                                 </div>
                                 <div class="col-md-12">
-                                    <button id="comprar" class="btn btn-large btn-comprar" data-id="@item.IdProducto">Comprar</button>
+                                    @if (item.Cantidad > 0)
+                                    {
+                                        <button id="comprar" class="btn btn-large btn-comprar" data-id="@item.IdProducto">Comprar</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="comprar" class="btn btn-large btn-comprar disabled">Comprar</button>
+
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -102,10 +114,7 @@
                     error: function (xhr,status,error) {
                         console.log("Error: " + error, "No error: " + xhr.status);
                     }
-
-
                 });
-
             });
 
         $(document).on('click', '#comprar',
@@ -125,6 +134,31 @@
                 });
             });
 
+        $(document).on('click', '#btnOrdenar',
+            function () {
+                var oldvalue = $('#btnOrdenar').val();                 
+                var value;
+                if (oldvalue == 0) {
+                    value = 1;
+                } else {
+                    value = 0;                    
+                }
+                $.ajax({
+                    method: "GET",
+                    url: "/Producto/OrdenarProductos",
+                    data: { "valor": oldvalue },
+                    success: function (data) {
+                        $("#productos").html("");
+                        $("#productos").html(data);
+                        $('#btnOrdenar').val(value);
+                    }, error: function (xhr, status, error) {
+                        console.log("Error: " + error + ", No Error: " + xhr.status);
+                    },
+                });
+            });
+
+
+
         $(function () {
             var lista = @Html.Raw(Json.Encode(ViewBag.listaNombres));
             $("#filtro").autocomplete({
@@ -140,7 +174,7 @@
                 success: function (result) {
                     $("#productos").html("");
                     $("#productos").html(result);
-                    $('#filtro').val("");;
+                    $('#filtro').val("");
                 }, error: function (xhr, status, error) {
                     console.log("Error: " + error, "No Error: " + xhr.status)
                 }

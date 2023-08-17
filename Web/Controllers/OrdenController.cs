@@ -238,7 +238,11 @@ namespace Web.Controllers
                     {
                         var pro = product.FirstOrDefault(p => p.IdProducto == detalle.IdProducto);
                         pro.Cantidad -= detalle.Cantidad;
-                        pro.VentasR += 1;
+                        pro.VentasR += detalle.Cantidad;
+                        if(pro.Cantidad == 0)
+                        {
+                            pro.IdEstado = 4;
+                        }
 
                          Producto productEdit = _ServiceProduct.Save(pro, null);
 

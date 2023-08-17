@@ -1,6 +1,7 @@
 ﻿
 using ApplicationCore.Services;
 using Infraestructure.Models;
+using iText.Layout.Element;
 using log4net.Util.TypeConverters;
 using Microsoft.SqlServer.Server;
 using System;
@@ -79,6 +80,20 @@ namespace Web.Controllers
             }
             return PartialView("_PartialViewProducto", lista);
         }
+
+        public PartialViewResult OrdenarProductos(int valor)
+        {
+            IEnumerable<Producto> lista = null;
+            IServiceProducto _ServiceProducto = new ServiceProducto();
+            lista = _ServiceProducto.GetProductos();
+            if (valor == 0)
+            {
+             lista =  lista.Reverse();
+            }
+
+            return PartialView("_PartialViewProducto", lista);
+        }
+
 
         // GET: Producto
         [CustomAuthorize((int)Roles.Administrador)]
