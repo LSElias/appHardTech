@@ -25,12 +25,13 @@ namespace Web.Controllers
             grafico.Valores = valores;
             int cantidadValores = valores.Split(',').Length;
             grafico.Colores = string.Join(",", grafico.GenerateColors(cantidadValores));
-            grafico.titulo = "Ordenes por día";
-            grafico.tituloEtiquetas = "Cantidad de ordenes";
+            grafico.tituloEtiquetas = "Compras realizadas durante la semana";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
             grafico.tipo = "pie";
             ViewBag.grafico = grafico;
             return View();
+            //return PartialView("_graficoOrden");
         }
+
     }
 }

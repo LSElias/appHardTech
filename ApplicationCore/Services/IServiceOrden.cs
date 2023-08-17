@@ -15,7 +15,7 @@ namespace ApplicationCore.Services
         Orden Save(Orden orden);
 
         //Reporte
-        void GetOrdenByDia(out string valores, out string etiquetas);
+        void GetOrdenByDia(out string etiquetas, out string valores);
 
     }
 }
