@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 10px 10px 0px;">
+    <div class="col-lg-9 productos" style="background-color:#262626; border-radius: 0px 0px 10px 0px;">
         <div id="productos" class="row">
             @foreach (var item in Model)
             {
@@ -73,7 +73,15 @@
                                     <a href="/Producto/Detalle/@item.IdProducto" class="btn btn-large btn-detalle">Detalle</a>
                                 </div>
                                 <div class="col-md-12">
-                                    <button id="comprar" class="btn btn-large btn-comprar" data-id="@item.IdProducto">Comprar</button>
+                                    @if (item.Cantidad > 0)
+                                    {
+                                        <button id="comprar" class="btn btn-large btn-comprar" data-id="@item.IdProducto">Comprar</button>
+                                    }
+                                    else
+                                    {
+                                        <button id="comprar" class="btn btn-large btn-comprar disabled">Comprar</button>
+
+                                    }
                                 </div>
                             </div>
                         </div>

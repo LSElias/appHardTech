@@ -29,7 +29,7 @@
                         @Html.DisplayFor(modelItem => item.Producto.Nombre)
                     </td>
                     <td class="center" style="width: 1.5em; background-color: #ffffffd8; text-align: center;">
-                        @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @class = "form-control changeCantidad", data_productid = item.Producto.IdProducto } })
+                        @Html.EditorFor(modelItem => item.Cantidad, new { htmlAttributes = new { @id="counter", @class = "form-control changeCantidad", data_productid = item.Producto.IdProducto, @max = item.Producto.Cantidad, @min = 0} })
                     </td>
                     <td class="right" style=" background-color: #ffffffd8; text-align: center;">
 
@@ -67,3 +67,12 @@
     </div>
 
 
+<script>
+    $("#counter").on("change", function () {
+        var maxatrr = $('#counter').attr('max');
+        var count = $('#counter').val();
+        if (count > maxatrr) {
+            $('#counter').val(maxatrr);
+        }
+    })
+</script>
