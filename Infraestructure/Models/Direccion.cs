@@ -29,9 +29,9 @@ namespace Infraestructure.Models
         public string Distrito { get; set; }
         public string DireccionExacta { get; set; }
 
-        public string DireccionCompleta(int IdDireccion)
+        public string DireccionCompleta
         {
-            return Provincia + " " + Canton + " " +  Distrito + " " + DireccionExacta;
+            get { return Provincia + " " + Canton + " " + Distrito + " " + DireccionExacta; }
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

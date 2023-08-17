@@ -180,6 +180,7 @@ namespace Infraestructure.Repository
         {
             string varCantidad = "";
             DateTime varfechaHoy = DateTime.Today;
+            DateTime varfechaTomorr = varfechaHoy.AddDays(1);
             string varHora = ""; 
 
             try
@@ -189,7 +190,7 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
 
                     var resultado = ctx.Orden
-                            .Where(c => c.FechaInicio >= varfechaHoy && c.FechaInicio < varfechaHoy.AddDays(1))
+                            .Where(c => c.FechaInicio >= varfechaHoy && c.FechaInicio < varfechaTomorr)
                             .GroupBy(c => c.FechaInicio.Value.Hour)
                             .Select(group => new
                             {
@@ -205,9 +206,14 @@ namespace Infraestructure.Repository
                         varHora += item.Hora.ToString("HH:mm"); 
                    }
                 }
-                varCantidad = varCantidad.Substring(0, varCantidad.Length - 1);
-                varHora = varHora.Substring(0, varHora.Length - 1);
-       
+                if(!string.IsNullOrEmpty(varCantidad))
+                {
+                    varCantidad = varCantidad.Substring(0, varCantidad.Length - 1);
+                }
+                if (!string.IsNullOrEmpty(varHora))
+                {
+                    varHora = varHora.Substring(0, varHora.Length - 1);
+                }
                  valores = varCantidad;
                  etiquetas = varHora; 
             }
