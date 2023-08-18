@@ -93,7 +93,10 @@
                                     <a href="@Url.Action("MisDirecciones","Direccion")" class="nav-link"> Mis Direcciones </a>
 
                                 }
-                                <a href="@Url.Action("Index","Login")" class="nav-link"> Mis Evaluaciones </a>
+                                if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente", "Proveedor" }))
+                                {
+                                <a href="@Url.Action("MisEvaluaciones", "Evaluacion")" class="nav-link"> Mis Evaluaciones </a>
+                                }
                                 <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
                             }
                         </li>
