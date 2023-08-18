@@ -164,11 +164,12 @@ namespace Infraestructure.Repository
         }
 
         //Reporte
-        public void GetOrdenByDia(out string valores, out string etiquetas)
+        public void GetOrdenByDia(out string etiquetas, out string valores)
         {
-            DateTime varfechaHoy = DateTime.Today;
             String varEtiquetas = "";
-            String varValores = ""; 
+            String varValores = "";
+            DateTime inicioFec = DateTime.Now.Date.AddDays(-7);
+            DateTime finFec = DateTime.Now.Date;
 
             try
             {
@@ -177,17 +178,18 @@ namespace Infraestructure.Repository
                     ctx.Configuration.LazyLoadingEnabled = false;
 
                     var resultado = ctx.Orden
-                        .Where(o => o.FechaInicio == varfechaHoy)
-                        .GroupBy(o => o.FechaInicio)
-                        .Select(o => new
+                        //Traer las ordenes de la última semana 
+                        .Where(m => m.FechaInicio >= inicioFec && m.FechaInicio <= finFec)
+                        .GroupBy(z => z.FechaInicio)
+                        .Select(m => new
                         {
-                            Count = o.Count(),
-                            FechaInicio = o.Key
-                        });
+                            FechaInicio = m.Key,
+                            Cant = m.Count()
+                        }).ToList();
                     foreach (var item in resultado)
                     {
                         varEtiquetas += String.Format("{0:dd/MM/yyyy}", item.FechaInicio) + ",";
-                        varValores += item.Count + ",";
+                        varValores += item.Cant + ",";
                     }
 
 

@@ -1,12 +1,14 @@
 ﻿
-@{
-    ViewBag.Title = "graficoOrden";
-}
-
-<h2>Ventas realizadas por día</h2>
+<h2>Dashboard</h2>
 <div>
-    <canvas id="grafico"></canvas>
+    <div class="col-md-6">
+        <canvas id="grafico"></canvas>
+    </div>
+    <div class="col-md-6" style="margin: 20px;">
+        <canvas id="prueba1"></canvas>
+    </div>
 </div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -27,6 +29,4 @@
         var tipo = @Html.Raw(Json.Encode(ViewBag.grafico.tipo));
         grafico(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
     </script>
-
-
 }
