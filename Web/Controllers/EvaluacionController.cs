@@ -7,6 +7,7 @@ using System.Linq.Dynamic.Core;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using Web.Security;
 using Web.Utils;
 
 namespace Web.Controllers
@@ -19,6 +20,7 @@ namespace Web.Controllers
             return View();
         }
 
+        [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor)]
         public ActionResult MisEvaluaciones()
         {
             var id = 0;
