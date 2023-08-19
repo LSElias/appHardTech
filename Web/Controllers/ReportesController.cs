@@ -17,7 +17,6 @@ namespace Web.Controllers
 
         public ActionResult graficoOrden()
         {
-            //Documentación chartjs https://www.chartjs.org/docs/latest/
             IServiceOrden _ServiceOrden = new ServiceOrden();
             ViewModelGrafico grafico = new ViewModelGrafico();
             _ServiceOrden.GetOrdenByDia(out string etiquetas, out string valores);
@@ -35,7 +34,6 @@ namespace Web.Controllers
 
         public ActionResult productsTop()
         {
-            //Documentación chartjs https://www.chartjs.org/docs/latest/
             IServiceOrden _ServiceOrden = new ServiceOrden();
             ViewModelGrafico grafico = new ViewModelGrafico();
             _ServiceOrden.GetProductosTop(out string etiquetas, out string valores);
@@ -64,7 +62,7 @@ namespace Web.Controllers
             grafico.titulo = "Promedio de evaluación";
             grafico.tituloEtiquetas = "Top 5 vendedores con mejor evaluación";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
-            grafico.tipo = "line";
+            grafico.tipo = "bar";
             ViewBag.grafico = grafico;
             return View();
             //return PartialView("_graficoOrden");
