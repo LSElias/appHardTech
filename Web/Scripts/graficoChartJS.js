@@ -211,7 +211,7 @@ function grafico3(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores) {
                     xAxes: [{
                         ticks: {
                             fontColor: "black",
-                            fontSize: 12,
+                            fontSize: 12    ,
                             stepSize: 1,
                             beginAtZero: true
                         }
