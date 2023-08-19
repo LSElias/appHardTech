@@ -15,7 +15,11 @@ namespace ApplicationCore.Services
         Orden Save(Orden orden);
 
         //Reporte
+        //Reporte de las compras por semana
         void GetOrdenByDia(out string etiquetas, out string valores);
+
+        //Top Productos
+        void GetProductosTop(out string etiquetas, out string valores);
 
     }
 }

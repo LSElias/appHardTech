@@ -385,6 +385,7 @@
     <Content Include="Views\Reportes\graficoOrden.cshtml" />
     <Content Include="Views\Evaluacion\MisEvaluaciones.cshtml" />
     <Content Include="Views\Evaluacion\_DetalleEv.cshtml" />
+    <Content Include="Views\Reportes\productsTop.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

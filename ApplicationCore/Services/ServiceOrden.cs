@@ -32,6 +32,15 @@ namespace ApplicationCore.Services
             return oRep.GetOrdenById(Id);
         }
 
+        public void GetProductosTop(out string etiquetas1, out string valores1)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetProductosTop(out string etiquetas, out string valores);
+            etiquetas1 = etiquetas;
+            valores1 = valores;
+        }
+
         public Orden Save(Orden orden)
         {
             IRepositoryOrden oRep = new RepositoryOrden();
