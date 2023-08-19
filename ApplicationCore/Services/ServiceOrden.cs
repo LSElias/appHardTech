@@ -41,6 +41,15 @@ namespace ApplicationCore.Services
             valores1 = valores;
         }
 
+        public void GetVendedoresTop(out string etiquetas1, out string valores1)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetVendedoresTop(out string etiquetas, out string valores);
+            etiquetas1 = etiquetas;
+            valores1 = valores;
+        }
+
         public Orden Save(Orden orden)
         {
             IRepositoryOrden oRep = new RepositoryOrden();

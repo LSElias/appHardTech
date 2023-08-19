@@ -21,5 +21,7 @@ namespace Infraestructure.Repository
         //Top Productos
         void GetProductosTop(out string etiquetas, out string valores);
 
+        //Top Vendedores
+        void GetVendedoresTop(out string etiquetas, out string valores);
     }
 }
