@@ -228,6 +228,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BilleteraController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\EvaluacionController.cs" />
@@ -389,6 +390,7 @@
     <Content Include="Views\Reportes\vendedoresTop.cshtml" />
     <Content Include="Views\Reportes\vendDeficientes.cshtml" />
     <Content Include="Views\Reportes\MasVendidos.cshtml" />
+    <Content Include="Views\Dashboard\Administrador.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

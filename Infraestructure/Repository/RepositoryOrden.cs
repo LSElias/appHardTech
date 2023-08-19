@@ -352,9 +352,10 @@ namespace Infraestructure.Repository
 
                     foreach (var item in resultado)
                     {
-                        varEtiquetas += item.NombreVe + ", ";
-                        varValores += item.EvaluacionVen + ", ";
+                        varEtiquetas += item.NombreVe + ",";
+                        varValores += item.EvaluacionVen + ",";
                     }
+
 
 
                     varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
