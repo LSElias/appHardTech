@@ -8,6 +8,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Infraestructure.Repository
@@ -164,6 +165,7 @@ namespace Infraestructure.Repository
         }
 
         //Reporte
+        //Reporte de las compras por semana
         public void GetOrdenByDia(out string etiquetas, out string valores)
         {
             String varEtiquetas = "";
@@ -214,5 +216,60 @@ namespace Infraestructure.Repository
                 throw new Exception(mensaje);
             }
         }
+
+        //Top Productos
+        public void GetProductosTop(out string etiquetas, out string valores)
+        {
+            String varEtiquetas = "";
+            String varValores = "";
+            DateTime inicioFec = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            DateTime finFec = inicioFec.AddMonths(1).AddDays(1);
+
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+                    var resultado = ctx.OrdenDetalle
+                        .Where(m => m.Orden.FechaInicio >= inicioFec && m.Orden.FechaInicio <= finFec)
+                        .GroupBy(z => z.Producto)
+                        .OrderByDescending(group => group.Sum(c => c.Cantidad))
+                        .Take(5)
+                        .Select(group => new
+                        {
+                            NombreProduct = group.Key.Nombre,
+                            Total = group.Sum(c => c.Cantidad)
+                        })
+                        .ToList();
+                    foreach (var item in resultado)
+                    {
+                        varEtiquetas += item.NombreProduct + ", ";
+                        varValores += item.Total + ", ";
+                    }
+
+
+                    varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                    varValores = varValores.Substring(0, varValores.Length - 1);
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
+                }
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
+
     }
 }
