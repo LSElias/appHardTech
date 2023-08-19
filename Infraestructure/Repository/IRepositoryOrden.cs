@@ -23,5 +23,8 @@ namespace Infraestructure.Repository
 
         //Top Vendedores
         void GetVendedoresTop(out string etiquetas, out string valores);
+
+        //Top 3 Vendedores Deficientes
+        void GetVendDeficiente(out string etiquetas, out string valores);
     }
 }

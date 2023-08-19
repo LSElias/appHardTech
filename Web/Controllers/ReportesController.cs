@@ -67,6 +67,23 @@ namespace Web.Controllers
             return View();
             //return PartialView("_graficoOrden");
         }
+        public ActionResult vendDeficientes()
+        {
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            ViewModelGrafico grafico = new ViewModelGrafico();
+            _ServiceOrden.GetVendDeficiente(out string etiquetas, out string valores);
+            grafico.Etiquetas = etiquetas;
+            grafico.Valores = valores;
+            int cantidadValores = valores.Split(',').Length;
+            grafico.Colores = string.Join(",", grafico.GenerateColors(cantidadValores));
+            grafico.titulo = "Promedio de evaluación";
+            grafico.tituloEtiquetas = "Top 3 peores vendedores evaluados";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico.tipo = "bar";
+            ViewBag.grafico = grafico;
+            return View();
+            //return PartialView("_graficoOrden");
+        }
 
     }
 }
