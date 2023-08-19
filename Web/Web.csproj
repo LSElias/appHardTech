@@ -388,6 +388,7 @@
     <Content Include="Views\Reportes\productsTop.cshtml" />
     <Content Include="Views\Reportes\vendedoresTop.cshtml" />
     <Content Include="Views\Reportes\vendDeficientes.cshtml" />
+    <Content Include="Views\Reportes\MasVendidos.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

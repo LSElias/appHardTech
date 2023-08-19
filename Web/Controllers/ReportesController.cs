@@ -1,9 +1,11 @@
 ﻿using ApplicationCore.Services;
+using Infraestructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Web.Security;
 using Web.ViewModel;
 
 namespace Web.Controllers
@@ -14,7 +16,8 @@ namespace Web.Controllers
         {
             return View();
         }
-
+        //Administrador
+       // [CustomAuthorize((int)Roles.Administrador)]
         public ActionResult graficoOrden()
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
@@ -67,6 +70,7 @@ namespace Web.Controllers
             return View();
             //return PartialView("_graficoOrden");
         }
+
         public ActionResult vendDeficientes()
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
@@ -84,6 +88,29 @@ namespace Web.Controllers
             return View();
             //return PartialView("_graficoOrden");
         }
+
+        //Proveedor
+        [CustomAuthorize((int)Roles.Proveedor)]
+        public ActionResult MasVendidos()
+        {
+            Usuario oUsuario = (Usuario)Session["User"]; 
+    
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            ViewModelGrafico grafico = new ViewModelGrafico();
+            _ServiceOrden.GetMasVendidos(out string etiquetas, out string valores, oUsuario.Id);
+            grafico.Etiquetas = etiquetas;
+            grafico.Valores = valores;
+            int cantidadValores = valores.Split(',').Length;
+            grafico.Colores = string.Join(",", grafico.GenerateColors(cantidadValores));
+            grafico.titulo = "Cantidad Vendida";
+            grafico.tituloEtiquetas = "Producto más vendido";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico.tipo = "bar";
+            ViewBag.grafico = grafico;
+            return View();
+            //return PartialView("_graficoOrden");
+        }
+
 
     }
 }
