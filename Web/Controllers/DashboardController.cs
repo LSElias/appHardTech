@@ -20,6 +20,10 @@ namespace Web.Controllers
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
             ViewModelGrafico grafico = new ViewModelGrafico();
+            ViewModelGrafico grafico2 = new ViewModelGrafico();
+            ViewModelGrafico grafico3 = new ViewModelGrafico();
+            ViewModelGrafico grafico4 = new ViewModelGrafico();
+
             _ServiceOrden.GetOrdenByDia(out string etiquetas, out string valores);
             grafico.Etiquetas = etiquetas;
             grafico.Valores = valores;
@@ -30,22 +34,42 @@ namespace Web.Controllers
             grafico.tipo = "pie";
             ViewBag.OrdenByDia = grafico;
 
+            
+            _ServiceOrden.GetProductosTop(out string etiquetasT, out string valoresT);
+            grafico2.Etiquetas = etiquetasT;
+            grafico2.Valores = valoresT;
+            int cantidadValoresT = valoresT.Split(',').Length;
+            grafico2.Colores = string.Join(",", grafico.GenerateColors(cantidadValoresT));
+            grafico2.titulo = "Cantidad vendida";
+            grafico2.tituloEtiquetas = "Top 5 de productos del mes";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico2.tipo = "doughnut";
+            ViewBag.ProductosTop = grafico2;
 
+            _ServiceOrden.GetVendedoresTop(out string etiquetasV, out string valoresV);
+            grafico3.Etiquetas = etiquetasV;
+            grafico3.Valores = valoresV;
+            int cantidadValoresV = valoresV.Split(',').Length;
+            grafico3.Colores = string.Join(",", grafico.GenerateColors(cantidadValoresV));
+            grafico3.titulo = "Promedio de evaluación";
+            grafico3.tituloEtiquetas = "Top 5 vendedores con mejor evaluación";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico3.tipo = "bar";
+            ViewBag.VendedoresTop = grafico3;
 
-
+            _ServiceOrden.GetVendDeficiente(out string etiquetasD, out string valoresD);
+            grafico4.Etiquetas = etiquetasD;
+            grafico4.Valores = valoresD;
+            int cantidadValoresD = valoresD.Split(',').Length;
+            grafico4.Colores = string.Join(",", grafico.GenerateColors(cantidadValoresD));
+            grafico4.titulo = "Promedio de evaluación";
+            grafico4.tituloEtiquetas = "Top 3 peores vendedores evaluados";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico4.tipo = "bar";
+            ViewBag.VendDeficientes = grafico4;
 
 
             return View();
-
-
-
-
-
-
-
-
-
-
 
         }
 
