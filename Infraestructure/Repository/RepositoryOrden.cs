@@ -325,5 +325,58 @@ namespace Infraestructure.Repository
             }
         }
 
+        //Top 3 Vendedores Deficientes
+        public void GetVendDeficiente(out string etiquetas, out string valores)
+        {
+            String varEtiquetas = "";
+            String varValores = "";
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+                    var resultado = ctx.Usuario
+                        .Where(x => x.TipoUsuario.Any(c => c.Nombre == "Proveedor"))
+                        .Select(b => new
+                        {
+                            NombreVe = b.Nombre + " " + b.Apellido1,
+                            EvaluacionVen = b.Evaluacion1
+                                .Select(c => c.Escala.Valor)
+                                .Sum() / b.Evaluacion1.Count()
+                        })
+                        .OrderBy(e => e.EvaluacionVen)
+                        .Take(3)
+                        .ToList();
+
+                    foreach (var item in resultado)
+                    {
+                        varEtiquetas += item.NombreVe + ", ";
+                        varValores += item.EvaluacionVen + ", ";
+                    }
+
+
+                    varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                    varValores = varValores.Substring(0, varValores.Length - 1);
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
+                }
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
+
     }
 }

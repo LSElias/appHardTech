@@ -387,6 +387,7 @@
     <Content Include="Views\Evaluacion\_DetalleEv.cshtml" />
     <Content Include="Views\Reportes\productsTop.cshtml" />
     <Content Include="Views\Reportes\vendedoresTop.cshtml" />
+    <Content Include="Views\Reportes\vendDeficientes.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

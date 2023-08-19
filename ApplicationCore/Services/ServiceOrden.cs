@@ -41,6 +41,15 @@ namespace ApplicationCore.Services
             valores1 = valores;
         }
 
+        public void GetVendDeficiente(out string etiquetas1, out string valores1)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetVendDeficiente(out string etiquetas, out string valores);
+            etiquetas1 = etiquetas;
+            valores1 = valores;
+        }
+
         public void GetVendedoresTop(out string etiquetas1, out string valores1)
         {
             IRepositoryOrden repository = new RepositoryOrden();
