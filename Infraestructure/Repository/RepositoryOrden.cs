@@ -165,7 +165,8 @@ namespace Infraestructure.Repository
             }
         }
 
-        //Reporte
+        //Reporte Administrador 
+
         //Reporte de las compras por semana
         public void GetOrdenByDia(out string etiquetas, out string valores)
         {
@@ -377,6 +378,56 @@ namespace Infraestructure.Repository
                 throw new Exception(mensaje);
             }
         }
+
+        //Reporte Proveedor 
+
+        //Producto más vendido 
+        public void GetMasVendidos(out string etiquetas, out string valores, int IdUsuario)
+        {
+            String varEtiquetas = "";
+            String varValores = "";
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+                    var resultado = ctx.Usuario
+                        .Where(v => v.Id == IdUsuario)
+                        .SelectMany(v => v.Producto)
+                        .OrderByDescending(p => p.VentasR)
+                        .FirstOrDefault(); 
+
+                    if (resultado != null)
+                    {
+                        varEtiquetas = resultado.Nombre + ", ";
+                        varValores = resultado.VentasR + ", ";
+                    }
+                    else
+                    {
+                        varEtiquetas = "No existen resultados";
+                        varValores = "";
+                    }
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
+                }
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
+
 
     }
 }

@@ -11,6 +11,7 @@ namespace ApplicationCore.Services
     //service cambio
     public class ServiceOrden : IServiceOrden
     {
+
         public IEnumerable<Orden> GetOrden()
         {
             IRepositoryOrden oRep = new RepositoryOrden();
@@ -55,6 +56,15 @@ namespace ApplicationCore.Services
             IRepositoryOrden repository = new RepositoryOrden();
 
             repository.GetVendedoresTop(out string etiquetas, out string valores);
+            etiquetas1 = etiquetas;
+            valores1 = valores;
+        }
+
+        public void GetMasVendidos(out string etiquetas1, out string valores1, int IdUsuario1)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetMasVendidos(out string etiquetas, out string valores, IdUsuario1);
             etiquetas1 = etiquetas;
             valores1 = valores;
         }

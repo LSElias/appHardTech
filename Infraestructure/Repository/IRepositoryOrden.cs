@@ -26,5 +26,8 @@ namespace Infraestructure.Repository
 
         //Top 3 Vendedores Deficientes
         void GetVendDeficiente(out string etiquetas, out string valores);
+
+        //Producto Más Vendido
+        void GetMasVendidos(out string etiquetas, out string valores,  int IdUsuario = 0);
     }
 }
