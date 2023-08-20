@@ -27,7 +27,14 @@ namespace Infraestructure.Repository
         //Top 3 Vendedores Deficientes
         void GetVendDeficiente(out string etiquetas, out string valores);
 
+        //Proveedor
+
         //Producto Más Vendido
         void GetMasVendidos(out string etiquetas, out string valores,  int IdUsuario = 0);
+
+        //Cantidad de evaluaciones por c. dato de escala 
+        void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario = 0);
+
+
     }
 }

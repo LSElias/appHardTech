@@ -246,8 +246,8 @@ namespace Infraestructure.Repository
                         .ToList();
                     foreach (var item in resultado)
                     {
-                        varEtiquetas += item.NombreProduct + ", ";
-                        varValores += item.Total + ", ";
+                        varEtiquetas += item.NombreProduct + ",";
+                        varValores += item.Total + ",";
                     }
 
 
@@ -299,8 +299,8 @@ namespace Infraestructure.Repository
 
                     foreach (var item in resultado)
                     {
-                        varEtiquetas += item.NombreVe +  ", ";
-                        varValores += item.EvaluacionVen + ", ";
+                        varEtiquetas += item.NombreVe +  ",";
+                        varValores += item.EvaluacionVen + ",";
                     }
 
 
@@ -401,8 +401,61 @@ namespace Infraestructure.Repository
 
                     if (resultado != null)
                     {
-                        varEtiquetas = resultado.Nombre + ", ";
-                        varValores = resultado.VentasR + ", ";
+                        varEtiquetas = resultado.Nombre + ",";
+                        varValores = resultado.VentasR + ",";
+                    }
+                    else
+                    {
+                        varEtiquetas = "No existen resultados";
+                        varValores = "";
+                    }
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
+                }
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
+        //Cantidad de evaluaciones por c. dato de escala 
+        public void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario)
+        {
+            String varEtiquetas = "";
+            String varValores = "";
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
+
+                    var resultado = ctx.Evaluacion
+                        .Where(c => c.IdEvaluado == IdUsuario)
+                        .GroupBy(c => c.Escala)
+                        .OrderByDescending(g => g.Key)
+                        .ToDictionary(
+                            g => g.Key,
+                            g => g.Count()
+                        );
+
+                    if (resultado.Any() && resultado != null)
+                    {
+
+                        foreach (var item in resultado)
+                        {
+                            varEtiquetas += item.Key + ",";
+                            varValores += item.Value + ",";
+                        }
                     }
                     else
                     {
@@ -430,5 +483,60 @@ namespace Infraestructure.Repository
         }
 
 
+
+        //Producto más vendido 
+        //public void GetDestacadoCliente(out string etiquetas, out string valores, int IdUsuario)
+        //{
+        //    String varEtiquetas = "";
+        //    String varValores = "";
+        //    try
+        //    {
+        //        using (MyContext ctx = new MyContext())
+        //        {
+        //            ctx.Configuration.LazyLoadingEnabled = false;
+
+        //            var resultado = ctx.OrdenDetalle
+        //                .Where(o => o.Producto.IdProveedor == IdUsuario)
+        //                .GroupBy(c => c.Orden.Factura)
+        //                .SelectMany( g => new
+        //                {
+        //                    NombreCliente = g.Key.Nombre,
+        //                    Total = g.Sum(c => c.Orden.OrdenDetalle.Cantidad)
+        //                })
+        //                .OrderByDescending(info => info.Total)
+        //                 .ToList();
+
+
+        //            if (resultado != null)
+        //            {
+        //                varEtiquetas = resultado.NombreCliente + ",";
+        //                varValores = resultado.Compras + ",";
+        //            }
+        //            else
+        //            {
+        //                varEtiquetas = "No existen resultados";
+        //                varValores = "";
+        //            }
+
+        //            etiquetas = varEtiquetas;
+        //            valores = varValores;
+        //        }
+
+        //    }
+        //    catch (DbUpdateException dbEx)
+        //    {
+        //        string mensaje = "";
+        //        Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+        //        throw new Exception(mensaje);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string mensaje = "";
+        //        Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+        //        throw new Exception(mensaje);
+        //    }
+        //}
+
+        //
     }
 }

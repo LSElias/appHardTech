@@ -74,5 +74,14 @@ namespace ApplicationCore.Services
             IRepositoryOrden oRep = new RepositoryOrden();
             return oRep.Save(orden);
         }
+
+        public void GetEvaluacionXProveedor(out string etiquetas1, out string valores1, int IdUsuario1)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetEvaluacionXProveedor(out string etiquetas, out string valores, IdUsuario1);
+            etiquetas1 = etiquetas;
+            valores1 = valores;
+        }
     }
 }
