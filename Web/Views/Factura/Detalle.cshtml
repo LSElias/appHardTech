@@ -139,9 +139,6 @@
                     Estado
                 </th>
                 <th style="text-align: center;">
-                    Fecha de entrega
-                </th>
-                <th style="text-align: center;">
                     Evaluacion
                 </th>
             </tr>
@@ -163,9 +160,6 @@
                     </td>
                     <td style="text-align: center;">
                         @Html.DisplayFor(modelItem => item.Estado_Detalle.Nombre)
-                    </td>
-                    <td style="text-align: center;">
-                        @Html.DisplayFor(modelItem => item.FechaEntrega)
                     </td>
                     <td style="text-align: center;">
                         @if (item.IdEstado == 9)
