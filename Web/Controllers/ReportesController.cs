@@ -111,6 +111,24 @@ namespace Web.Controllers
             //return PartialView("_graficoOrden");
         }
 
+        public ActionResult Evaluacion()
+        {
+            Usuario oUsuario = (Usuario)Session["User"];
 
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            ViewModelGrafico grafico6 = new ViewModelGrafico();
+            _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasM, out string valoresM, oUsuario.Id);
+            grafico6.Etiquetas = etiquetasM;
+            grafico6.Valores = valoresM;
+            int cantidadValoresM = valoresM.Split(',').Length;
+            grafico6.Colores = string.Join(",", grafico6.GenerateColors(cantidadValoresM));
+            grafico6.titulo = "Cantidad Vendida";
+            grafico6.tituloEtiquetas = "Producto más vendido";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico6.tipo = "bar";
+            ViewBag.grafico6 = grafico6;
+            return View();
+            //return PartialView("_graficoOrden");
+        }
     }
 }
