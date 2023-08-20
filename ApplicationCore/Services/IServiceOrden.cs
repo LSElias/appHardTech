@@ -29,5 +29,11 @@ namespace ApplicationCore.Services
 
         //Producto Más Vendido
         void GetMasVendidos(out string etiquetas, out string valores, int IdUsuario);
+
+        //Cantidad de evaluaciones por c. dato de escala 
+        void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario = 0);
+
+
+
     }
 }
