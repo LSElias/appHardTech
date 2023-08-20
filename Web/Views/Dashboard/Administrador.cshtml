@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div>
+    <h2 class="page-title"> Dashboard </h2>
+    <div class="box-eval p-3 col-md-12 row center justify-content-center">
+        <h3 class="page-title"> Reportes </h3>
+        <div class="col-md-6 my-5 mx-1" style="background-color:#ffffffbe; border-radius: 15px;">
+            <canvas id="grafico"></canvas>
+        </div>
+        <div class="col-md-5 my-5 mx-1" style="background-color:#ffffffbe; border-radius: 15px;">
+
+            <canvas id="grafico1"></canvas>
+        </div>
+        <div class="col-md-5 py-2 my-5 mx-1" style="background-color:#ffffffbe; border-radius: 15px;">
+
+            <canvas id="grafico2"></canvas>
+        </div>
+        <div class="col-md-6 my-5 mx-1" style="background-color:#ffffffbe; border-radius: 15px;">
+
+            <canvas id="grafico3"></canvas>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryajax")
+    <!--Librería para gráficos-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.bundle.min.js"></script>
+    <script src="~/Scripts/graficoChartJS.js"></script>
+    <script type="text/javascript">
+
+        var colores = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.Colores));
+        colores = colores.split(",");
+        var etiquetas = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.Etiquetas));
+        etiquetas = etiquetas.split(",");
+        var valores = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.Valores));
+        valores = valores.split(",");
+        var titulo = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.titulo));
+        var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.tituloEtiquetas));
+        var tipo = @Html.Raw(Json.Encode(ViewBag.VendDeficientes.tipo));
+        grafico(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
+    </script>
+
+    <script type="text/javascript">
+        var colores = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.Colores));
+        colores = colores.split(",");
+        var etiquetas = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.Etiquetas));
+        etiquetas = etiquetas.split(",");
+        var valores = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.Valores));
+        valores = valores.split(",");
+        var titulo = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.titulo));
+        var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.tituloEtiquetas));
+        var tipo = @Html.Raw(Json.Encode(ViewBag.OrdenByDia.tipo));
+        grafico1(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
+    </script>
+
+    <script type="text/javascript">
+        var colores = @Html.Raw(Json.Encode(ViewBag.ProductosTop.Colores));
+        colores = colores.split(",");
+        var etiquetas = @Html.Raw(Json.Encode(ViewBag.ProductosTop.Etiquetas));
+        etiquetas = etiquetas.split(",");
+        var valores = @Html.Raw(Json.Encode(ViewBag.ProductosTop.Valores));
+        valores = valores.split(",");
+        var titulo = @Html.Raw(Json.Encode(ViewBag.ProductosTop.titulo));
+        var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.ProductosTop.tituloEtiquetas));
+        var tipo = @Html.Raw(Json.Encode(ViewBag.ProductosTop.tipo));
+        grafico2(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
+    </script>
+
+    <script type="text/javascript">
+        var colores = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.Colores));
+        colores = colores.split(",");
+        var etiquetas = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.Etiquetas));
+        etiquetas = etiquetas.split(",");
+        var valores = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.Valores));
+        valores = valores.split(",");
+        var titulo = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.titulo));
+        var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.tituloEtiquetas));
+        var tipo = @Html.Raw(Json.Encode(ViewBag.VendedoresTop.tipo));
+        grafico3(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
+    </script>
+
+}

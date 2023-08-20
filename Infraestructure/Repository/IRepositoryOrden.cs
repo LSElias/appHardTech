@@ -15,6 +15,26 @@ namespace Infraestructure.Repository
         Orden Save(Orden orden);
 
         //Reporte
-        void GetOrdenByDia(out string valores, out string etiquetas);
+        //Reporte de las compras por semana
+        void GetOrdenByDia(out string etiquetas, out string valores);
+
+        //Top Productos
+        void GetProductosTop(out string etiquetas, out string valores);
+
+        //Top Vendedores
+        void GetVendedoresTop(out string etiquetas, out string valores);
+
+        //Top 3 Vendedores Deficientes
+        void GetVendDeficiente(out string etiquetas, out string valores);
+
+        //Proveedor
+
+        //Producto Más Vendido
+        void GetMasVendidos(out string etiquetas, out string valores,  int IdUsuario = 0);
+
+        //Cantidad de evaluaciones por c. dato de escala 
+        void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario = 0);
+
+
     }
 }

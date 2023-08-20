@@ -1,12 +1,6 @@
-﻿
-<h2>Dashboard</h2>
-<div>
-    <div class="col-md-6">
-        <canvas id="grafico"></canvas>
-    </div>
-    <div class="col-md-6" style="margin: 20px;">
-        <canvas id="prueba1"></canvas>
-    </div>
+﻿<div class="col-md-6">
+    <canvas id="grafico"></canvas>
+
 </div>
 
 
@@ -28,5 +22,9 @@
         var tituloEtiquetas = @Html.Raw(Json.Encode(ViewBag.grafico.tituloEtiquetas));
         var tipo = @Html.Raw(Json.Encode(ViewBag.grafico.tipo));
         grafico(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores);
+
+
     </script>
 }
+
+
