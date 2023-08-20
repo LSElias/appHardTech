@@ -1,10 +1,34 @@
 ﻿<nav class="header sticky-top navbar navbar-expand-xl navbar-toggleable-xl navbar-dark">
     <div class="container">
-        @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new
-        {
-            @class = "navbar-brand logo",
 
-        })
+        @if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Proveedor" }))
+        {
+            @Html.ActionLink(" ", "Proveedor", "Dashboard", new { area = "" }, new
+            {
+                @class = "navbar-brand logo",
+
+            })
+        }
+        else
+        {
+        if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Administrador" }))
+        {
+            @Html.ActionLink(" ", "Administrador", "Dashboard", new { area = "" }, new
+       {
+           @class = "navbar-brand logo",
+
+       })
+        }
+        else
+        {
+            @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new
+                {
+                    @class = "navbar-brand logo",
+
+                })
+        }
+        }
+
 
         @{
             string nombre = "";
@@ -37,8 +61,10 @@
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Proveedor</a>
                         <ul class="dropdown-menu">
                             <li>
-                                @Html.ActionLink("Mis Productos", "IndexProveedor", "Producto", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Mis Ventas", "MisVentas", "Factura", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Mis Reportes", "Proveedor", "Dashboard", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Mis Productos", "IndexProveedor", "Producto", null, new { @class = "dropdown-item" })
+
                             </li>
                         </ul>
                     </li>
@@ -50,9 +76,10 @@
 
                         <ul class="dropdown-menu">
                             <li>
-                                @Html.ActionLink("Usuarios", "Index", "Usuario", null, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Usuarios Desactivados", "UsuariosDesactivados", "Usuario", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Producto", "IndexAdmin", "Producto", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Mis Reportes", "Administrador", "Dashboard", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Usuarios Activos", "Index", "Usuario", null, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Usuarios Desactivados", "UsuariosDesactivados", "Usuario", null, new { @class = "dropdown-item" })
                                 @Html.ActionLink("Historial de ordenes", "IndexAdmin", "Orden", null, new { @class = "dropdown-item" })
 
                             </li>
@@ -70,8 +97,8 @@
 
                             @if (Session["User"] == null)
                             {
-                                    <a href="@Url.Action("Index","Login")" class="nav-link"> Iniciar Sesión </a>
-                                    <a href="@Url.Action("Registro","Usuario")" class="nav-link"> ¡Registrate! </a>
+                                <a href="@Url.Action("Index","Login")" class="nav-link"> Iniciar Sesión </a>
+                                <a href="@Url.Action("Registro","Usuario")" class="nav-link"> ¡Registrate! </a>
                             }
                             else
                             {
@@ -95,7 +122,7 @@
                                 }
                                 if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente", "Proveedor" }))
                                 {
-                                <a href="@Url.Action("MisEvaluaciones", "Evaluacion")" class="nav-link"> Mis Evaluaciones </a>
+                                    <a href="@Url.Action("MisEvaluaciones", "Evaluacion")" class="nav-link"> Mis Evaluaciones </a>
                                 }
                                 <a href="@Url.Action("Logout","Login")" class="nav-link"> Cerrar Sesión </a>
                             }
