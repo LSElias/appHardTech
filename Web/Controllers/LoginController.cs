@@ -46,7 +46,23 @@ namespace Web.Controllers
                                 $"con el rol {oUsuario.TipoUsuario.ToList()}");
                             TempData["mensaje"] = Utils.SweetAlertHelper.Mensaje("Login",
                                 "Usuario autenticado", Utils.SweetAlertMessageType.success);
-                            return RedirectToAction("Index", "Home");
+
+                            if(oUsuario.TipoUsuario.Any(c => c.Nombre == "Administrador"))
+                            {
+                                return RedirectToAction("Administrador", "Dashboard");
+                            }
+
+                            if (oUsuario.TipoUsuario.Any(c => c.Nombre == "Proveedor"))
+                            {
+                                return RedirectToAction("Proveedor", "Dashboard");
+
+                            }
+
+                            if (oUsuario.TipoUsuario.Any(c => c.Nombre == "Cliente"))
+                            {
+                                return RedirectToAction("Index", "Home");
+
+                            }
                         }
                         else
                         {

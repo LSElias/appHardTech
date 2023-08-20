@@ -391,6 +391,7 @@
     <Content Include="Views\Reportes\vendDeficientes.cshtml" />
     <Content Include="Views\Reportes\MasVendidos.cshtml" />
     <Content Include="Views\Dashboard\Administrador.cshtml" />
+    <Content Include="Views\Dashboard\Proveedor.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Services;
+using Infraestructure.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,6 +71,42 @@ namespace Web.Controllers
             grafico4.tipo = "bar";
             ViewBag.VendDeficientes = grafico4;
 
+
+            return View();
+
+        }
+
+
+        public ActionResult Proveedor()
+        {
+            IServiceOrden _ServiceOrden = new ServiceOrden();
+            ViewModelGrafico grafico5 = new ViewModelGrafico();
+            ViewModelGrafico grafico6 = new ViewModelGrafico();
+          //  ViewModelGrafico grafico7 = new ViewModelGrafico();
+
+            Usuario oUsuario = (Usuario)Session["User"];
+
+            _ServiceOrden.GetMasVendidos(out string etiquetasQ, out string valoresQ, oUsuario.Id);
+            grafico5.Etiquetas = etiquetasQ;
+            grafico5.Valores = valoresQ;
+            int cantidadValoresQ = valoresQ.Split(',').Length;
+            grafico5.Colores = string.Join(",", grafico5.GenerateColors(cantidadValoresQ));
+            grafico5.titulo = "Cantidad Vendida";
+            grafico5.tituloEtiquetas = "Producto más vendido";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico5.tipo = "bar";
+            ViewBag.MasVendido = grafico5;
+
+            _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasN, out string valoresN, oUsuario.Id);
+            grafico6.Etiquetas = etiquetasN;
+            grafico6.Valores = valoresN;
+            int cantidadValoresN = valoresN.Split(',').Length;
+            grafico6.Colores = string.Join(",", grafico6.GenerateColors(cantidadValoresN));
+            grafico6.titulo = "Cantidad Vendida";
+            grafico6.tituloEtiquetas = "Producto más vendido";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico6.tipo = "bar";
+            ViewBag.Evaluacion = grafico6;
 
             return View();
 

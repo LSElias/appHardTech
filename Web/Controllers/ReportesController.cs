@@ -106,7 +106,7 @@ namespace Web.Controllers
             grafico.tituloEtiquetas = "Producto más vendido";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
             grafico.tipo = "bar";
-            ViewBag.grafico = grafico;
+            ViewBag.MasVendido = grafico;
             return View();
             //return PartialView("_graficoOrden");
         }
