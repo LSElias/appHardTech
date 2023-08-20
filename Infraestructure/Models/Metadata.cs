@@ -26,6 +26,8 @@ namespace Infraestructure.Models
     internal partial class CuentaPagoMetadata
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "El tipo de pago es requerido")]
         public Nullable<int> IdTipoPago { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "El número de tarjeta es requerida")]
@@ -44,7 +46,7 @@ namespace Infraestructure.Models
         [Display(Name = "Código de seguridad")]
         public string CodSeguridad { get; set; }
 
-        [Required(ErrorMessage = "El tipo de pago es requerido")]
+        
         [Display(Name = "Tipo de pago")]
         public virtual TipoPago TipoPago { get; set; }
 
