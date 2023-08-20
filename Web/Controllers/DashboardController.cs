@@ -95,13 +95,13 @@ namespace Web.Controllers
             grafico5.tipo = "bar";
             ViewBag.MasVendido = grafico5;
 
-            _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasN, out string valoresN, oUsuario.Id);
-            grafico6.Etiquetas = etiquetasN;
-            grafico6.Valores = valoresN;
-            int cantidadValoresN = valoresN.Split(',').Length;
-            grafico6.Colores = string.Join(",", grafico6.GenerateColors(cantidadValoresN));
-            grafico6.titulo = "Cantidad Vendida";
-            grafico6.tituloEtiquetas = "Producto más vendido";
+            _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasM, out string valoresM, oUsuario.Id);
+            grafico6.Etiquetas = etiquetasM;
+            grafico6.Valores = valoresM;
+            int cantidadValoresM = valoresM.Split(',').Length;
+            grafico6.Colores = string.Join(",", grafico6.GenerateColors(cantidadValoresM));
+            grafico6.titulo = "Cantidad";
+            grafico6.tituloEtiquetas = "Evaluaciones recibidas";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
             grafico6.tipo = "bar";
             ViewBag.Evaluacion = grafico6;
