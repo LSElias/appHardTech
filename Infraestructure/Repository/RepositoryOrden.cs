@@ -442,19 +442,21 @@ namespace Infraestructure.Repository
                     var resultado = ctx.Evaluacion
                         .Where(c => c.IdEvaluado == IdUsuario)
                         .GroupBy(c => c.Escala)
-                        .OrderByDescending(g => g.Key)
-                        .ToDictionary(
-                            g => g.Key,
-                            g => g.Count()
-                        );
+                        .Select( g => new
+                        {
+                            Escala = g.Key.Valor,
+                            Cant = g.Count()
+                        })
+                        .OrderByDescending(m => m.Escala)
+                        .ToList();
 
-                    if (resultado.Any() && resultado != null)
+                    if (resultado != null && resultado.Any())
                     {
 
                         foreach (var item in resultado)
                         {
-                            varEtiquetas += item.Key + ",";
-                            varValores += item.Value + ",";
+                            varEtiquetas += item.Escala + ",";
+                            varValores += item.Cant + ",";
                         }
                     }
                     else
