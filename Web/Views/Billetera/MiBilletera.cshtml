@@ -71,8 +71,7 @@
                 },
                 {
                     "render": function (data, type, full, meta) {
-                        return '<a class="btn Detalle" href="/Producto/Detalle/'
-                            + full.IdProducto + '"> <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
+                        return '<a title="Detalle" class="btn Editar"   onclick="DetalleCuenta(' + full.Id + ')" > <i class="fa-solid fa-circle-info fa-xl"></i> </a>';
                     }
                 },
 
@@ -80,6 +79,25 @@
 
         });
     });
+
+    function DetalleCuenta(idCuenta) {
+        console.log(idCuenta);
+        $.ajax({
+            method: "POST",
+            url: "/Billetera/Detalle",
+            data: { "id": idCuenta },
+            success: function (result) {
+                $(".modal-body").html("");
+                $(".modal-body").html(result);
+                $("#myModal").modal("show");
+            }, error: function (xhr, status, error) {
+                console.log("Error: " + error, "No Error: " + xhr.status)
+            }
+        });
+
+    }
+
+
 </script>
 
 
@@ -102,3 +120,22 @@
     </div>
 </div>
 
+@* Modal *@
+<input type="hidden" id="campoOculto" />
+<div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog modal-lg box-eval" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border: none">
+                <h5 class="head-Title">Detalle de cuenta</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="background-color: #2222226c; border-radius: 10px; margin: 3px 10px; border: 1px solid #ffffff23">
+                <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-footer" style="border:none;">
+                <button type="button" class="btn btn-detalle" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@* Modal *@

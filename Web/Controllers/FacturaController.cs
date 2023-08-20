@@ -15,6 +15,7 @@ using Infraestructure.Repository;
 using Web.ViewModel;
 using Microsoft.SqlServer.Server;
 using System.Web.UI.WebControls;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace Web.Controllers
 {
@@ -101,6 +102,11 @@ namespace Web.Controllers
         [CustomAuthorize((int)Roles.Proveedor)]
         public ActionResult MisVentas()
         {
+            if (TempData.ContainsKey("NotificationMessage"))
+            {
+                ViewBag.NotificationMessage = TempData["NotificationMessage"];
+            }
+
             return View();
         }
 
@@ -371,16 +377,19 @@ namespace Web.Controllers
 
         public ActionResult GuardarEvaluacion(Evaluacion evaluacion, int? idOrden, int? idProducto)
         {
+            if (TempData.ContainsKey("NotificationMessage"))
+            {
+                ViewBag.NotificationMessage = TempData["NotificationMessage"];
+            }
             IServiceEvaluacion _Service = new ServiceEvaluacion();
             IServiceOrden _ServiceOrden = new ServiceOrden();
+            IServiceUsuario _ServiceUsuario = new ServiceUsuario();
 
             Orden _Orden = _ServiceOrden.GetOrdenById((int) idOrden);
 
             try
             {
-
-                if (_Orden == null)
-                {
+                    if (_Orden == null){
                     TempData["Message"] = "No existe la orden solicitado";
                     TempData["Redirect"] = "Producto";
                     TempData["Redirect-Action"] = "IndexProveedor";
@@ -389,19 +398,33 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    Evaluacion oEvaluacion = _Service.Save(evaluacion);
-                    foreach(OrdenDetalle detallito in _Orden.OrdenDetalle)
+                    if (ModelState.IsValid)
                     {
-                        if(detallito.IdProducto == idProducto) { 
-                            detallito.IdEvaluacionProv = oEvaluacion.Id;
-                            detallito.EvaluacionProv = oEvaluacion;
+                        Evaluacion oEvaluacion = _Service.Save(evaluacion);
+                        foreach (OrdenDetalle detallito in _Orden.OrdenDetalle)
+                        {
+                            if (detallito.IdProducto == idProducto)
+                            {
+                                detallito.IdEvaluacionProv = oEvaluacion.Id;
+                                detallito.EvaluacionProv = oEvaluacion;
+                            }
                         }
+                        Orden oOrden = _ServiceOrden.Save(_Orden);
+                        return RedirectToAction("MisVentas", "Factura");
                     }
-
-                    Orden oOrden = _ServiceOrden.Save(_Orden);
-                    return RedirectToAction("MisVentas", "Factura");
+                    else
+                    {
+                        // Valida Errores si Javascript está deshabilitado
+                        Utils.Util.ValidateErrors(this);
+                        TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Error",
+                            "Evaluación sin mensaje.", Utils.SweetAlertMessageType.error);
+                        TempData.Keep();
+                        return RedirectToAction("MisVentas", "Factura");
+                    }
                 }
+
             }
+
             catch (Exception ex)
             {
                 Utils.Log.Error(ex, MethodBase.GetCurrentMethod());
@@ -472,10 +495,14 @@ namespace Web.Controllers
 
             foreach (OrdenDetalle odens in oOrden.OrdenDetalle)
             {
-                if(odens.IdProducto == producto)
+                if (odens.IdProducto == producto)
                 {
                     odens.IdEstado = estado;
                     odens.Estado_Detalle = _ServiceEstado.GetEstadoByID(estado);
+                    if (odens.IdEstado == 9)
+                    {
+                        odens.FechaEntrega = DateTime.UtcNow;
+                    }
                 }
                 estados = estados.Append((int)odens.IdEstado).ToArray();
             }

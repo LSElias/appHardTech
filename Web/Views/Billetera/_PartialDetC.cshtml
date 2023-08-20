@@ -1,0 +1,30 @@
+﻿@model Infraestructure.Models.CuentaPago
+
+<div>
+    <div class="row" style="color:white;">
+        <div class="col-md-6 my-2">
+            <div style="color:#f6b313">
+                @Html.DisplayNameFor(model => model.NumCuenta)
+            </div>
+            @Html.DisplayFor(model => model.CuentaEncrp)
+        </div>
+        <div class="col-md-6 my-2">
+            <div style="color:#f6b313">
+                @Html.DisplayNameFor(model => model.CodSeguridad)
+            </div>
+                @Html.DisplayFor(model => model.CodSeguridad)
+            </div>
+        <div class="col-md-6 my-2">
+            <div style="color:#f6b313">
+                @Html.DisplayNameFor(model => model.FechaExp)
+            </div>
+            @Html.DisplayFor(model => model.FechaExp)
+        </div>
+        <div class="col-md-6 my-2">
+            <div style="color:#f6b313">
+                @Html.DisplayNameFor(model => model.TipoPago)
+            </div>
+            @Html.DisplayFor(model => model.TipoPago.Nombre)
+        </div>
+        </div>
+    </div>
