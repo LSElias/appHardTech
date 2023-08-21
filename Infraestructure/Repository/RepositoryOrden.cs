@@ -1,6 +1,7 @@
 ﻿using Infraestructure.Models;
 using Infraestructure.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -498,42 +499,68 @@ namespace Infraestructure.Repository
                 {
                     ctx.Configuration.LazyLoadingEnabled = false;
 
-                    var resultado = (   from f in ctx.Factura
-                                        from u in ctx.Usuario
-                                        from p in ctx.Usuario
-                                        from o in ctx.Orden
-                                        from od in ctx.OrdenDetalle
-                                        from pro in ctx.Producto
-
-                                        where f.IdOrden == o.IdOrden
-                                        where od.IdOrden == o.IdOrden
-                                        where f.IdUsuario == u.Id
-                                        where od.IdProducto == pro.IdProducto
-                                        where pro.IdProveedor == IdUsuario
+                    var resultado = ctx.Factura
+                        .Where(c => c.Orden.OrdenDetalle.Any(x => x.Producto.IdProveedor == IdUsuario))
+                        //      .Sum(x=> x.Orden.OrdenDetalle.Sum( y => y.)
+                        .Select(g => new {
+                            Id = g.Usuario.Id,
+                            Nombre = g.Usuario.Nombre + " " + g.Usuario.Apellido1 + " ",
+                            Cantidad = g.Orden.OrdenDetalle.Sum(x => x.Cantidad)
+                        });
+                        
 
 
-                                        select new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, od.Cantidad });
+
+
+
+                    //var resultado = (
+
+                    //                    from f in ctx.Factura
+                    //                    from u in ctx.Usuario
+                    //                    from p in ctx.Usuario
+                    //                    from o in ctx.Orden
+                    //                    from od in ctx.OrdenDetalle
+                    //                    from pro in ctx.Producto
+
+
+                    //                    where f.IdOrden == o.IdOrden
+                    //                    where od.IdOrden == o.IdOrden
+                    //                    where f.IdUsuario == u.Id
+                    //                    where od.IdProducto == pro.IdProducto
+                    //                    where pro.IdProveedor == IdUsuario
+
+
+                    //                    group u by new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, od.Cantidad. } into Totales
+
+
+                    //                    select new { 
+                    //                        Id = Totales.Key.Id , 
+                    //                        Nombre = Totales.Key.Nombre , 
+                    //                        Cantidad = Totales.Key.Cantidad }
+                    //                    );
 
 
                     if (resultado != null)
                     {
-                        resultado.GroupBy(x => x.Id);
-                    
-                    }
-                    if (resultado != null && resultado.Any())
-                    {
-
-                        foreach (var item in resultado)
+                        if (resultado != null && resultado.Any())
                         {
-                            varEtiquetas += item.Nombre + ",";
-                            varValores += item.Cantidad + ",";
+                            
+
+                            foreach (var item in resultado)
+                            {
+                                varEtiquetas += item.Nombre + ",";
+                                varValores +=  item.Cantidad + ",";
+                            }
+                        }
+                        else
+                        {
+                            varEtiquetas = "No existen resultados";
+                            varValores = "";
                         }
                     }
-                    else
-                    {
-                        varEtiquetas = "No existen resultados";
-                        varValores = "";
-                    }
+
+                    varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                    varValores = varValores.Substring(0, varValores.Length - 1);
 
                     etiquetas = varEtiquetas;
                     valores = varValores;
