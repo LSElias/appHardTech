@@ -34,6 +34,7 @@ namespace Infraestructure.Repository
 
         //Cantidad de evaluaciones por c. dato de escala 
         void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario = 0);
-        void GetDestacadoCliente(out string etiquetas, out string valores, int id);
+
+        void GetDestacadoCliente(out string etiquetas, out string valores, int id = 0);
     }
 }

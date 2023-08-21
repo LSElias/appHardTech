@@ -76,13 +76,13 @@ namespace Web.Controllers
 
         }
 
-
+        [CustomAuthorize((int)Roles.Proveedor)]
         public ActionResult Proveedor()
         {
             IServiceOrden _ServiceOrden = new ServiceOrden();
             ViewModelGrafico grafico5 = new ViewModelGrafico();
             ViewModelGrafico grafico6 = new ViewModelGrafico();
-          //  ViewModelGrafico grafico7 = new ViewModelGrafico();
+            ViewModelGrafico grafico2 = new ViewModelGrafico();
 
             Usuario oUsuario = (Usuario)Session["User"];
 
@@ -107,6 +107,17 @@ namespace Web.Controllers
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
             grafico6.tipo = "bar";
             ViewBag.Evaluacion = grafico6;
+
+            _ServiceOrden.GetDestacadoCliente(out string etiquetasR, out string valoresR, oUsuario.Id);
+            grafico2.Etiquetas = etiquetasR;
+            grafico2.Valores = valoresR;
+            int cantidadValoresR = valoresR.Split(',').Length;
+            grafico2.Colores = string.Join(",", grafico2.GenerateColors(cantidadValoresR));
+            grafico2.titulo = "Cantidad";
+            grafico2.tituloEtiquetas = "Cliente destacado";
+            //Tipos: bar , bubble , doughnut , pie , line , polarArea 
+            grafico2.tipo = "pie";
+            ViewBag.Destacado = grafico2;
 
             return View();
 

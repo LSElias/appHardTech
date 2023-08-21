@@ -501,63 +501,26 @@ namespace Infraestructure.Repository
 
                     var resultado = ctx.Factura
                         .Where(c => c.Orden.OrdenDetalle.Any(x => x.Producto.IdProveedor == IdUsuario))
-                        //      .Sum(x=> x.Orden.OrdenDetalle.Sum( y => y.)
-                        .Select(g => new {
-                            Id = g.Usuario.Id,
-                            Nombre = g.Usuario.Nombre + " " + g.Usuario.Apellido1 + " ",
-                            Cantidad = g.Orden.OrdenDetalle.Sum(x => x.Cantidad)
-                        });
-                        
-
-
-
-
-
-                    //var resultado = (
-
-                    //                    from f in ctx.Factura
-                    //                    from u in ctx.Usuario
-                    //                    from p in ctx.Usuario
-                    //                    from o in ctx.Orden
-                    //                    from od in ctx.OrdenDetalle
-                    //                    from pro in ctx.Producto
-
-
-                    //                    where f.IdOrden == o.IdOrden
-                    //                    where od.IdOrden == o.IdOrden
-                    //                    where f.IdUsuario == u.Id
-                    //                    where od.IdProducto == pro.IdProducto
-                    //                    where pro.IdProveedor == IdUsuario
-
-
-                    //                    group u by new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, od.Cantidad. } into Totales
-
-
-                    //                    select new { 
-                    //                        Id = Totales.Key.Id , 
-                    //                        Nombre = Totales.Key.Nombre , 
-                    //                        Cantidad = Totales.Key.Cantidad }
-                    //                    );
-
-
-                    if (resultado != null)
-                    {
-                        if (resultado != null && resultado.Any())
+                        .Select(g => new
                         {
-                            
+                            IdC = g.IdUsuario,
+                            Nombre = g.Usuario.Nombre + " " + g.Usuario.Apellido1 + " ",
+                            Cantidad = g.Orden.OrdenDetalle.Where(p => p.Producto.IdProveedor == IdUsuario).Sum(x => x.Cantidad)
+                        })
+                        .OrderByDescending(x => x.Cantidad)
+                        .FirstOrDefault();
 
-                            foreach (var item in resultado)
-                            {
-                                varEtiquetas += item.Nombre + ",";
-                                varValores +=  item.Cantidad + ",";
-                            }
+                        if (resultado != null)
+                        {
+                            varEtiquetas += resultado.Nombre + ",";
+                            varValores += resultado.Cantidad + ",";  
                         }
                         else
                         {
                             varEtiquetas = "No existen resultados";
                             varValores = "";
                         }
-                    }
+                    
 
                     varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
                     varValores = varValores.Substring(0, varValores.Length - 1);
