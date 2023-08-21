@@ -32,6 +32,6 @@ namespace ApplicationCore.Services
 
         //Cantidad de evaluaciones por c. dato de escala 
         void GetEvaluacionXProveedor(out string etiquetas, out string valores, int IdUsuario = 0);
-        void GetDestacadoCliente(out string etiquetasM, out string valoresM, int id);
+        void GetDestacadoCliente(out string etiquetasM, out string valoresM, int id = 0);
     }
 }

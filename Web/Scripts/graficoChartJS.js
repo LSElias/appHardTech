@@ -352,3 +352,67 @@ function grafico6(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores) {
         });
 
 }
+
+function grafico7(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores) {
+    var data =
+    {
+        labels: etiquetas,
+        datasets: [{
+            label: titulo,
+            backgroundColor: colores,
+            borderWidth: 2,
+            data: valores
+        }]
+    };
+
+    var ctx1 = document.getElementById("grafico7").getContext("2d");
+    window.myBar = new Chart(ctx1,
+        {
+            type: tipo,
+            data: data,
+            options:
+            {
+                animation: {
+                    duration: 1000 //tiempo de animación general
+                },
+
+                hover: {
+                    animationDuration: 1000 //duración de las animaciones al pasar el cursor sobre un elemento
+                },
+                responsiveAnimationDuration: 3000, //duración de la animación después de un cambio de tamaño
+                legend: {
+                    display: true,
+                },
+                title:
+                {
+                    display: true,
+                    text: tituloEtiquetas,
+                    fontColor: "black"
+                },
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            fontSize: 10,
+                            stepSize: 1,
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            fontSize: 12,
+                            stepSize: 1,
+                            beginAtZero: true
+                        }
+                    }],
+
+
+                }
+
+            }
+        });
+
+}
