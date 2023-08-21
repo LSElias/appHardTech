@@ -188,6 +188,11 @@ namespace Web.Controllers
 
         public PartialViewResult EvaluarCliente(int id, int idOrden, int idProducto)
         {
+            if (TempData.ContainsKey("NotificationMessage"))
+            {
+                ViewBag.NotificationMessage = TempData["NotificationMessage"];
+            }
+
             var _idUsuario = 0;
             if (Session["User"] != null)
             {
@@ -253,6 +258,10 @@ namespace Web.Controllers
         [CustomAuthorize((int)Roles.Cliente, (int)Roles.Proveedor, (int)Roles.Administrador)]
         public ActionResult Detalle(int? id)
         {
+            if (TempData.ContainsKey("NotificationMessage"))
+            {
+                ViewBag.NotificationMessage = TempData["NotificationMessage"];
+            }
             IServiceFactura _ServiceFactura = new ServiceFactura();
             Factura factura = null;
             try
@@ -455,20 +464,33 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    Evaluacion oEvaluacion = _Service.Save(evaluacion);
-                    foreach (OrdenDetalle detallito in _Orden.OrdenDetalle)
+                    if (ModelState.IsValid)
                     {
-                        if (detallito.IdProducto == idProducto)
+                        Evaluacion oEvaluacion = _Service.Save(evaluacion);
+                        foreach (OrdenDetalle detallito in _Orden.OrdenDetalle)
                         {
-                            detallito.IdEvaluacionCliente = oEvaluacion.Id;
-                            detallito.EvaluacionCliente = oEvaluacion;
+                            if (detallito.IdProducto == idProducto)
+                            {
+                                detallito.IdEvaluacionCliente = oEvaluacion.Id;
+                                detallito.EvaluacionCliente = oEvaluacion;
+                            }
                         }
-                    }
 
-                    Orden oOrden = _ServiceOrden.Save(_Orden);
-                    Factura _factura = _ServiceFact.GetFacturaByIdOrden(oOrden.IdOrden);
-                    string url = "Detalle/" + _factura.IdFactura;
-                    return Redirect(url);
+                        Orden oOrden = _ServiceOrden.Save(_Orden);
+                        Factura _factura = _ServiceFact.GetFacturaByIdOrden(oOrden.IdOrden);
+                        string url = "Detalle/" + _factura.IdFactura;
+                        return Redirect(url);
+                    }else
+                    {
+                        // Valida Errores si Javascript está deshabilitado
+                        Utils.Util.ValidateErrors(this);
+                        TempData["NotificationMessage"] = Utils.SweetAlertHelper.Mensaje("Error",
+                            "Evaluación sin mensaje.", Utils.SweetAlertMessageType.error);
+                        TempData.Keep();
+                        Factura _factura = _ServiceFact.GetFacturaByIdOrden((int)idOrden);
+                        string url = "Detalle/" + _factura.IdFactura;
+                        return Redirect(url);
+                    }
                 }
             }
             catch (Exception ex)

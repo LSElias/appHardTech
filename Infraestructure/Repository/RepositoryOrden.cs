@@ -405,6 +405,9 @@ namespace Infraestructure.Repository
                     {
                         varEtiquetas = resultado.Nombre + ",";
                         varValores = resultado.VentasR + ",";
+
+                        varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                        varValores = varValores.Substring(0, varValores.Length - 1);
                     }
                     else
                     {

@@ -18,17 +18,19 @@
         if(lista == null)
 
 
-        foreach (Infraestructure.Models.OrdenDetalle detalle in lista)
-        {
-            if (detalle.IdEvaluacionProv != null)
+            foreach (Infraestructure.Models.OrdenDetalle detalle in lista)
             {
-                count++;
-                lmao += (int)detalle.EvaluacionProv.Escala.Valor;
+                if (detalle.IdEvaluacionProv != null)
+                {
+                    count++;
+                    lmao += (int)detalle.EvaluacionProv.Escala.Valor;
+                }
             }
 
+        if (lmao == 0)
+        {
+            return 0;
         }
-
-
         return lmao / count;
     }
 
@@ -45,7 +47,10 @@
             }
 
         }
-
+        if(lmao == 0)
+        {
+            return 0;
+        }
 
         return lmao / count;
     }
@@ -67,7 +72,10 @@
             }
 
         }
-
+        if (lmao == 0)
+        {
+            return 0;
+        }
 
         return lmao / count;
     }

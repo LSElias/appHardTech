@@ -94,7 +94,7 @@ namespace Web.Controllers
             grafico5.titulo = "Cantidad Vendida";
             grafico5.tituloEtiquetas = "Producto más vendido";
             //Tipos: bar , bubble , doughnut , pie , line , polarArea 
-            grafico5.tipo = "bar";
+            grafico5.tipo = "pie";
             ViewBag.MasVendido = grafico5;
 
             _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasM, out string valoresM, oUsuario.Id);

@@ -253,7 +253,7 @@ function grafico5(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores) {
                 },
                 responsiveAnimationDuration: 3000, //duración de la animación después de un cambio de tamaño
                 legend: {
-                    display: false,
+                    display: true,
                 },
                 title:
                 {
@@ -263,27 +263,6 @@ function grafico5(titulo, tituloEtiquetas, tipo, colores, etiquetas, valores) {
                 },
                 responsive: true,
                 maintainAspectRatio: true,
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            fontColor: "black",
-                            fontSize: 10,
-                            stepSize: 1,
-                            beginAtZero: true
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: "black",
-                            fontSize: 12,
-                            stepSize: 1,
-                            beginAtZero: true
-                        }
-                    }],
-
-
-                }
-
             }
         });
 
