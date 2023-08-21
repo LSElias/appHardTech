@@ -619,9 +619,7 @@ namespace Web.Controllers
                 // Valida Errores si Javascript está deshabilitado
                 Utils.Util.ValidateErrors(this);
                 //Recurso a cargar en la vista
-
                 //Debe funcionar para crear y modificar
-
                 ViewBag.IdProvincia = ListaProvincias();
                 ViewBag.IdCanton = ListaCanton();
                 ViewBag.IdDistrito = ListaDistritos();

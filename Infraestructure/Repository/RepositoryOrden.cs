@@ -1,6 +1,7 @@
 ﻿using Infraestructure.Models;
 using Infraestructure.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
 
 namespace Infraestructure.Repository
 {
@@ -486,59 +488,99 @@ namespace Infraestructure.Repository
 
 
 
-        //Producto más vendido 
-        //public void GetDestacadoCliente(out string etiquetas, out string valores, int IdUsuario)
-        //{
-        //    String varEtiquetas = "";
-        //    String varValores = "";
-        //    try
-        //    {
-        //        using (MyContext ctx = new MyContext())
-        //        {
-        //            ctx.Configuration.LazyLoadingEnabled = false;
+      //  Producto más vendido
+        public void GetDestacadoCliente(out string etiquetas, out string valores, int IdUsuario)
+        {
+            String varEtiquetas = "";
+            String varValores = "";
+            try
+            {
+                using (MyContext ctx = new MyContext())
+                {
+                    ctx.Configuration.LazyLoadingEnabled = false;
 
-        //            var resultado = ctx.OrdenDetalle
-        //                .Where(o => o.Producto.IdProveedor == IdUsuario)
-        //                .GroupBy(c => c.Orden.Factura)
-        //                .SelectMany( g => new
-        //                {
-        //                    NombreCliente = g.Key.Nombre,
-        //                    Total = g.Sum(c => c.Orden.OrdenDetalle.Cantidad)
-        //                })
-        //                .OrderByDescending(info => info.Total)
-        //                 .ToList();
+                    var resultado = ctx.Factura
+                        .Where(c => c.Orden.OrdenDetalle.Any(x => x.Producto.IdProveedor == IdUsuario))
+                        //      .Sum(x=> x.Orden.OrdenDetalle.Sum( y => y.)
+                        .Select(g => new {
+                            Id = g.Usuario.Id,
+                            Nombre = g.Usuario.Nombre + " " + g.Usuario.Apellido1 + " ",
+                            Cantidad = g.Orden.OrdenDetalle.Sum(x => x.Cantidad)
+                        });
+                        
 
 
-        //            if (resultado != null)
-        //            {
-        //                varEtiquetas = resultado.NombreCliente + ",";
-        //                varValores = resultado.Compras + ",";
-        //            }
-        //            else
-        //            {
-        //                varEtiquetas = "No existen resultados";
-        //                varValores = "";
-        //            }
 
-        //            etiquetas = varEtiquetas;
-        //            valores = varValores;
-        //        }
 
-        //    }
-        //    catch (DbUpdateException dbEx)
-        //    {
-        //        string mensaje = "";
-        //        Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
-        //        throw new Exception(mensaje);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string mensaje = "";
-        //        Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
-        //        throw new Exception(mensaje);
-        //    }
-        //}
 
-        //
+                    //var resultado = (
+
+                    //                    from f in ctx.Factura
+                    //                    from u in ctx.Usuario
+                    //                    from p in ctx.Usuario
+                    //                    from o in ctx.Orden
+                    //                    from od in ctx.OrdenDetalle
+                    //                    from pro in ctx.Producto
+
+
+                    //                    where f.IdOrden == o.IdOrden
+                    //                    where od.IdOrden == o.IdOrden
+                    //                    where f.IdUsuario == u.Id
+                    //                    where od.IdProducto == pro.IdProducto
+                    //                    where pro.IdProveedor == IdUsuario
+
+
+                    //                    group u by new { u.Id, Nombre = u.Nombre + " " + u.Apellido1 + " " + u.Apellido2, od.Cantidad. } into Totales
+
+
+                    //                    select new { 
+                    //                        Id = Totales.Key.Id , 
+                    //                        Nombre = Totales.Key.Nombre , 
+                    //                        Cantidad = Totales.Key.Cantidad }
+                    //                    );
+
+
+                    if (resultado != null)
+                    {
+                        if (resultado != null && resultado.Any())
+                        {
+                            
+
+                            foreach (var item in resultado)
+                            {
+                                varEtiquetas += item.Nombre + ",";
+                                varValores +=  item.Cantidad + ",";
+                            }
+                        }
+                        else
+                        {
+                            varEtiquetas = "No existen resultados";
+                            varValores = "";
+                        }
+                    }
+
+                    varEtiquetas = varEtiquetas.Substring(0, varEtiquetas.Length - 1); // ultima coma
+                    varValores = varValores.Substring(0, varValores.Length - 1);
+
+                    etiquetas = varEtiquetas;
+                    valores = varValores;
+                }
+
+            }
+            catch (DbUpdateException dbEx)
+            {
+                string mensaje = "";
+                Log.Error(dbEx, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+            catch (Exception ex)
+            {
+                string mensaje = "";
+                Log.Error(ex, System.Reflection.MethodBase.GetCurrentMethod(), ref mensaje);
+                throw new Exception(mensaje);
+            }
+        }
+
+
     }
 }

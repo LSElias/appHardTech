@@ -88,6 +88,28 @@ namespace Web.Controllers
             }
         }
 
+        public PartialViewResult Detalle(int id)
+        {
+            var _idUsuario = 0;
+            if (Session["User"] != null)
+            {
+                Usuario oUsuario = (Usuario)Session["User"];
+                if (oUsuario != null)
+                {
+                    _idUsuario = oUsuario.Id;
+                }
+            }
+
+            IServiceCuentaPago _ServiceUsuario = new ServiceCuentaPago();
+
+            CuentaPago oCuentaPago = new CuentaPago();
+            oCuentaPago = _ServiceUsuario.GetCuentaPagoByID(id);
+
+            return PartialView("_PartialDetC", oCuentaPago);
+        }
+
+
+
         // GET: Billetera/Details/5
         public ActionResult Details(int id)
         {

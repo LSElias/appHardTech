@@ -117,7 +117,7 @@ namespace Web.Controllers
 
             IServiceOrden _ServiceOrden = new ServiceOrden();
             ViewModelGrafico grafico6 = new ViewModelGrafico();
-            _ServiceOrden.GetEvaluacionXProveedor(out string etiquetasM, out string valoresM, oUsuario.Id);
+            _ServiceOrden.GetDestacadoCliente(out string etiquetasM, out string valoresM, oUsuario.Id);
             grafico6.Etiquetas = etiquetasM;
             grafico6.Valores = valoresM;
             int cantidadValoresM = valoresM.Split(',').Length;

@@ -83,5 +83,14 @@ namespace ApplicationCore.Services
             etiquetas1 = etiquetas;
             valores1 = valores;
         }
+
+        public void GetDestacadoCliente(out string etiquetasM, out string valoresM, int id)
+        {
+            IRepositoryOrden repository = new RepositoryOrden();
+
+            repository.GetDestacadoCliente(out string etiquetas, out string valores, id);
+            etiquetasM = etiquetas;
+            valoresM = valores;
+        }
     }
 }

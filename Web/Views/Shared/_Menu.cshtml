@@ -106,12 +106,6 @@
                                     @nombre
                                 </div>
 
-                                <ul style="list-style: none; font-size: 0.8em;">
-                                    <li>
-                                        <a href="@Url.Action("Index","Login")" class="nav-link"> Mi Perfil </a>
-                                        <a href="@Url.Action("Index","Login")" class="nav-link"> Preferencias </a>
-                                    </li>
-                                </ul>
                                 <hr />
                                 if (Web.Security.AutorizeView.IsUserInRole(new string[] { "Cliente" }))
                                 {
